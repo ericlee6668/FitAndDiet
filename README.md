@@ -1,2 +1,3 @@
 # fitTrack
 
+app fitTrack
