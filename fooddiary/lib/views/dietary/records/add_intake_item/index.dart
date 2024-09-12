@@ -386,7 +386,7 @@ class _AddIntakeItemState extends State<AddIntakeItem>
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const AddfoodWithServing(),
+                    builder: (context) => const AddFoods(),
                   ),
                 ).then((value) {
                   // 不管是否新增成功，这里都重新加载；

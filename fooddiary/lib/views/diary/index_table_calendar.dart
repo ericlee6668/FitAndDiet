@@ -15,14 +15,14 @@ import '../../models/diary_state.dart';
 import 'diary_modify_rich_text.dart';
 import 'index_timeline.dart';
 
-class DiaryTableCalendar extends StatefulWidget {
-  const DiaryTableCalendar({super.key});
+class DiaryPage extends StatefulWidget {
+  const DiaryPage({super.key});
 
   @override
-  State<DiaryTableCalendar> createState() => _DiaryTableCalendarState();
+  State<DiaryPage> createState() => _DiaryPageState();
 }
 
-class _DiaryTableCalendarState extends State<DiaryTableCalendar> {
+class _DiaryPageState extends State<DiaryPage> {
   final DBDiaryHelper _dbHelper = DBDiaryHelper();
 
   // 被选中的事件

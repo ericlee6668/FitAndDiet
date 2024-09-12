@@ -72,47 +72,47 @@ buildCoverCard(
   String imageUrl, {
   String? routeName,
 }) {
-  return Card(
-    clipBehavior: Clip.hardEdge,
-    elevation: 5,
-    child: InkWell(
-      onTap: () {
-        if (routeName != null) {
-          // 这里需要使用pushName 带上指定的路由名称，后续跨层级popUntil的时候才能指定路由名称进行传参
-          Navigator.pushNamed(context, routeName);
-        } else {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext ctx) => widget,
-            ),
-          );
-        }
-      },
-      child: Center(
-        child: Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: EdgeInsets.all(5.sp),
-                child: Image.asset(imageUrl, fit: BoxFit.scaleDown),
+  return SizedBox(
+    child: Card(
+      clipBehavior: Clip.hardEdge,
+      elevation: 5,
+      margin: const EdgeInsets.all(10),
+      child: InkWell(
+        onTap: () {
+          if (routeName != null) {
+            // 这里需要使用pushName 带上指定的路由名称，后续跨层级popUntil的时候才能指定路由名称进行传参
+            Navigator.pushNamed(context, routeName);
+          } else {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext ctx) => widget,
               ),
-            ),
-            Expanded(
-              flex: 3,
-              child: ListTile(
-                title: Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
+            );
+          }
+        },
+        child: Center(
+          child: Column(
+            children: [
+              Padding(
+                  padding: EdgeInsets.all(5.sp),
+                  child: Image.asset(imageUrl, fit: BoxFit.contain,height: 90,),
+                ),
+              ListTile(
+                title: Center(
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
                 ),
-                subtitle: Text(subtitle),
+                subtitle: Center(child: Text(subtitle)),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     ),

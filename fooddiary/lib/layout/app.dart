@@ -14,17 +14,17 @@ import 'package:free_fitness/models/cus_app_localizations.dart';
 
 import '../common/global/constants.dart';
 
-import 'home.dart';
+import 'home_page.dart';
 
 
-class FreeFitnessApp extends StatefulWidget {
-  const FreeFitnessApp({super.key});
+class FitTrackApp extends StatefulWidget {
+  const FitTrackApp({super.key});
 
   @override
-  State<FreeFitnessApp> createState() => _FreeFitnessAppState();
+  State<FitTrackApp> createState() => _FitTrackAppState();
 }
 
-class _FreeFitnessAppState extends State<FreeFitnessApp> {
+class _FitTrackAppState extends State<FitTrackApp> {
   // 应用程序的根部件
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class _FreeFitnessAppState extends State<FreeFitnessApp> {
       splitScreenMode: true,
       builder: (_, widget) {
         return MaterialApp(
-          title: 'free_fitness',
+          title: 'EE88',
           onGenerateTitle: (context) {
             return CusAL.of(context).appTitle;
           },
@@ -81,18 +81,16 @@ class _FreeFitnessAppState extends State<FreeFitnessApp> {
           /// 跟随系统的浅色和深色和手动选择的一样
           theme: box.read('mode') == 'system'
               // 跟随系统的默认浅色是一个绿色主题
-              ? FlexThemeData.light(scheme: FlexScheme.blueM3)
+              ? FlexThemeData.light(scheme: FlexScheme.amber)
               : box.read('mode') == 'dark'
-                  ? FlexThemeData.dark(scheme: FlexScheme.mandyRed)
-                  : FlexThemeData.light(scheme: FlexScheme.aquaBlue),
+                  ? FlexThemeData.dark(scheme: FlexScheme.greyLaw)
+                  : FlexThemeData.light(scheme: FlexScheme.amber),
 
           // 使用了initalRoute就不能使用home了，参看文档：
           // https://flutter.cn/docs/cookbook/navigation/named-routes#2-define-the-routes
 
           // 如果没有在缓存获取到用户信息，就要用户输入；否则就直接进入首页
-          home: box.read(LocalStorageKey.userId) != null
-              ? const HomePage()
-              : const InitGuidePage(),
+          home: const HomePage(),
           builder: (context,child){
             child = FlutterSmartDialog(child: child);
             child = EasyLoading.init()(context, child);

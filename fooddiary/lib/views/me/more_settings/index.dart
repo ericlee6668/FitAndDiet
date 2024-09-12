@@ -198,7 +198,7 @@ class _MoreSettingsState extends State<MoreSettings> {
     // 暂未解决
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (_) => const FreeFitnessApp()),
+      MaterialPageRoute(builder: (_) => const FitTrackApp()),
       (route) => false,
     );
   }

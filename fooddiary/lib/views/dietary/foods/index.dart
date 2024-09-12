@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:free_fitness/models/dietary_state.dart';
 
@@ -8,6 +11,7 @@ import '../../../../common/utils/tool_widgets.dart';
 import '../../../common/utils/tools.dart';
 import '../../../layout/themes/cus_font_size.dart';
 import '../../../models/cus_app_localizations.dart';
+import '../../../models/food_composition.dart';
 import 'food_json_import.dart';
 import 'add_food_with_serving.dart';
 import 'food_nutrient_detail.dart';
@@ -26,6 +30,7 @@ class _DietaryFoodsState extends State<DietaryFoods> {
   final DBDietaryHelper _dietaryHelper = DBDietaryHelper();
 
   List<FoodAndServingInfo> foodItems = [];
+
   // 食物的总数(查询时则为符合条件的总数，默认一页只有10条，看不到总数量)
   int itemsCount = 0;
   int currentPage = 1; // 数据库查询的时候会从0开始offset
@@ -41,9 +46,91 @@ class _DietaryFoodsState extends State<DietaryFoods> {
   @override
   void initState() {
     super.initState();
-    _loadFoodData();
+
 
     scrollController.addListener(_scrollListener);
+    if(box.read('isReadJson')==true) {
+      _loadFoodData();
+    }else{
+      loadJsonData();
+      Future.delayed(const Duration(milliseconds: 500)).then((value) =>  _loadFoodData());
+    }
+  }
+
+  // 解析后的食物营养素列表(文件和食物都不支持移除)
+  List<FoodComposition> foodComps = [];
+  // 异步函数读取和解析 JSON 文件
+  Future<void> loadJsonData() async {
+
+    // 读取 assets 中的 JSON 文件
+    String jsonString = await rootBundle.loadString('assets/json/data.json');
+    // 解析 JSON 数据
+    List jsonResponse = json.decode(jsonString);
+    var temp = jsonResponse.map((e) => FoodComposition.fromJson(e)).toList();
+    foodComps.addAll(temp);
+    _saveToDb();
+    box.write('isReadJson', true);
+  }
+
+  _saveToDb() async {
+    // 这里导入去重的工作要放在上面解析文件时，这里就全部保存了。
+    // 而且id自增，食物或者编号和数据库重复，这里插入数据库中也不会报错。
+    for (var e in foodComps) {
+      var tempFood = Food(
+        // 转型会把前面的0去掉(让id自增，否则下面serving的id也要指定)
+        brand: e.foodCode ?? '',
+        product: e.foodName ?? "",
+        tags: e.tags?.join(","),
+        category: e.category?.join(","),
+        // ？？？2023-11-30 这里假设传入的图片是完整的，就不像动作那样再指定文件夹前缀了
+        photos: e.photos?.join(","),
+        contributor: CacheUser.userName,
+        gmtCreate: getCurrentDateTime(),
+        isDeleted: false,
+      );
+
+      /// 营养素值全是字符串，而且由于是orc识别，还可以包含无法转换的内容
+      /// size都应该都是1；unit则是标准单份为100g或100ml，自定义则为1份
+      ///   原书全是标准值，都是100g，但是有分可食用部分，这里排除
+      /// 也是因为有可食用部分的栏位，这里就不计算单克的值来
+      var tempServing = ServingInfo(
+        // 因为同时新增食物和单份营养素，所以这个foodId会被上面的替换掉
+        foodId: 0,
+        servingSize: 1,
+        servingUnit: "100g",
+        energy: double.tryParse(e.energyKJ ?? "0") ?? 0,
+        protein: double.tryParse(e.protein ?? "0") ?? 0,
+        totalFat: double.tryParse(e.fat ?? "0") ?? 0,
+        totalCarbohydrate: double.tryParse(e.cHO ?? "0") ?? 0,
+        sodium: double.tryParse(e.na ?? "0") ?? 0,
+        cholesterol: double.tryParse(e.cholesterol ?? "0") ?? 0,
+        dietaryFiber: double.tryParse(e.dietaryFiber ?? "0") ?? 0,
+        // 其他可选值暂时不对应
+        contributor: CacheUser.userName,
+        gmtCreate: getCurrentDateTime(),
+        isDeleted: false,
+      );
+
+      try {
+        await _dietaryHelper.insertFoodWithServingInfoList(
+          food: tempFood,
+          servingInfoList: [tempServing],
+        );
+      } on Exception catch (e) {
+        // 将错误信息展示给用户
+        if (!mounted) return;
+        commonExceptionDialog(
+          context,
+          CusAL.of(context).exceptionWarningTitle,
+          e.toString(),
+        );
+
+        setState(() {
+          isLoading = false;
+        });
+        return;
+      }
+    }
   }
 
   @override
@@ -175,7 +262,7 @@ class _DietaryFoodsState extends State<DietaryFoods> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AddfoodWithServing(),
+                  builder: (context) => const AddFoods(),
                 ),
               ).then((value) {
                 // 不管是否新增成功，这里都重新加载；因为没有清空查询条件，所以新增的食物关键字不包含查询条件中，不会显示
@@ -426,11 +513,15 @@ class _DietaryFoodsState extends State<DietaryFoods> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: DataTable(
-              dataRowMinHeight: 20.sp, // 设置行高范围
+              dataRowMinHeight: 20.sp,
+              // 设置行高范围
               dataRowMaxHeight: 30.sp,
-              headingRowHeight: 25.sp, // 设置表头行高
-              horizontalMargin: 10.sp, // 设置水平边距
-              columnSpacing: 10.sp, // 设置列间距
+              headingRowHeight: 25.sp,
+              // 设置表头行高
+              horizontalMargin: 10.sp,
+              // 设置水平边距
+              columnSpacing: 10.sp,
+              // 设置列间距
               columns: [
                 DataColumn(
                   label: Text(

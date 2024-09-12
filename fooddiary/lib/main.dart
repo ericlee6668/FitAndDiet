@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_meta_sdk/flutter_meta_sdk.dart';
 import 'package:free_fitness/views/base_bview.dart';
 import 'package:free_fitness/views/base_view.dart';
 import 'package:get_storage/get_storage.dart';
@@ -49,7 +47,7 @@ class AppCatchError {
           // await GetStorage().write('mode', 'dark');
           // await GetStorage().write('mode', 'light');
           await GetStorage().write('mode', 'system');
-          runApp(const FreeFitnessApp());
+          runApp(const FitTrackApp());
           pustLogic();
         });
       },
@@ -109,7 +107,6 @@ class DILogic extends GetxController {
 
     return AppsflyerSdk(appsFlyerOptions);
   }();
-  final metaSdk = FlutterMetaSdk();
 
   late StreamSubscription<List<ConnectivityResult>> subscription;
 

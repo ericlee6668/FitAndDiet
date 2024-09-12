@@ -267,7 +267,8 @@ class _ExerciseQueryFormState extends State<ExerciseQueryForm> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(CusAL.of(context).tipLabel),
-          content: const Text('重置查询条件，如果选中高级选项后折叠，需要展开后再重置，否则高级条件值会保留。'),
+          // content: const Text('重置查询条件，如果选中高级选项后折叠，需要展开后再重置，否则高级条件值会保留。'),
+          content:  Text(box.read('language') == "en" ? "Reset the query conditions. If you select the advanced option and then collapse it, you need to expand it and reset it again, otherwise the advanced condition value will be retained." : '重置查询条件，如果选中高级选项后折叠，需要展开后再重置，否则高级条件值会保留。'),
           actions: [
             TextButton(
               onPressed: () {

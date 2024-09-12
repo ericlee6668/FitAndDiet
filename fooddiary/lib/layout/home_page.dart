@@ -4,16 +4,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:free_fitness/main.dart';
 import 'package:free_fitness/views/base_bview.dart';
 import 'package:free_fitness/views/base_view.dart';
+import 'package:free_fitness/views/training/index.dart';
 import 'package:get/get.dart';
 
+import '../common/global/constants.dart';
 import '../common/utils/tools.dart';
 import '../models/cus_app_localizations.dart';
 import '../views/diary/index_table_calendar.dart';
 import '../views/dietary/index.dart';
 import '../views/me/index.dart';
+import 'float_view.dart';
+import 'init_guide_page.dart';
 
 /// 主页面
 
@@ -28,18 +33,33 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    // Training(),
-    Dietary(),
-    DiaryTableCalendar(),
-    UserAndSettings()
+    TrainingPage(),
+    DietaryPage(),
+    DiaryPage(),
+    MePage()
   ];
 
   @override
   void initState() {
     super.initState();
     // initPermission();
+    eventBus.on<InitEvent>().listen((event) {
+      showInitDialog();
+    });
   }
-
+  void showInitDialog() {
+    if(box.read(LocalStorageKey.userId) == null) {
+      if (SmartDialog.config.isExist) {
+        SmartDialog.dismiss();
+      }
+      SmartDialog.show(keepSingle: true,
+          clickMaskDismiss: false,
+          builder: (BuildContext context) {
+            return const SizedBox(
+                width: 400, height: 500, child: InitGuidePage());
+          });
+    }
+  }
   initPermission() async {
     var state = await requestStoragePermission();
 
@@ -143,16 +163,16 @@ class _HomePageState extends State<HomePage> {
                 // 为了使用主题色，这里手动设置为fixed
                 type: BottomNavigationBarType.fixed,
                 items: <BottomNavigationBarItem>[
-                  // BottomNavigationBarItem(
-                  //   icon: const Icon(Icons.fitness_center),
-                  //   label: CusAL.of(context).training,
-                  // ),
                   BottomNavigationBarItem(
-                    icon: const Icon(Icons.restaurant),
+                    icon: const Icon(Icons.fitbit_outlined),
+                    label: CusAL.of(context).training,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: const Icon(Icons.food_bank_outlined),
                     label: CusAL.of(context).dietary,
                   ),
                   BottomNavigationBarItem(
-                    icon: const Icon(Icons.note),
+                    icon: const Icon(Icons.calendar_month),
                     label: CusAL.of(context).diary,
                   ),
                   BottomNavigationBarItem(

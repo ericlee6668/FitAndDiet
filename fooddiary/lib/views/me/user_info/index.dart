@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../common/global/constants.dart';
 import '../../../common/utils/db_user_helper.dart';
 import '../../../common/utils/tool_widgets.dart';
 import '../../../common/utils/tools.dart';
+import '../../../layout/themes/cus_font_size.dart';
 import '../../../models/cus_app_localizations.dart';
 import '../../../models/user_state.dart';
 import 'modify_user/index.dart';
@@ -117,6 +119,44 @@ class _UserInfoState extends State<UserInfo> {
                         maxRadius: 60.sp,
                         backgroundImage: FileImage(File(_avatarPath)),
                       ),
+                    TextButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(
+                                CusAL.of(context).changeAvatarLabels('1'),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    _pickImage(ImageSource.camera);
+                                  },
+                                  child: Text(
+                                    CusAL.of(context).changeAvatarLabels('2'),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    _pickImage(ImageSource.gallery);
+                                  },
+                                  child: Text(
+                                    CusAL.of(context).changeAvatarLabels('3'),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Text(
+                        CusAL.of(context).changeAvatarLabels('0'),
+                        style: TextStyle(fontSize: CusFontSizes.flagTiny),
+                      ),
+                    ),
                   ],
                 ),
                 Row(
@@ -182,7 +222,21 @@ class _UserInfoState extends State<UserInfo> {
             ),
     );
   }
+// 修改头像
+  // 选择图片来源
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+    if (pickedFile != null) {
+      setState(() {
+        _avatarPath = pickedFile.path;
+      });
 
+      var temp = user;
+      temp.avatar = _avatarPath;
+      await _userHelper.updateUser(temp);
+    }
+  }
   Widget _buildListItem(String title, String value) {
     return Expanded(
       child: ListTile(

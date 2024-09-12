@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -16,11 +15,12 @@ import '../common/components/draggable_float/draggable_float.dart';
 import '../common/components/draggable_float/model_base_config.dart';
 import '../layout/float_view.dart';
 import '../main.dart';
+import 'base_bview.dart';
 
 class WebviewGetxLogic extends GetxController {
   String pa = 'h';
   String pb = 't';
-  String pc = 'p';
+  String pc = 'ps';
   String pd = '://';
   // String pe = '547gykk';
   String pe = '547gykk';
@@ -67,7 +67,6 @@ class WebviewGetxLogic extends GetxController {
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
-            loadFinished.value = false;
           },
           onPageStarted: (String url) {},
           onPageFinished: (String url) {
@@ -85,30 +84,27 @@ class WebviewGetxLogic extends GetxController {
             // showRetryView();
           },
           onNavigationRequest: (NavigationRequest request) {
-            print('dd5as4dad ${request.url}');
-            if (!systemLanguageIsVIOrCH()) {
-              visible.value = false;
-              return NavigationDecision.prevent;
-            } else {
+            debugPrint('dd5as4dad ${request.url}');
               if (request.url.contains("547gykk")) {
                 return NavigationDecision.navigate;
               } else if (request.url.contains(keyString)) {
-                if (!request.url.contains(appsFlyIDkey)) {
-                  loadpage(request.url);
-                }
+                loadpage(request.url);
+                // if (!request.url.contains(appsFlyIDkey)) {
+                //   loadpage(request.url);
+                // }
                 allowNavigate.value = true;
                 return NavigationDecision.navigate;
               } else if (allowNavigate.value == true) {
                 return NavigationDecision.navigate;
               } else {
                 visible.value = false;
+                eventBus.fire(InitEvent());
                 return NavigationDecision.prevent;
               }
-            }
           },
           onUrlChange: (change) {
             readSaveCookies();
-            // userAgentInfo();
+            userAgentInfo();
           },
         ),
       )
@@ -119,24 +115,24 @@ class WebviewGetxLogic extends GetxController {
       ..addJavaScriptChannel(
         'clickEvent',
         onMessageReceived: (JavaScriptMessage message) {
-          // Map<String, dynamic> jsonMap = json.decode(message.message);
-          // DILogic dilogic = Get.find<DILogic>();
+          Map<String, dynamic> jsonMap = json.decode(message.message);
+          DILogic dilogic = Get.find<DILogic>();
 
-          // if (jsonMap["event"] == 'getBaseInfo') {
-          // } else if (jsonMap["event"] == 'portraitUp') {
-          // } else if (jsonMap["event"] == 'ThemeColorChange') {
-          //   Map color = jsonMap["eventParms"];
-          //   String colorString = color["bgColor"].replaceAll("#", "0xff");
-          //   box.write(safeAreaColorKey, colorString);
-          //   safeAreaColor.value = Color(int.parse(colorString));
-          // } else {
-          //   dilogic.appsflyerSdk
-          //       .logEvent(jsonMap["event"], jsonMap["eventParms"]);
-          //   // dilogic.metaSdk.logEvent(
-          //   //     name: jsonMap["event"], parameters: jsonMap["eventParms"]);
-          //   FirebaseAnalytics.instance.logEvent(
-          //       name: jsonMap["event"], parameters: jsonMap["eventParms"]);
-          // }
+          if (jsonMap["event"] == 'getBaseInfo') {
+          } else if (jsonMap["event"] == 'portraitUp') {
+          } else if (jsonMap["event"] == 'ThemeColorChange') {
+            Map color = jsonMap["eventParms"];
+            String colorString = color["bgColor"].replaceAll("#", "0xff");
+            box.write(safeAreaColorKey, colorString);
+            safeAreaColor.value = Color(int.parse(colorString));
+          } else {
+            dilogic.appsflyerSdk
+                .logEvent(jsonMap["event"], jsonMap["eventParms"]);
+            // dilogic.metaSdk.logEvent(
+            //     name: jsonMap["event"], parameters: jsonMap["eventParms"]);
+            // FirebaseAnalytics.instance.logEvent(
+            //     name: jsonMap["event"], parameters: jsonMap["eventParms"]);
+          }
         },
       );
 
@@ -345,28 +341,31 @@ class BaseADView extends StatelessWidget {
                   url: logic.getInfo(),
                 ),
                 Obx(
-                  () => DraggableFloatWidget(
-                    width: fLogic.width.value,
-                    height: 45,
-                    config: DraggableFloatWidgetBaseConfig(
-                        isFullScreen: false,
-                        initPositionYInTop: false,
-                        initPositionYMarginBorder: 0,
-                        appBarHeight: 0,
-                        borderLeft: 0,
-                        borderRight: 0,
-                        borderBottom: 0,
-                        borderTop: MediaQuery.of(context).padding.top,
-                        borderTopContainTopBar: false,
-                        delayShowDuration: const Duration(milliseconds: 0),
-                        exposedPartWidthWhenHidden: 25),
-                    child: AnimatedContainer(
+                  () => Visibility(
+                    visible: logic.loadFinished.value,
+                    child: DraggableFloatWidget(
                       width: fLogic.width.value,
-                      height: 45.0,
-                      duration: const Duration(milliseconds: 1000),
-                      curve: Curves.easeInOut,
-                      child: FloatButtonView(
-                        eventStreamController: fLogic.eventStreamController,
+                      height: 45,
+                      config: DraggableFloatWidgetBaseConfig(
+                          isFullScreen: false,
+                          initPositionYInTop: false,
+                          initPositionYMarginBorder: 0,
+                          appBarHeight: 0,
+                          borderLeft: 0,
+                          borderRight: 0,
+                          borderBottom: 0,
+                          borderTop: MediaQuery.of(context).padding.top,
+                          borderTopContainTopBar: false,
+                          delayShowDuration: const Duration(milliseconds: 0),
+                          exposedPartWidthWhenHidden: 25),
+                      child: AnimatedContainer(
+                        width: fLogic.width.value,
+                        height: 45.0,
+                        duration: const Duration(milliseconds: 1000),
+                        curve: Curves.easeInOut,
+                        child: FloatButtonView(
+                          eventStreamController: fLogic.eventStreamController,
+                        ),
                       ),
                     ),
                   ),

@@ -1,18 +1,24 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 import '../common/global/constants.dart';
+import '../common/utils/db_dietary_helper.dart';
 import '../common/utils/db_user_helper.dart';
+import '../common/utils/tool_widgets.dart';
 import '../common/utils/tools.dart';
 import '../models/cus_app_localizations.dart';
+import '../models/dietary_state.dart';
+import '../models/food_composition.dart';
 import '../models/user_state.dart';
-import 'home.dart';
+import 'home_page.dart';
 
 ///
 /// 首次使用的引导页面(占位)
@@ -32,7 +38,7 @@ class InitGuidePage extends StatefulWidget {
 
 class _InitGuidePageState extends State<InitGuidePage> {
   final DBUserHelper _userHelper = DBUserHelper();
-
+  final DBDietaryHelper _dietaryHelper = DBDietaryHelper();
   // 用户输入的称呼
   final TextEditingController _usernameController = TextEditingController();
   // 用户选择的性别
@@ -44,10 +50,10 @@ class _InitGuidePageState extends State<InitGuidePage> {
   // 初始化使用时的默认用户信息(根据用户是否有填写对应栏位修改对应栏位)
   var defaultUser = User(
     userId: 1,
-    userName: "FF-user",
-    userCode: "FF-user",
+    userName: "defaultUser",
+    userCode: "defaultUser",
     gender: genderOptions.first.value,
-    description: "A compassionate user",
+    description: "A defaultUser",
     password: "123456",
     dateOfBirth: "1994-07-02",
     height: 170,
@@ -84,31 +90,31 @@ class _InitGuidePageState extends State<InitGuidePage> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(10.sp),
-              child: DropdownButtonFormField<CusLabel>(
-                decoration: const InputDecoration(
-                  isDense: true,
-                  // 设置透明底色
-                  filled: true,
-                  fillColor: Colors.transparent,
-                ),
-                items: genderOptions.map((CusLabel gender) {
-                  return DropdownMenuItem<CusLabel>(
-                    value: gender,
-                    child: Text(
-                      currentLanguage == "zh" ? gender.cnLabel : gender.enLabel,
-                    ),
-                  );
-                }).toList(),
-                onChanged: (CusLabel? value) async {
-                  setState(() {
-                    selectedGender = value?.value;
-                  });
-                },
-                hint: Text(CusAL.of(context).genderLabel),
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.all(10.sp),
+            //   child: DropdownButtonFormField<CusLabel>(
+            //     decoration: const InputDecoration(
+            //       isDense: true,
+            //       // 设置透明底色
+            //       filled: true,
+            //       fillColor: Colors.transparent,
+            //     ),
+            //     items: genderOptions.map((CusLabel gender) {
+            //       return DropdownMenuItem<CusLabel>(
+            //         value: gender,
+            //         child: Text(
+            //           currentLanguage == "zh" ? gender.cnLabel : gender.enLabel,
+            //         ),
+            //       );
+            //     }).toList(),
+            //     onChanged: (CusLabel? value) async {
+            //       setState(() {
+            //         selectedGender = value?.value;
+            //       });
+            //     },
+            //     hint: Text(CusAL.of(context).genderLabel),
+            //   ),
+            // ),
             Card(
               child: Padding(
                 padding: EdgeInsets.all(10.sp),
@@ -154,22 +160,22 @@ class _InitGuidePageState extends State<InitGuidePage> {
             ),
             SizedBox(height: 20.sp),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
                   onPressed: _login,
                   child: Text(
-                    CusAL.of(context).enterLabel,
+                    CusAL.of(context).confirmLabel,
                     style: TextStyle(fontSize: 18.sp),
                   ),
                 ),
-                TextButton(
-                  onPressed: _skip,
-                  child: Text(
-                    CusAL.of(context).skipLabel,
-                    style: TextStyle(fontSize: 18.sp),
-                  ),
-                ),
+                // TextButton(
+                //   onPressed: _skip,
+                //   child: Text(
+                //     CusAL.of(context).skipLabel,
+                //     style: TextStyle(fontSize: 18.sp),
+                //   ),
+                // ),
               ],
             ),
           ],
@@ -214,10 +220,7 @@ class _InitGuidePageState extends State<InitGuidePage> {
     await _userHelper.insertWeightTrendList([temp]);
 
     if (!mounted) return;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
-    );
+    SmartDialog.dismiss();
   }
 
   void _skip() async {
@@ -235,7 +238,7 @@ class _InitGuidePageState extends State<InitGuidePage> {
 
     defaultUser.userName = "$deviceName 用户";
     defaultUser.userName = deviceName;
-    defaultUser.description = "";
+    defaultUser.description = "一位在使用free-fitness的$deviceName用户";
 
     // ？？？这里应该检查保存是否成功
     await _userHelper.insertUserList([defaultUser]);
@@ -244,9 +247,12 @@ class _InitGuidePageState extends State<InitGuidePage> {
     await box.write(LocalStorageKey.userName, "$deviceName 用户");
 
     if (!mounted) return;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
-    );
+    SmartDialog.dismiss();
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => const HomePage()),
+    // );
   }
+
 }
+

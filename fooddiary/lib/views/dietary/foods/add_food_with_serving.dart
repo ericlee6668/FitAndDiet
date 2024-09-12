@@ -17,14 +17,14 @@ import 'common_utils_for_food_modify.dart';
 
 // 目前这个是食物新增时使用，新增时会同时至少新增一条单份食物营养素信息。
 // 而食物某一单份营养素信息的修改可以在食物详情找到修改入口，但食物基本信息的修改入口还不明确
-class AddfoodWithServing extends StatefulWidget {
-  const AddfoodWithServing({super.key});
+class AddFoods extends StatefulWidget {
+  const AddFoods({super.key});
 
   @override
-  State<AddfoodWithServing> createState() => _AddfoodWithServingState();
+  State<AddFoods> createState() => _AddFoodsState();
 }
 
-class _AddfoodWithServingState extends State<AddfoodWithServing> {
+class _AddFoodsState extends State<AddFoods> {
   final DBDietaryHelper _dietaryHelper = DBDietaryHelper();
 
 //  食物添加的表单key

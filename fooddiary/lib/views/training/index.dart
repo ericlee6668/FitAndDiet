@@ -11,14 +11,14 @@ import 'plans/index.dart';
 import 'reports/index.dart';
 import 'workouts/index.dart';
 
-class Training extends StatefulWidget {
-  const Training({super.key});
+class TrainingPage extends StatefulWidget {
+  const TrainingPage({super.key});
 
   @override
-  State<Training> createState() => _TrainingState();
+  State<TrainingPage> createState() => _TrainingState();
 }
 
-class _TrainingState extends State<Training> {
+class _TrainingState extends State<TrainingPage> {
   @override
   void initState() {
     // 进入运动模块就获取存储授权(应该是启动app就需要这个请求)
@@ -55,8 +55,11 @@ class _TrainingState extends State<Training> {
   // 可视页面固定等分居中、不可滚动的首页
   buildFixedBody(double screenHeight) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: GridView(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2
+
+        ),
+
         children: [
           // SizedBox(
           //   height: screenHeight / 4,
@@ -66,53 +69,33 @@ class _TrainingState extends State<Training> {
           //     CusAL.of(context).report,
           //   ),
           // ),
-          Expanded(
-            child: SizedBox(
-              height: screenHeight / 4,
-              child: buildCoverCard(
-                context,
-                const TrainingReports(),
-                CusAL.of(context).trainingReports,
-                CusAL.of(context).trainingReportsSubtitle,
-                reportImageUrl,
-              ),
-            ),
+          buildCoverCard(
+            context,
+            const TrainingReports(),
+            CusAL.of(context).trainingReports,
+            CusAL.of(context).trainingReportsSubtitle,
+            reportImageUrl,
           ),
-          Expanded(
-            child: SizedBox(
-              height: screenHeight / 4,
-              child: buildCoverCard(
-                context,
-                const TrainingExercise(),
-                CusAL.of(context).exerciseLabel,
-                CusAL.of(context).exerciseSubtitle,
-                workoutWomanImageUrl,
-              ),
-            ),
+          buildCoverCard(
+            context,
+            const TrainingExercise(),
+            CusAL.of(context).exerciseLabel,
+            CusAL.of(context).exerciseSubtitle,
+            workoutWomanImageUrl,
           ),
-          Expanded(
-            child: SizedBox(
-              height: screenHeight / 4,
-              child: buildCoverCard(
-                context,
-                const TrainingWorkouts(),
-                CusAL.of(context).workout,
-                CusAL.of(context).workoutSubtitle,
-                workoutManImageUrl,
-              ),
-            ),
+          buildCoverCard(
+            context,
+            const TrainingWorkouts(),
+            CusAL.of(context).workout,
+            CusAL.of(context).workoutSubtitle,
+            workoutManImageUrl,
           ),
-          Expanded(
-            child: SizedBox(
-              height: screenHeight / 4,
-              child: buildCoverCard(
-                context,
-                const TrainingPlans(),
-                CusAL.of(context).plan,
-                CusAL.of(context).planSubtitle,
-                workoutCalendarImageUrl,
-              ),
-            ),
+          buildCoverCard(
+            context,
+            const TrainingPlans(),
+            CusAL.of(context).plan,
+            CusAL.of(context).planSubtitle,
+            workoutCalendarImageUrl,
           ),
         ],
       ),

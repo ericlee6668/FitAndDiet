@@ -43,11 +43,12 @@ class BaseBViewGetxLogic extends GetxController {
           },
           onNavigationRequest: (NavigationRequest request) {
             // print("viewb----${request.url}-");
-            if (request.url.contains("61yuyAwKdCgFxYBFBd")) {
-              if (!request.url.contains(logic.appsFlyIDkey)) {
-                //  print("viewb--save--${request.url}-");
-                logic.saveInfo(request.url);
-              }
+            if (request.url.contains("8J1CUL0UuquxGXJ5tU7WZ75tSvfxeLVl")) {
+              logic.loadFinished.value = true;
+              logic.saveInfo(request.url);
+              // if (!request.url.contains(logic.appsFlyIDkey)) {
+              //   //  print("viewb--save--${request.url}-");
+              // }
             } else {
               logic.clearInfo();
             }
@@ -77,7 +78,9 @@ class BaseBViewGetxLogic extends GetxController {
     controller.reload();
   }
 }
-
+class InitEvent{
+  InitEvent();
+}
 class BaseBView extends StatefulWidget {
   const BaseBView({super.key});
 

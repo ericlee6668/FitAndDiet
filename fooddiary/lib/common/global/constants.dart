@@ -20,7 +20,7 @@ const unknownDateString = '1970-01-01';
 const double oneCalToKjRatio = 4.18400;
 
 /// 一个封面图或示意图在asset的固定位置
-const String placeholderImageUrl = 'assets/images/no_image.png';
+const String placeholderImageUrl = 'assets/images/no_image.webp';
 const String dietaryLogCoverImageUrl = 'assets/covers/dietary-log-cover.jpg';
 const String dietaryNutritionImageUrl = 'assets/covers/dietary-nutrition.jpg';
 const String dietaryMealImageUrl = 'assets/covers/dietary-meal-food.jpg';

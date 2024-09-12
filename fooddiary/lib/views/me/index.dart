@@ -4,6 +4,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:free_fitness/views/base_view.dart';
+import 'package:free_fitness/views/me/us/us.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:photo_view/photo_view.dart';
 import '../../../common/utils/tool_widgets.dart';
@@ -12,6 +15,7 @@ import '../../common/utils/db_user_helper.dart';
 import '../../layout/themes/cus_font_size.dart';
 import '../../models/cus_app_localizations.dart';
 import '../../models/user_state.dart';
+
 // import '_feature_mock_data/index.dart';
 import 'backup_and_restore/index.dart';
 import 'intake_goals/intake_target.dart';
@@ -21,14 +25,14 @@ import 'user_info/index.dart';
 import 'user_info/modify_user/index.dart';
 import 'weight_change_record/index.dart';
 
-class UserAndSettings extends StatefulWidget {
-  const UserAndSettings({super.key});
+class MePage extends StatefulWidget {
+  const MePage({super.key});
 
   @override
-  State<UserAndSettings> createState() => _UserAndSettingsState();
+  State<MePage> createState() => _MePageState();
 }
 
-class _UserAndSettingsState extends State<UserAndSettings> {
+class _MePageState extends State<MePage> {
   final DBUserHelper _userHelper = DBUserHelper();
 
   // 用户头像路径
@@ -162,21 +166,7 @@ class _UserAndSettingsState extends State<UserAndSettings> {
     }
   }
 
-  // 修改头像
-  // 选择图片来源
-  Future<void> _pickImage(ImageSource source) async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: source);
-    if (pickedFile != null) {
-      setState(() {
-        _avatarPath = pickedFile.path;
-      });
 
-      var temp = userInfo;
-      temp.avatar = _avatarPath;
-      await _userHelper.updateUser(temp);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -201,17 +191,7 @@ class _UserAndSettingsState extends State<UserAndSettings> {
           CusAL.of(context).moduleTitles('3'),
         ),
         actions: [
-          // IconButton(
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => const FeatureMockDemo(),
-          //       ),
-          //     );
-          //   },
-          //   icon: const Icon(Icons.bug_report),
-          // ),
+          // IconButton0
           // 切换用户(切换后缓存的用户编号也得修改)
           IconButton(
             onPressed: _switchUser,
@@ -242,22 +222,26 @@ class _UserAndSettingsState extends State<UserAndSettings> {
                 /// 功能区的占位就是除去状态栏、标题、底部按钮、头像区域个人信息外的高度进行等分
                 /// 底部还预留20sp
                 // 基本信息和体重趋势
-                SizedBox(
-                  height: (screenBodyHeight - 250 - 20) / 3,
-                  child: _buildInfoAndWeightChangeRow(),
-                ),
-
-                // 摄入目标和运动设置
-                SizedBox(
-                  height: (screenBodyHeight - 250 - 20) / 3,
-                  child: _buildIntakeGoalAndRestTimeRow(),
-                ),
-
-                // 备份还原和更多设置
-                SizedBox(
-                  height: (screenBodyHeight - 250 - 20) / 3,
-                  child: _buildBakAndRestoreAndMoreSettingRow(),
-                ),
+                // SizedBox(
+                //   height: (screenBodyHeight - 250 - 20) / 3,
+                //   child: _buildInfoAndWeightChangeRow(),
+                // ),
+                //
+                // // 摄入目标和运动设置
+                // SizedBox(
+                //   height: (screenBodyHeight - 250 - 20) / 3,
+                //   child: _buildIntakeGoalAndRestTimeRow(),
+                // ),
+                //
+                // // 备份还原和更多设置
+                // SizedBox(
+                //   height: (screenBodyHeight - 250 - 20) / 3,
+                //   child: _buildBakAndRestoreAndMoreSettingRow(),
+                // ),
+                _buildFunctionArea(),
+                const Divider(),
+                _buildInformation(),
+                const SizedBox(height: 20,)
               ],
             ),
     );
@@ -270,27 +254,8 @@ class _UserAndSettingsState extends State<UserAndSettings> {
       Stack(
         alignment: Alignment.center,
         children: [
+          Image.asset('assets/images/bg.png',height: 170,width:MediaQuery.of(context).size.width,fit: BoxFit.cover,),
           // 没有修改头像，就用默认的
-          if (_avatarPath.isEmpty)
-            SizedBox(
-              width: 80,
-              height: 80,
-              child: CircleAvatar(
-                maxRadius: 60.sp,
-                backgroundColor: Colors.transparent,
-                backgroundImage: const AssetImage(defaultAvatarImageUrl),
-                // y圆形头像的边框线
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Theme.of(context).primaryColor,
-                      width: 2.sp,
-                    ),
-                  ),
-                ),
-              ),
-            ),
           if (_avatarPath.isNotEmpty)
             GestureDetector(
               onTap: () {
@@ -345,85 +310,80 @@ class _UserAndSettingsState extends State<UserAndSettings> {
           Positioned(
             top: 0.sp,
             right: 0.sp,
-            child: TextButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text(
-                        CusAL.of(context).changeAvatarLabels('1'),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            _pickImage(ImageSource.camera);
-                          },
-                          child: Text(
-                            CusAL.of(context).changeAvatarLabels('2'),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            _pickImage(ImageSource.gallery);
-                          },
-                          child: Text(
-                            CusAL.of(context).changeAvatarLabels('3'),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              child: Text(
-                CusAL.of(context).changeAvatarLabels('0'),
-                style: TextStyle(fontSize: CusFontSizes.flagTiny),
-              ),
+            child: Text(
+              '',
+              style: TextStyle(fontSize: CusFontSizes.flagTiny),
             ),
           ),
         ],
       ),
       SizedBox(
         height: 120.sp,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: Row(
           children: [
-            // 用户名、代号、简述
-            ListTile(
-              title: Text(
-                userInfo.userName,
-                style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: CusFontSizes.flagMediumBig,
+            if (_avatarPath.isEmpty)
+              Positioned(
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  margin: const EdgeInsets.only(left: 20),
+                  child: CircleAvatar(
+                    maxRadius: 60.sp,
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: const AssetImage(defaultAvatarImageUrl),
+                    // y圆形头像的边框线
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Theme.of(context).primaryColor,
+                          width: 2.sp,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-                textAlign: TextAlign.center,
-                softWrap: true,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
-              subtitle: Text(
-                "@${userInfo.userCode ?? 'unkown'}",
-                textAlign: TextAlign.center,
-                softWrap: true,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-
-            // 用户简介 description
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 18.sp),
-              child: Text(
-                "${userInfo.description ?? 'no description'} ",
-                textAlign: TextAlign.center,
-                softWrap: true,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: CusFontSizes.pageContent),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // 用户名、代号、简述
+                  ListTile(
+                    title: Text(
+                      userInfo.userName,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: CusFontSizes.flagMediumBig,
+                      ),
+                      textAlign: TextAlign.center,
+                      softWrap: true,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(
+                      "@${userInfo.userCode ?? 'unkown'}",
+                      textAlign: TextAlign.center,
+                      softWrap: true,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+              
+                  // 用户简介 description
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 18.sp),
+                    child: Text(
+                      "${userInfo.description ?? 'no description'} ",
+                      textAlign: TextAlign.center,
+                      softWrap: true,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: CusFontSizes.pageContent),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -450,7 +410,7 @@ class _UserAndSettingsState extends State<UserAndSettings> {
                 // 确认新增成功后重新加载当前日期的条目数据
                 _queryLoginedUserInfo();
               });
-            },
+            }, icon: '',
           ),
         ),
         Expanded(
@@ -470,7 +430,7 @@ class _UserAndSettingsState extends State<UserAndSettings> {
                   _queryLoginedUserInfo();
                 }
               });
-            },
+            }, icon: '',
           ),
         ),
       ],
@@ -495,7 +455,7 @@ class _UserAndSettingsState extends State<UserAndSettings> {
                 // 确认新增成功后重新加载当前日期的条目数据
                 _queryLoginedUserInfo();
               });
-            },
+            }, icon: '',
           ),
         ),
         Expanded(
@@ -513,7 +473,7 @@ class _UserAndSettingsState extends State<UserAndSettings> {
                 // 确认新增成功后重新加载当前日期的条目数据
                 _queryLoginedUserInfo();
               });
-            },
+            }, icon: '',
           ),
         ),
       ],
@@ -536,7 +496,7 @@ class _UserAndSettingsState extends State<UserAndSettings> {
                   builder: (context) => const BackupAndRestore(),
                 ),
               );
-            },
+            }, icon: '',
           ),
         ),
         Expanded(
@@ -552,7 +512,54 @@ class _UserAndSettingsState extends State<UserAndSettings> {
                   builder: (context) => const MoreSettings(),
                 ),
               );
-            },
+            }, icon: '',
+          ),
+        ),
+        NewCusSettingCard(
+          leadingIcon: Icons.run_circle_outlined,
+          title: CusAL.of(context).settingLabels('3'),
+          onTap: () {
+            // 处理相应的点击事件
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TrainingSetting(userInfo: userInfo),
+              ),
+            ).then((value) {
+              // 确认新增成功后重新加载当前日期的条目数据
+              _queryLoginedUserInfo();
+            });
+          }, icon: '',
+        ),
+        Expanded(
+          child: NewCusSettingCard(
+            leadingIcon: Icons.backup_outlined,
+            title: CusAL.of(context).settingLabels('4'),
+            onTap: () {
+              // 处理相应的点击事件
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const BackupAndRestore(),
+                ),
+              );
+            }, icon: '',
+          ),
+        ),
+        Expanded(
+          child: NewCusSettingCard(
+            leadingIcon: Icons.more_horiz_outlined,
+            title: CusAL.of(context).settingLabels('5'),
+            onTap: () {
+              // 处理相应的点击事件
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MoreSettings(),
+                ),
+              );
+            }, icon: '',
           ),
         ),
         // Expanded(
@@ -567,44 +574,230 @@ class _UserAndSettingsState extends State<UserAndSettings> {
       ],
     );
   }
+
+  _buildFunctionArea() {
+    List<Widget> list = [
+      NewCusSettingCard(
+        leadingIcon: Icons.account_circle_outlined,
+        title: CusAL.of(context).settingLabels('0'),
+        onTap: () {
+          // 处理相应的点击事件
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const UserInfo(),
+            ),
+          ).then((value) {
+            // 确认新增成功后重新加载当前日期的条目数据
+            _queryLoginedUserInfo();
+          });
+        }, icon: '',
+      ),
+      NewCusSettingCard(
+        leadingIcon: Icons.trending_down_outlined,
+        title: CusAL.of(context).settingLabels('1'),
+        onTap: () {
+          // 处理相应的点击事件
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WeightChangeRecord(userInfo: userInfo),
+            ),
+          ).then((value) {
+            // 确认新增成功后重新加载当前日期的条目数据
+            if (value != null && value == true) {
+              _queryLoginedUserInfo();
+            }
+          });
+        }, icon: '',
+      ),
+      NewCusSettingCard(
+        leadingIcon: Icons.golf_course_outlined,
+        title: CusAL.of(context).settingLabels('2'),
+        onTap: () {
+          // 处理相应的点击事件
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => IntakeTargetPage(userInfo: userInfo),
+            ),
+          ).then((value) {
+            // 确认新增成功后重新加载当前日期的条目数据
+            _queryLoginedUserInfo();
+          });
+        }, icon: '',
+      ),
+    ];
+    var listDatas = [
+      {
+        'icon': 'assets/me/base_info.png',
+        'title': CusAL.of(context).settingLabels('0'),
+        'page': const UserInfo()
+      },
+      {
+        'icon': 'assets/me/weight_trend.png',
+        'title': CusAL.of(context).settingLabels('1'),
+        'page': WeightChangeRecord(userInfo: userInfo)
+      },
+      {
+        'icon': 'assets/me/intake_goal.png',
+        'title': CusAL.of(context).settingLabels('2'),
+        'page': WeightChangeRecord(userInfo: userInfo)
+      },
+      {
+        'icon': 'assets/me/training_setting.png',
+        'title': CusAL.of(context).settingLabels('3'),
+        'page': TrainingSetting(userInfo: userInfo)
+      },
+      {
+        'icon': 'assets/me/backup.png',
+        'title': CusAL.of(context).settingLabels('4'),
+        'page': const BackupAndRestore()
+      },
+      {
+        'icon': 'assets/me/more_setting.png',
+        'title': CusAL.of(context).settingLabels('5'),
+        'page': const MoreSettings()
+      },
+    ];
+    return GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3, childAspectRatio: 1.5),
+        itemCount: 6,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, i) {
+          return NewCusSettingCard(
+            leadingIcon: Icons.add,
+            icon: listDatas[i]['icon'] as String,
+            title: listDatas[i]['title'] as String,
+            onTap: () {
+              // 处理相应的点击事件
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => listDatas[i]['page'] as Widget,
+                ),
+              ).then((value) {
+                // 确认新增成功后重新加载当前日期的条目数据
+                if (value != null && value == true) {
+                  _queryLoginedUserInfo();
+                }
+              });
+            },
+          );
+        });
+  }
+
+  _buildInformation() {
+    var list = [
+      {
+        'title': 'Disclaimer',
+        'icon':Icons.notification_important_rounded,
+        'page': () {
+          SmartDialog.compatible.show(
+            backDismiss: true,
+            clickBgDismissTemp: true,
+              widget: Container(
+                height: 600,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                  color: Colors.white
+                ),
+                child:Column(
+                  children: [
+                    Image.asset('assets/images/disclaimer.jpg'),
+                    ElevatedButton(onPressed: ()=>SmartDialog.dismiss(), child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 50.0),
+                      child: Text('confirm'),
+                    ))
+                  ],
+                ),
+              ),
+              alignmentTemp: Alignment.bottomCenter);
+        }
+      },
+      {'title': 'About Us',
+        'icon':Icons.person_add_sharp,
+        'page': () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const UsPage(),
+          ),
+        );
+      }
+      },
+      {'title': 'Contact us      ehansenj8u@gmx.com',
+        'icon':Icons.contact_page_sharp,
+        'page': () {}},
+      {'title': 'Version          V1.0.0',
+        'icon':Icons.verified_sharp,
+        'page': () {}}
+    ];
+    return ListView.separated(
+      shrinkWrap: true,
+      itemCount: list.length,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, i) {
+        return InkWell(
+          onTap: list[i]['page'] as void Function(),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.sp),
+            height: 50,
+            child: Row(
+              children: [
+                Icon(list[i]['icon'] as IconData,color: Colors.black38,),
+                const SizedBox(width: 5),
+                Text(list[i]['title'] as String),
+                const Spacer(),
+                const Icon(Icons.arrow_forward_ios_outlined)
+              ],
+            ),
+          ),
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return const Divider(height: 1,);
+      },
+    );
+  }
 }
 
 // 每个设置card抽出来复用
 class NewCusSettingCard extends StatelessWidget {
   final IconData leadingIcon;
+  final String icon;
   final String title;
   final VoidCallback onTap;
 
   const NewCusSettingCard({
     super.key,
     required this.leadingIcon,
+    required this.icon,
     required this.title,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.sp),
-      ),
+    return InkWell(
+      onTap: onTap,
       child: Container(
-        height: 150.sp,
+        height: 60.sp,
         padding: EdgeInsets.all(2.sp),
-        child: Center(
-          child: ListTile(
-            leading: Icon(leadingIcon),
-            title: Text(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(icon,width: 28.w,height: 28.w,),
+            const SizedBox(height: 5),
+            Text(
               title,
               style: TextStyle(
-                fontSize: CusFontSizes.pageSubTitle,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
+                fontSize: CusFontSizes.pageAppendix,
               ),
             ),
-            onTap: onTap,
-          ),
+          ],
         ),
       ),
     );
