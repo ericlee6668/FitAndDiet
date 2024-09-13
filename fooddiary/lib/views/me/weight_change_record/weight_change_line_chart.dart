@@ -13,7 +13,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 import '../../../common/utils/db_user_helper.dart';
 import '../../../common/utils/tools.dart';
-import '../../../layout/themes/cus_font_size.dart';
+import '../../../main/themes/cus_font_size.dart';
 import '../../../models/cus_app_localizations.dart';
 import '../../../models/user_state.dart';
 

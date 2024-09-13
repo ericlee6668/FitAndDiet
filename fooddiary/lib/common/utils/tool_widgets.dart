@@ -6,7 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:math' as math;
 
-import '../../layout/themes/cus_font_size.dart';
+import '../../main/themes/cus_font_size.dart';
 import '../../models/cus_app_localizations.dart';
 import '../global/constants.dart';
 import 'tools.dart';

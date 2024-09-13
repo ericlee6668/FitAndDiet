@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:free_fitness/layout/init_guide_page.dart';
+import 'package:free_fitness/main/init_guide_page.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:free_fitness/models/cus_app_localizations.dart';

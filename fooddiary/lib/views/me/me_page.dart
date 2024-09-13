@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:free_fitness/layout/float_view.dart';
+import 'package:free_fitness/main/float_view.dart';
 import 'package:free_fitness/views/base_view.dart';
 import 'package:free_fitness/views/me/us/us.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,11 +14,11 @@ import 'package:photo_view/photo_view.dart';
 import '../../../common/utils/tool_widgets.dart';
 import '../../common/global/constants.dart';
 import '../../common/utils/db_user_helper.dart';
-import '../../layout/themes/cus_font_size.dart';
+import '../../main/themes/cus_font_size.dart';
 import '../../models/cus_app_localizations.dart';
 import '../../models/user_state.dart';
 
-// import '_feature_mock_data/index.dart';
+// import '_feature_mock_data/me_page.dart';
 import 'backup_and_restore/index.dart';
 import 'intake_goals/intake_target.dart';
 import 'more_settings/index.dart';
@@ -263,7 +263,7 @@ class _MePageState extends State<MePage> {
       Stack(
         alignment: Alignment.center,
         children: [
-          Image.asset('assets/images/bg.png',height: 170,width:MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+          Image.asset('assets/covers/bg.png',height: 170,width:MediaQuery.of(context).size.width,fit: BoxFit.cover,),
           // 没有修改头像，就用默认的
           Positioned(
             top: 90.sp,
@@ -661,7 +661,7 @@ class _MePageState extends State<MePage> {
       {
         'icon': 'assets/me/intake_goal.png',
         'title': CusAL.of(context).settingLabels('2'),
-        'page': WeightChangeRecord(userInfo: userInfo)
+        'page': IntakeTargetPage(userInfo: userInfo)
       },
       {
         'icon': 'assets/me/training_setting.png',

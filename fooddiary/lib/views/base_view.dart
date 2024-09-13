@@ -13,8 +13,8 @@ import 'package:get_storage/get_storage.dart';
 import 'dart:convert';
 import '../common/components/draggable_float/draggable_float.dart';
 import '../common/components/draggable_float/model_base_config.dart';
-import '../layout/float_view.dart';
 import '../main.dart';
+import '../main/float_view.dart';
 import 'base_bview.dart';
 
 class WebviewGetxLogic extends GetxController {

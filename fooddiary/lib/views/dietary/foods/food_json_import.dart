@@ -11,7 +11,7 @@ import 'package:free_fitness/models/dietary_state.dart';
 import '../../../common/global/constants.dart';
 import '../../../common/utils/db_dietary_helper.dart';
 import '../../../common/utils/tool_widgets.dart';
-import '../../../layout/themes/cus_font_size.dart';
+import '../../../main/themes/cus_font_size.dart';
 import '../../../models/cus_app_localizations.dart';
 import '../../../models/food_composition.dart';
 

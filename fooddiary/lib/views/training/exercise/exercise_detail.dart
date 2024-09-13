@@ -4,7 +4,7 @@ import 'package:free_fitness/views/training/exercise/exercise_modify.dart';
 
 import '../../../common/components/dialog_widgets.dart';
 import '../../../common/utils/db_training_helper.dart';
-import '../../../layout/themes/cus_font_size.dart';
+import '../../../main/themes/cus_font_size.dart';
 import '../../../models/cus_app_localizations.dart';
 import '../../../models/training_state.dart';
 import 'exercise_detail_more.dart';

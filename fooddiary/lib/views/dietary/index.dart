@@ -2,15 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:free_fitness/views/me/intake_goals/intake_target.dart';
 
 import '../../common/components/cus_cards.dart';
 import '../../common/global/constants.dart';
 import '../../common/utils/db_dietary_helper.dart';
 import '../../common/utils/tool_widgets.dart';
 import '../../common/utils/tools.dart';
-import '../../layout/themes/cus_font_size.dart';
+import '../../main/themes/cus_font_size.dart';
 import '../../models/cus_app_localizations.dart';
 import '../../models/dietary_state.dart';
+import '../me/weight_change_record/index.dart';
 import 'foods/food_nutrient_detail.dart';
 import 'foods/index.dart';
 import 'meal_gallery/meal_photo_gallery.dart';
@@ -24,63 +26,113 @@ class DietaryPage extends StatefulWidget {
   State<DietaryPage> createState() => _DietaryPageState();
 }
 
-class _DietaryPageState extends State<DietaryPage> {
+class _DietaryPageState extends State<DietaryPage>
+    with SingleTickerProviderStateMixin {
   final DBDietaryHelper _dietaryHelper = DBDietaryHelper();
   int itemsCount = 0;
   int currentPage = 1; // 数据库查询的时候会从0开始offset
-  int pageSize = 10;
+  int pageSize = 50;
   String query = '';
   bool isLoading = false;
   ScrollController scrollController = ScrollController();
+
   List<FoodAndServingInfo> foodItems = [];
+  List<String> foodsTypeZh = ['全部', '主食', '水果', '肉类', '鱼虾类','蔬菜', '奶及奶制品'];
+  List<String> queryCode = ['', 'a1', 'b1', 'c1', 'd1','e1', 'f1'];
+  late TabController controller;
+  var currentName='全部';
+  var currentCode='';
+  @override
+  void initState() {
+    scrollController.addListener(_scrollListener);
+    controller = TabController(length: foodsTypeZh.length, vsync: this);
+    controller.addListener(() {
+      if (controller.indexIsChanging) {
+        setState(() {
+          currentName = foodsTypeZh[controller.index];
+        });
+        currentCode=queryCode[controller.index];
+        queryFoodList(queryCode[controller.index]);
+        print('ccupage:${currentName}');
+      }
+
+
+    });
+    _loadFoodData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // 计算屏幕剩余的高度
-    double screenHeight = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top -
-        MediaQuery.of(context).padding.bottom -
-        kToolbarHeight -
-        kBottomNavigationBarHeight -
-        2 * 12.sp; // 减的越多，上下空隙越大
-
-
     return Scaffold(
       // 避免搜索时弹出键盘，让底部的minibar位置移动到tab顶部导致溢出的问题
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(CusAL.of(context).dietary),
       ),
-      body: Column(
-        children: [
-          buildFixedBody(screenHeight),
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: foodItems.length + 1,
-              itemBuilder: (context, index) {
-                if (index == foodItems.length) {
-                  return buildLoader(isLoading);
-                } else {
-                  return _buildSimpleFoodTile(foodItems[index], index);
-                }
-              },
-              controller: scrollController,
+      body: Container(
+        color: const Color(0xfff5f5f5),
+        child: Column(
+          children: [
+            buildFixedBody(),
+             Text(
+              CusAL.of(context).calorieQuery,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-          ),
-        ],
+            const SizedBox(height: 10,),
+            Container(
+              color: Colors.white,
+              height: 38.w,
+              child: TabBar(
+                tabs: foodsTypeZh
+                    .map((e) => SizedBox(
+                          height: 28,
+                          child: Text(
+                            e,
+                            style:  TextStyle(color: currentName==e?Colors.red:Colors.black87,fontSize: 16),
+                          ),
+                        ))
+                    .toList(),
+                controller: controller,
+                indicatorColor: Colors.red,
+                indicatorPadding: const EdgeInsets.symmetric(horizontal: 8),
+                isScrollable: true,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: foodItems.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == foodItems.length) {
+                    return buildLoader(isLoading);
+                  } else {
+                    return _buildSimpleFoodTile(foodItems[index], index);
+                  }
+                },
+                controller: scrollController,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   /// 可视页面固定等分居中、不可滚动的首页
-  Widget buildFixedBody(double screenHeight) {
+  Widget buildFixedBody() {
     return GridView(
-         shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2
-
-      ),
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, childAspectRatio: 2),
       children: [
-
+        buildCoverCard(
+          context,
+          const WeightChangeRecord(),
+          CusAL.of(context).weightRecords,
+          CusAL.of(context).weightRecordsSubtitle,
+          weightImageUrl,
+        ),
         buildCoverCard(
           context,
           const DietaryReports(),
@@ -109,15 +161,18 @@ class _DietaryPageState extends State<DietaryPage> {
           CusAL.of(context).dietaryRecordsSubtitle,
           dietaryLogCoverImageUrl,
         ),
+        buildCoverCard(
+          context,
+          const IntakeTargetPage(),
+          CusAL.of(context).settingLabels('2'),
+          CusAL.of(context).dietaryRecordsSubtitle,
+          goalImage,
+        ),
       ],
     );
   }
-  @override
-  void initState() {
-    scrollController.addListener(_scrollListener);
-    _loadFoodData();
-    super.initState();
-  }
+
+
   void _scrollListener() {
     if (isLoading) return;
 
@@ -126,9 +181,10 @@ class _DietaryPageState extends State<DietaryPage> {
     final delta = 50.0.sp;
 
     if (maxScrollExtent - currentPosition <= delta) {
-      _loadFoodData();
+      // _loadFoodData();
     }
   }
+
   Future<void> _loadFoodData() async {
     if (isLoading) return;
 
@@ -148,6 +204,18 @@ class _DietaryPageState extends State<DietaryPage> {
       isLoading = false;
     });
   }
+  queryFoodList(String query ) async{
+    currentPage=1;
+    foodItems.clear();
+    CusDataResult temp = await _dietaryHelper
+        .searchFoodWithServingInfoWithPagination(query, currentPage, pageSize);
+    var newData = temp.data as List<FoodAndServingInfo>;
+    setState(() {
+      foodItems.addAll(newData);
+      itemsCount = temp.total;
+      isLoading = false;
+    });
+  }
 
   _buildSimpleFoodTile(FoodAndServingInfo fsi, int index) {
     var food = fsi.food;
@@ -157,7 +225,7 @@ class _DietaryPageState extends State<DietaryPage> {
     var firstServing = servingList.isNotEmpty ? servingList[0] : null;
     var foodUnit = firstServing?.servingUnit;
     var foodEnergy =
-    (firstServing?.energy ?? 0 / oneCalToKjRatio).toStringAsFixed(0);
+        (firstServing?.energy ?? 0 / oneCalToKjRatio).toStringAsFixed(0);
 
     // 能量文字
     var text1 = "$foodUnit - $foodEnergy ${CusAL.of(context).unitLabels('2')}";
@@ -267,5 +335,4 @@ class _DietaryPageState extends State<DietaryPage> {
       ),
     );
   }
-
 }

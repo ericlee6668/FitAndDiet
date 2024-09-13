@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:free_fitness/layout/float_view.dart';
+import 'package:free_fitness/main/float_view.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../common/global/constants.dart';
 import '../../../common/utils/db_user_helper.dart';
 import '../../../common/utils/tool_widgets.dart';
 import '../../../common/utils/tools.dart';
-import '../../../layout/themes/cus_font_size.dart';
+import '../../../main/themes/cus_font_size.dart';
 import '../../../models/cus_app_localizations.dart';
 import '../../../models/user_state.dart';
 import 'modify_user/index.dart';

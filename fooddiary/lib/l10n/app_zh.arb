@@ -75,6 +75,7 @@
     "@userInfoLabels": {
     "description": "用户设置目标的栏位"
     },
+    "record": "记录",
 
 
 
@@ -200,6 +201,8 @@
 
     "dietary":"饮食",
     "dietaryReports":"饮食报告",
+    "weightRecords":"体重记录",
+    "weightRecordsSubtitle":"跟踪体重变化趋势",
     "dietaryReportsSubtitle":"饮食记录的各项统计报告",
     "foodCompo":"食物成分",
     "foodCompoSubtitle": "常见食物的营养成分标准",
@@ -209,6 +212,7 @@
     "mealGallerySubtitle":"浏览已有的餐点食物照片",
 
     "mealPhotos":"餐次相册",
+    "intakeGoal":"餐次相册",
 
     "mealLabels": "{num, select, 0{早餐} 1{午餐} 2{晚餐} 3{小食} other{其他} }",
     "@mealLabels": {
@@ -421,7 +425,8 @@
     "permissionRequest":"权限申请",
     "featuresRestrictionNote":"应用中显示图片、基础动作导入、营养成分导入、数据备份等功能需要文件管理权限，请允许。",
 
-    "appNote":"注意事项"
+    "appNote":"注意事项",
+    "calorieQuery":"热量查询"
 
    
 }

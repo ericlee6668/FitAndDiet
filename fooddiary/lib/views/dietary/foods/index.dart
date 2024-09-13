@@ -9,7 +9,7 @@ import '../../../../common/global/constants.dart';
 import '../../../../common/utils/db_dietary_helper.dart';
 import '../../../../common/utils/tool_widgets.dart';
 import '../../../common/utils/tools.dart';
-import '../../../layout/themes/cus_font_size.dart';
+import '../../../main/themes/cus_font_size.dart';
 import '../../../models/cus_app_localizations.dart';
 import '../../../models/food_composition.dart';
 import 'food_json_import.dart';
@@ -41,7 +41,7 @@ class _DietaryFoodsState extends State<DietaryFoods> {
   String query = '';
 
   // 可以选择精简展示或者表格展示
-  bool isSimpleMode = true;
+  bool isSimpleMode = false;
 
   @override
   void initState() {

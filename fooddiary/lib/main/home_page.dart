@@ -16,7 +16,8 @@ import '../common/utils/tools.dart';
 import '../models/cus_app_localizations.dart';
 import '../views/diary/index_table_calendar.dart';
 import '../views/dietary/index.dart';
-import '../views/me/index.dart';
+import '../views/dietary/records/home_record.dart';
+import '../views/me/me_page.dart';
 import 'float_view.dart';
 import 'init_guide_page.dart';
 
@@ -33,8 +34,9 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    TrainingPage(),
+    // TrainingPage(),
     DietaryPage(),
+    HomeRecordPage(),
     DiaryPage(),
     MePage()
   ];
@@ -163,13 +165,17 @@ class _HomePageState extends State<HomePage> {
                 // 为了使用主题色，这里手动设置为fixed
                 type: BottomNavigationBarType.fixed,
                 items: <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: const Icon(Icons.fitbit_outlined),
-                    label: CusAL.of(context).training,
-                  ),
+                  // BottomNavigationBarItem(
+                  //   icon: const Icon(Icons.fitbit_outlined),
+                  //   label: CusAL.of(context).training,
+                  // ),
                   BottomNavigationBarItem(
                     icon: const Icon(Icons.food_bank_outlined),
                     label: CusAL.of(context).dietary,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: const Icon(Icons.fitbit_outlined),
+                    label: CusAL.of(context).record,
                   ),
                   BottomNavigationBarItem(
                     icon: const Icon(Icons.calendar_month),

@@ -6,17 +6,16 @@ import '../../../common/global/constants.dart';
 import '../../../common/utils/db_user_helper.dart';
 import '../../../common/utils/tool_widgets.dart';
 import '../../../common/utils/tools.dart';
-import '../../../layout/themes/cus_font_size.dart';
+import '../../../main/themes/cus_font_size.dart';
 import '../../../models/cus_app_localizations.dart';
 import '../../../models/user_state.dart';
 import 'weight_change_line_chart.dart';
 import 'weight_record_manage.dart';
 
-// 取这个名字主要和标的基本类 weightTrend 全然区别开
 class WeightChangeRecord extends StatefulWidget {
-  final User userInfo;
+  final User? userInfo;
 
-  const WeightChangeRecord({super.key, required this.userInfo});
+  const WeightChangeRecord({super.key,  this.userInfo});
 
   @override
   State<WeightChangeRecord> createState() => _WeightChangeRecordState();
@@ -28,7 +27,7 @@ class _WeightChangeRecordState extends State<WeightChangeRecord> {
   double _currentWeight = 0;
   double _currentHeight = 0;
 
-  late User user;
+   User? user;
 
   // 查询数据的时候不显示图表
   bool isLoading = false;
@@ -36,11 +35,8 @@ class _WeightChangeRecordState extends State<WeightChangeRecord> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      user = widget.userInfo;
-      _currentWeight = user.currentWeight ?? 70;
-      _currentHeight = user.height ?? 170;
-    });
+    getUser();
+
   }
 
   @override
@@ -77,7 +73,7 @@ class _WeightChangeRecordState extends State<WeightChangeRecord> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    WeightRecordManage(user: user),
+                                    WeightRecordManage(user: user??User(userName: '')),
                               ),
                             ).then(
                               (value) async {
@@ -91,8 +87,8 @@ class _WeightChangeRecordState extends State<WeightChangeRecord> {
 
                                 setState(() {
                                   user = tempUser;
-                                  _currentWeight = user.currentWeight ?? 70;
-                                  _currentHeight = user.height ?? 170;
+                                  _currentWeight = user?.currentWeight ?? 70;
+                                  _currentHeight = user?.height ?? 170;
                                   isLoading = false;
                                 });
                               },
@@ -117,8 +113,8 @@ class _WeightChangeRecordState extends State<WeightChangeRecord> {
 
                                 setState(() {
                                   user = tempUser;
-                                  _currentWeight = user.currentWeight ?? 70;
-                                  _currentHeight = user.height ?? 170;
+                                  _currentWeight = user?.currentWeight ?? 70;
+                                  _currentHeight = user?.height ?? 170;
                                   isLoading = false;
                                 });
                               },
@@ -130,7 +126,7 @@ class _WeightChangeRecordState extends State<WeightChangeRecord> {
                     )
                   ],
                 ),
-                if (!isLoading) WeightChangeLineChart(user: user),
+                if (!isLoading) WeightChangeLineChart(user: user??User(userName: '')),
               ],
             ),
           ),
@@ -177,8 +173,8 @@ class _WeightChangeRecordState extends State<WeightChangeRecord> {
 
                               setState(() {
                                 user = tempUser;
-                                _currentWeight = user.currentWeight ?? 70;
-                                _currentHeight = user.height ?? 170;
+                                _currentWeight = user?.currentWeight ?? 70;
+                                _currentHeight = user?.height ?? 170;
                                 isLoading = false;
                               });
                             },
@@ -215,9 +211,9 @@ class _WeightChangeRecordState extends State<WeightChangeRecord> {
 
   _buildBmiArea(BuildContext context) {
     // 存的是kg
-    var tempWeight = user.currentWeight ?? 0;
+    var tempWeight = user?.currentWeight ?? 50;
     // 存的是cm，所以要/100
-    var tempHeight = (user.height ?? 0) / 100;
+    var tempHeight = (user?.height ?? 120) / 100;
     var bmi = (tempWeight / (tempHeight * tempHeight));
 
     /// 注意，这里的所有内容都是基于
@@ -396,13 +392,13 @@ class _WeightChangeRecordState extends State<WeightChangeRecord> {
                   ElevatedButton(
                     onPressed: () async {
                       setState(() {
-                        user.height = _currentHeight;
-                        user.currentWeight = _currentWeight;
+                        user?.height = _currentHeight;
+                        user?.currentWeight = _currentWeight;
                       });
 
                       // ？？？这里应该判断是否修改成功
                       // 修改用户基本信息
-                      await _userHelper.updateUser(user);
+                      await _userHelper.updateUser(user??User(userName: ''));
 
                       var bmi = _currentWeight /
                           (_currentHeight / 100 * _currentHeight / 100);
@@ -441,6 +437,14 @@ class _WeightChangeRecordState extends State<WeightChangeRecord> {
         );
       },
     );
+  }
+
+  void getUser() async{
+    user = widget.userInfo??(await _userHelper.queryUser(userId: CacheUser.userId))??User(userName: 'userName');
+    _currentWeight = user?.currentWeight ?? 70;
+    _currentHeight = user?.height ?? 170;
+    setState(() {
+    });
   }
 }
 

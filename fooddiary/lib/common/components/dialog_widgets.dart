@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
-import '../../layout/themes/cus_font_size.dart';
+import '../../main/themes/cus_font_size.dart';
 import '../../models/training_state.dart';
 import '../global/constants.dart';
 

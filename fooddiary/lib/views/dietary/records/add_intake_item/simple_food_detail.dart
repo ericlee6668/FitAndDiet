@@ -7,7 +7,7 @@ import '../../../../../common/global/constants.dart';
 import '../../../../../common/utils/db_dietary_helper.dart';
 import '../../../../../models/dietary_state.dart';
 import '../../../../common/utils/tools.dart';
-import '../../../../layout/themes/cus_font_size.dart';
+import '../../../../main/themes/cus_font_size.dart';
 import '../../../../models/cus_app_localizations.dart';
 import '../../foods/detail_modify_serving_info.dart';
 

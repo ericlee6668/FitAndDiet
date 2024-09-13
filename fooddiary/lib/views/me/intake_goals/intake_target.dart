@@ -9,13 +9,13 @@ import '../../../common/global/constants.dart';
 import '../../../common/utils/db_user_helper.dart';
 import '../../../common/utils/tool_widgets.dart';
 import '../../../common/utils/tools.dart';
-import '../../../layout/themes/cus_font_size.dart';
+import '../../../main/themes/cus_font_size.dart';
 import '../../../models/cus_app_localizations.dart';
 import 'week_intake_bar_chart.dart';
 
 class IntakeTargetPage extends StatefulWidget {
-  final User userInfo;
-  const IntakeTargetPage({super.key, required this.userInfo});
+  final User? userInfo;
+  const IntakeTargetPage({super.key,  this.userInfo});
 
   @override
   State<IntakeTargetPage> createState() => _IntakeTargetPageState();
@@ -24,7 +24,7 @@ class IntakeTargetPage extends StatefulWidget {
 class _IntakeTargetPageState extends State<IntakeTargetPage> {
   final DBUserHelper _userHelper = DBUserHelper();
 
-  late User user;
+   User? user;
 
   // 是否在修改整体卡路里和宏量素
   bool _isEditing = false;
@@ -58,25 +58,32 @@ class _IntakeTargetPageState extends State<IntakeTargetPage> {
   @override
   void initState() {
     super.initState();
-
+    _queryLoginedUserInfo();
     // 初始化整体卡路里和营养素目标
-    user = widget.userInfo;
-    setState(() {
-      // 给整体营养素目标设置初始值
-      // (注意key要和表单中name一致。因为是两个不同的表单，所以和每日营养素目标表单同名了也不影响)
-      initialMacrosMap = {
-        "calory": (user.rdaGoal ?? 0).toString(),
-        "carbs": cusDoubleTryToIntString(user.choGoal ?? 0),
-        "fat": cusDoubleTryToIntString(user.fatGoal ?? 0),
-        "protein": cusDoubleTryToIntString(user.proteinGoal ?? 0),
-      };
 
-      equivalentKJdata = caloryToKjStr(user.rdaGoal ?? 0);
-      _macrosFormKey.currentState?.patchValue(initialMacrosMap);
+  }
+   _queryLoginedUserInfo() async {
+     var tempUser = widget.userInfo??(await _userHelper.queryUser(userId: CacheUser.userId))!;
+    setState(() {
+      user = tempUser;
     });
 
-    // 格式化处理每日卡路里和营养素目标
-    formatDailyIntakeMap();
+     setState(() {
+       // 给整体营养素目标设置初始值
+       // (注意key要和表单中name一致。因为是两个不同的表单，所以和每日营养素目标表单同名了也不影响)
+       initialMacrosMap = {
+         "calory": (user?.rdaGoal ?? 0).toString(),
+         "carbs": cusDoubleTryToIntString(user?.choGoal ?? 0),
+         "fat": cusDoubleTryToIntString(user?.fatGoal ?? 0),
+         "protein": cusDoubleTryToIntString(user?.proteinGoal ?? 0),
+       };
+
+       equivalentKJdata = caloryToKjStr(user?.rdaGoal ?? 0);
+       _macrosFormKey.currentState?.patchValue(initialMacrosMap);
+     });
+
+     // 格式化处理每日卡路里和营养素目标
+     formatDailyIntakeMap();
   }
 
   // 格式化已经存在的每日卡路里和营养素目标
@@ -259,17 +266,17 @@ class _IntakeTargetPageState extends State<IntakeTargetPage> {
                       if (_isEditing) {
                         if (_macrosFormKey.currentState!.saveAndValidate()) {
                           setState(() {
-                            user.rdaGoal = int.parse(_macrosFormKey
+                            user?.rdaGoal = int.parse(_macrosFormKey
                                 .currentState!.fields['calory']!.value);
-                            equivalentKJdata = caloryToKjStr(user.rdaGoal!);
-                            user.choGoal = double.parse(_macrosFormKey
+                            equivalentKJdata = caloryToKjStr(user?.rdaGoal??0);
+                            user?.choGoal = double.parse(_macrosFormKey
                                 .currentState!.fields['carbs']!.value);
-                            user.fatGoal = double.parse(_macrosFormKey
+                            user?.fatGoal = double.parse(_macrosFormKey
                                 .currentState!.fields['fat']!.value);
-                            user.proteinGoal = double.parse(_macrosFormKey
+                            user?.proteinGoal = double.parse(_macrosFormKey
                                 .currentState!.fields['protein']!.value);
                           });
-                          await _userHelper.updateUser(user);
+                          await _userHelper.updateUser(user!);
 
                           // 平均营养素目标修改后，也更新下方图表的值
                           setState(() {
@@ -552,7 +559,7 @@ class _IntakeTargetPageState extends State<IntakeTargetPage> {
               _weekMacrosFormKey.currentState!.fields['protein']!.value),
         );
         var temp = IntakeDailyGoal(
-          userId: user.userId!,
+          userId: user!.userId!,
           dayOfWeek: selectedDay.toString(),
           rdaDailyGoal: newData.calory,
           proteinDailyGoal: newData.protein,
@@ -575,3 +582,5 @@ class _IntakeTargetPageState extends State<IntakeTargetPage> {
     });
   }
 }
+
+

@@ -20,15 +20,17 @@ const unknownDateString = '1970-01-01';
 const double oneCalToKjRatio = 4.18400;
 
 /// 一个封面图或示意图在asset的固定位置
-const String placeholderImageUrl = 'assets/images/no_image.webp';
-const String dietaryLogCoverImageUrl = 'assets/covers/dietary-log-cover.jpg';
-const String dietaryNutritionImageUrl = 'assets/covers/dietary-nutrition.jpg';
-const String dietaryMealImageUrl = 'assets/covers/dietary-meal-food.jpg';
+const String placeholderImageUrl = 'assets/covers/no_image.webp';
+const String dietaryLogCoverImageUrl = 'assets/covers/app_tools_post.png';
+const String dietaryNutritionImageUrl = 'assets/covers/diet_diary_ic_add.webp';
+const String dietaryMealImageUrl = 'assets/covers/app_tools_habit_2.png';
 const String workoutManImageUrl = 'assets/covers/workout-man.jpg';
 const String workoutWomanImageUrl = 'assets/covers/workout-woman.jpg';
 const String workoutCalendarImageUrl = 'assets/covers/workout-calendar.jpg';
-const String reportImageUrl = 'assets/covers/report-cover.jpg';
+const String reportImageUrl = 'assets/covers/app_icon_boohee_life.png';
+const String weightImageUrl = 'assets/covers/icon_circle_weight_select.png';
 const String defaultAvatarImageUrl = 'assets/profile_icons/Avatar.png';
+const String goalImage = 'assets/covers/diet_record_icon_protein.png';
 
 /// 导入的图片默认的地址前缀
 /// (安卓的话指定位置.../DCIM/free-fitness/exercise-images/)下才能读到图片文件

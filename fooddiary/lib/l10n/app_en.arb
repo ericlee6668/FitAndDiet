@@ -192,6 +192,8 @@
 
   "dietary":"Dietary",
   "dietaryReports":"Dietary Reports",
+  "weightRecords":"Weight Records",
+  "weightRecordsSubtitle":"Track weight change trends",
   "dietaryReportsSubtitle":"Reports management",
   
   "foodCompo":"Food Composition",
@@ -417,6 +419,7 @@
   "permissionRequest":"Permission Request",
   "featuresRestrictionNote":"The features of display images, import exercise, import food composition, and data backup in the application require file management permissions. Please allow them.",
 
-  "appNote":"Note"
-
+  "appNote":"Note",
+  "record": "record",
+  "calorieQuery":"Calorie query"
 }

@@ -72,48 +72,45 @@ buildCoverCard(
   String imageUrl, {
   String? routeName,
 }) {
-  return SizedBox(
-    child: Card(
-      clipBehavior: Clip.hardEdge,
-      elevation: 5,
-      margin: const EdgeInsets.all(10),
-      child: InkWell(
-        onTap: () {
-          if (routeName != null) {
-            // 这里需要使用pushName 带上指定的路由名称，后续跨层级popUntil的时候才能指定路由名称进行传参
-            Navigator.pushNamed(context, routeName);
-          } else {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext ctx) => widget,
-              ),
-            );
-          }
-        },
-        child: Center(
-          child: Column(
-            children: [
-              Padding(
-                  padding: EdgeInsets.all(5.sp),
-                  child: Image.asset(imageUrl, fit: BoxFit.contain,height: 90,),
+  return Card(
+    clipBehavior: Clip.hardEdge,
+    elevation: 5,
+    shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(10)),
+    margin: const EdgeInsets.all(8),
+    child: InkWell(
+      onTap: () {
+        if (routeName != null) {
+          // 这里需要使用pushName 带上指定的路由名称，后续跨层级popUntil的时候才能指定路由名称进行传参
+          Navigator.pushNamed(context, routeName);
+        } else {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext ctx) => widget,
+            ),
+          );
+        }
+      },
+      child: Row(
+        children: [
+          Padding(
+              padding: EdgeInsets.all(5.sp),
+              child: Image.asset(imageUrl, fit: BoxFit.contain,height: 50,width: 50,),
+            ),
+          Expanded(
+            child: ListTile(
+              title: Text(
+                title,
+                maxLines: 2,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
                 ),
-              ListTile(
-                title: Center(
-                  child: Text(
-                    title,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                ),
-                subtitle: Center(child: Text(subtitle)),
               ),
-            ],
+              subtitle: Text(subtitle),
+            ),
           ),
-        ),
+        ],
       ),
     ),
   );
