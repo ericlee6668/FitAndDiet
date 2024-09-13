@@ -176,7 +176,7 @@ class _DiaryPageState extends State<DiaryPage> {
                 _queryDairyList(_focusedDay);
               });
             },
-            label: Text(CusAL.of(context).addLabel("")),
+            label: const Text(''),
             icon: const Icon(Icons.add),
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.white),

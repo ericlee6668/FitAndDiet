@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:free_fitness/layout/float_view.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../common/global/constants.dart';
@@ -107,54 +109,67 @@ class _UserInfoState extends State<UserInfo> {
                         backgroundColor: Colors.transparent,
                         backgroundImage:
                             const AssetImage(defaultAvatarImageUrl),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.grey, width: 2.sp),
+                        child: InkWell(
+                          onTap: (){
+                            _pickImage(ImageSource.gallery);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.grey, width: 2.sp),
+                            ),
                           ),
                         ),
                       ),
                     if (_avatarPath.isNotEmpty)
-                      CircleAvatar(
-                        maxRadius: 60.sp,
-                        backgroundImage: FileImage(File(_avatarPath)),
+                      InkWell(
+                        onTap: (){
+                          _pickImage(ImageSource.gallery);
+                        },
+                        child: CircleAvatar(
+                          maxRadius: 60.sp,
+                          backgroundImage: FileImage(File(_avatarPath)),
+                        ),
                       ),
-                    TextButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text(
-                                CusAL.of(context).changeAvatarLabels('1'),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    _pickImage(ImageSource.camera);
-                                  },
-                                  child: Text(
-                                    CusAL.of(context).changeAvatarLabels('2'),
-                                  ),
+                    Visibility(
+                      visible: false,
+                      child: TextButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text(
+                                  CusAL.of(context).changeAvatarLabels('1'),
                                 ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    _pickImage(ImageSource.gallery);
-                                  },
-                                  child: Text(
-                                    CusAL.of(context).changeAvatarLabels('3'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      _pickImage(ImageSource.camera);
+                                    },
+                                    child: Text(
+                                      CusAL.of(context).changeAvatarLabels('2'),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      child: Text(
-                        CusAL.of(context).changeAvatarLabels('0'),
-                        style: TextStyle(fontSize: CusFontSizes.flagTiny),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      _pickImage(ImageSource.gallery);
+                                    },
+                                    child: Text(
+                                      CusAL.of(context).changeAvatarLabels('3'),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: Text(
+                          CusAL.of(context).changeAvatarLabels('0'),
+                          style: TextStyle(fontSize: CusFontSizes.flagTiny),
+                        ),
                       ),
                     ),
                   ],
@@ -235,6 +250,7 @@ class _UserInfoState extends State<UserInfo> {
       var temp = user;
       temp.avatar = _avatarPath;
       await _userHelper.updateUser(temp);
+      eventBus.fire('updateAvatar');
     }
   }
   Widget _buildListItem(String title, String value) {

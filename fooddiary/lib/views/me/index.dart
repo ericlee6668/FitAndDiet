@@ -3,8 +3,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:free_fitness/layout/float_view.dart';
 import 'package:free_fitness/views/base_view.dart';
 import 'package:free_fitness/views/me/us/us.dart';
 import 'package:image_picker/image_picker.dart';
@@ -58,6 +60,11 @@ class _MePageState extends State<MePage> {
     });
 
     _queryLoginedUserInfo();
+    eventBus.on<String>().listen((event) {
+       if(event=='updateAvatar'){
+         _queryLoginedUserInfo();
+       }
+    });
   }
 
   _queryLoginedUserInfo() async {
@@ -213,37 +220,39 @@ class _MePageState extends State<MePage> {
       ),
       body: isLoading
           ? buildLoader(isLoading)
-          : ListView(
-              children: [
-                /// 用户基本信息展示区域(固定高度10+120+120=250)
-                ..._buildBaseUserInfoArea(userInfo),
+          : Container(
+        color: const Color(0xfff5f5f5),
+            child: ListView(
+                children: [
+                  /// 用户基本信息展示区域(固定高度10+120+120=250)
+                  ..._buildBaseUserInfoArea(userInfo),
 
-                /// 功能区，参看别的app大概留几个
-                /// 功能区的占位就是除去状态栏、标题、底部按钮、头像区域个人信息外的高度进行等分
-                /// 底部还预留20sp
-                // 基本信息和体重趋势
-                // SizedBox(
-                //   height: (screenBodyHeight - 250 - 20) / 3,
-                //   child: _buildInfoAndWeightChangeRow(),
-                // ),
-                //
-                // // 摄入目标和运动设置
-                // SizedBox(
-                //   height: (screenBodyHeight - 250 - 20) / 3,
-                //   child: _buildIntakeGoalAndRestTimeRow(),
-                // ),
-                //
-                // // 备份还原和更多设置
-                // SizedBox(
-                //   height: (screenBodyHeight - 250 - 20) / 3,
-                //   child: _buildBakAndRestoreAndMoreSettingRow(),
-                // ),
-                _buildFunctionArea(),
-                const Divider(),
-                _buildInformation(),
-                const SizedBox(height: 20,)
-              ],
-            ),
+                  /// 功能区，参看别的app大概留几个
+                  /// 功能区的占位就是除去状态栏、标题、底部按钮、头像区域个人信息外的高度进行等分
+                  /// 底部还预留20sp
+                  // 基本信息和体重趋势
+                  // SizedBox(
+                  //   height: (screenBodyHeight - 250 - 20) / 3,
+                  //   child: _buildInfoAndWeightChangeRow(),
+                  // ),
+                  //
+                  // // 摄入目标和运动设置
+                  // SizedBox(
+                  //   height: (screenBodyHeight - 250 - 20) / 3,
+                  //   child: _buildIntakeGoalAndRestTimeRow(),
+                  // ),
+                  //
+                  // // 备份还原和更多设置
+                  // SizedBox(
+                  //   height: (screenBodyHeight - 250 - 20) / 3,
+                  //   child: _buildBakAndRestoreAndMoreSettingRow(),
+                  // ),
+                  _buildFunctionArea(),
+                  _buildInformation(),
+                  const SizedBox(height: 20,)
+                ],
+              ),
+          ),
     );
   }
 
@@ -256,36 +265,6 @@ class _MePageState extends State<MePage> {
         children: [
           Image.asset('assets/images/bg.png',height: 170,width:MediaQuery.of(context).size.width,fit: BoxFit.cover,),
           // 没有修改头像，就用默认的
-          if (_avatarPath.isNotEmpty)
-            GestureDetector(
-              onTap: () {
-                // 这个直接弹窗显示图片可以缩放
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Dialog(
-                      backgroundColor: Colors.transparent, // 设置背景透明
-                      child: PhotoView(
-                        imageProvider: FileImage(File(_avatarPath)),
-                        // 设置图片背景为透明
-                        backgroundDecoration: const BoxDecoration(
-                          color: Colors.transparent,
-                        ),
-                        // 可以旋转
-                        // enableRotation: true,
-                        // 缩放的最大最小限制
-                        minScale: PhotoViewComputedScale.contained * 0.8,
-                        maxScale: PhotoViewComputedScale.covered * 2,
-                      ),
-                    );
-                  },
-                );
-              },
-              child: CircleAvatar(
-                maxRadius: 60.sp,
-                backgroundImage: FileImage(File(_avatarPath)),
-              ),
-            ),
           Positioned(
             top: 90.sp,
             right: 0.5.sw - 70.sp,
@@ -317,15 +296,20 @@ class _MePageState extends State<MePage> {
           ),
         ],
       ),
-      SizedBox(
+      Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20)
+        ),
+        margin: EdgeInsets.all(10.w),
         height: 120.sp,
         child: Row(
           children: [
             if (_avatarPath.isEmpty)
               Positioned(
                 child: Container(
-                  width: 80,
-                  height: 80,
+                  width: 90,
+                  height: 90,
                   margin: const EdgeInsets.only(left: 20),
                   child: CircleAvatar(
                     maxRadius: 60.sp,
@@ -341,6 +325,41 @@ class _MePageState extends State<MePage> {
                         ),
                       ),
                     ),
+                  ),
+                ),
+              ),
+            if (_avatarPath.isNotEmpty)
+              GestureDetector(
+                onTap: () {
+                  // 这个直接弹窗显示图片可以缩放
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        backgroundColor: Colors.transparent, // 设置背景透明
+                        child: PhotoView(
+                          imageProvider: FileImage(File(_avatarPath)),
+                          // 设置图片背景为透明
+                          backgroundDecoration: const BoxDecoration(
+                            color: Colors.transparent,
+                          ),
+                          // 可以旋转
+                          // enableRotation: true,
+                          // 缩放的最大最小限制
+                          minScale: PhotoViewComputedScale.contained * 0.8,
+                          maxScale: PhotoViewComputedScale.covered * 2,
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Container(
+                  width: 90,
+                  height: 90,
+                  margin: const EdgeInsets.only(left: 20),
+                  child: CircleAvatar(
+                    maxRadius: 60.sp,
+                    backgroundImage: FileImage(File(_avatarPath)),
                   ),
                 ),
               ),
@@ -660,33 +679,40 @@ class _MePageState extends State<MePage> {
         'page': const MoreSettings()
       },
     ];
-    return GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, childAspectRatio: 1.5),
-        itemCount: 6,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, i) {
-          return NewCusSettingCard(
-            leadingIcon: Icons.add,
-            icon: listDatas[i]['icon'] as String,
-            title: listDatas[i]['title'] as String,
-            onTap: () {
-              // 处理相应的点击事件
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => listDatas[i]['page'] as Widget,
-                ),
-              ).then((value) {
-                // 确认新增成功后重新加载当前日期的条目数据
-                if (value != null && value == true) {
-                  _queryLoginedUserInfo();
-                }
-              });
-            },
-          );
-        });
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20)
+      ),
+      margin: EdgeInsets.all(10.w),
+      child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3, childAspectRatio: 1.5),
+          itemCount: 6,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, i) {
+            return NewCusSettingCard(
+              leadingIcon: Icons.add,
+              icon: listDatas[i]['icon'] as String,
+              title: listDatas[i]['title'] as String,
+              onTap: () {
+                // 处理相应的点击事件
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => listDatas[i]['page'] as Widget,
+                  ),
+                ).then((value) {
+                  // 确认新增成功后重新加载当前日期的条目数据
+                  if (value != null && value == true) {
+                    _queryLoginedUserInfo();
+                  }
+                });
+              },
+            );
+          }),
+    );
   }
 
   _buildInformation() {
@@ -735,31 +761,38 @@ class _MePageState extends State<MePage> {
         'icon':Icons.verified_sharp,
         'page': () {}}
     ];
-    return ListView.separated(
-      shrinkWrap: true,
-      itemCount: list.length,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, i) {
-        return InkWell(
-          onTap: list[i]['page'] as void Function(),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.sp),
-            height: 50,
-            child: Row(
-              children: [
-                Icon(list[i]['icon'] as IconData,color: Colors.black38,),
-                const SizedBox(width: 5),
-                Text(list[i]['title'] as String),
-                const Spacer(),
-                const Icon(Icons.arrow_forward_ios_outlined)
-              ],
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20)
+      ),
+      margin: EdgeInsets.all(10.w),
+      child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: list.length,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, i) {
+          return InkWell(
+            onTap: list[i]['page'] as void Function(),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10.sp),
+              height: 50,
+              child: Row(
+                children: [
+                  Icon(list[i]['icon'] as IconData,color: Colors.black38,),
+                  const SizedBox(width: 5),
+                  Text(list[i]['title'] as String),
+                  const Spacer(),
+                  const Icon(Icons.arrow_forward_ios_outlined,color: Colors.grey,)
+                ],
+              ),
             ),
-          ),
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return const Divider(height: 1,);
-      },
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return const Divider(height: 1,);
+        },
+      ),
     );
   }
 }
@@ -789,7 +822,7 @@ class NewCusSettingCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(icon,width: 28.w,height: 28.w,),
+            Image.asset(icon,width: 24.w,height: 24.w,),
             const SizedBox(height: 5),
             Text(
               title,
