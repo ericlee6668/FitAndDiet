@@ -33,6 +33,7 @@ Future<Map<String, Object>> insertOneRandomFoodWithServingInfo() async {
   var food = Food(
     brand: generateRandomString(5, 20),
     product: generateRandomString(5, 10),
+    productEn: generateRandomString(5, 10),
     tags: [
       generateRandomString(1, 8),
       generateRandomString(1, 8),

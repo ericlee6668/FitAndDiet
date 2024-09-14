@@ -61,6 +61,7 @@ class _DetailModifyFoodState extends State<DetailModifyFood> {
         foodId: widget.food.foodId,
         brand: temp?["brand"],
         product: temp?["product"],
+        productEn: temp?["productEn"],
         description: temp?["description"],
         tags: temp?["tags"],
         category: temp?["category"],

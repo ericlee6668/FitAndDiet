@@ -93,21 +93,29 @@ buildCoverCard(
       child: Row(
         children: [
           Padding(
-              padding: EdgeInsets.all(5.sp),
-              child: Image.asset(imageUrl, fit: BoxFit.contain,height: 50,width: 50,),
+              padding: EdgeInsets.only(left:5.sp),
+              child: Image.asset(imageUrl, fit: BoxFit.contain,height: 45,width: 45,),
             ),
+          const SizedBox(width: 5),
           Expanded(
-            child: ListTile(
-              title: Text(
-                title,
-                maxLines: 2,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
-              ),
-              subtitle: Text(subtitle),
+                Text(textAlign: TextAlign.center,subtitle, maxLines: 2, style: TextStyle(
+                  fontSize: 12.sp,
+                ),),
+              ]
+
             ),
           ),
         ],

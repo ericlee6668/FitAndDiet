@@ -16,6 +16,7 @@ class DietaryDdl {
       food_id     INTEGER   NOT NULL PRIMARY KEY AUTOINCREMENT,
       brand       TEXT      NOT NULL,
       product     TEXT      NOT NULL,
+      productEn     TEXT      NOT NULL,
       description TEXT,
       photos      TEXT,
       tags        TEXT,
@@ -47,7 +48,7 @@ class DietaryDdl {
       dietary_fiber         REAL,
       sodium                REAL NOT NULL,
       potassium             REAL,
-      contributor           TEXT,
+      contributor           TEXT,vvfffffffffffffffffffffffffffffffffffffffffffffff
       gmt_create            TEXT,
       update_user           TEXT,
       gmt_modified          TEXT,

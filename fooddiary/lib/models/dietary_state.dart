@@ -4,6 +4,7 @@
 class Food {
   int? foodId; // 自增的，可以不传
   String brand, product;
+  String? productEn;
   String? description, photos, tags, category, contributor, gmtCreate;
   bool isDeleted;
 
@@ -11,6 +12,7 @@ class Food {
     this.foodId,
     required this.brand,
     required this.product,
+    this.productEn,
     this.description,
     this.photos,
     this.tags,
@@ -25,6 +27,7 @@ class Food {
       'food_id': foodId,
       'brand': brand,
       'product': product,
+      'productEn': productEn,
       'description': description,
       'photos': photos,
       'tags': tags,
@@ -42,6 +45,7 @@ class Food {
       brand: map['brand'] as String,
       product: map['product'] as String,
       photos: map['photos'] as String?,
+      productEn: map['productEn'] as String?,
       description: map['description'] as String?,
       tags: map['tags'] as String?,
       category: map['category'] as String?,
@@ -55,7 +59,7 @@ class Food {
   String toString() {
     return '''
     Food{
-      food_id: $foodId, brand: $brand, product: $product,description:$description, photos: $photos, tags: $tags, 
+      food_id: $foodId, brand: $brand, product: $product,productEn: $productEn,description:$description, photos: $photos, tags: $tags, 
       category: $category, contributor: $contributor, gmt_create: $gmtCreate, is_deleted: $isDeleted
     }
     ''';

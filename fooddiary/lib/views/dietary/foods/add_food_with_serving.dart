@@ -54,6 +54,7 @@ class _AddFoodsState extends State<AddFoods> {
       var food = Food(
         brand: temp?["brand"],
         product: temp?["product"],
+        productEn: temp?["product"],
         description: temp?["description"],
         tags: temp?["tags"],
         category: temp?["category"],

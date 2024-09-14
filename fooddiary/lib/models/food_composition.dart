@@ -4,6 +4,7 @@
 class FoodComposition {
   String? foodCode;
   String? foodName;
+  String? foodNameEn;
   String? edible;
   String? water;
   String? energyKCal;
@@ -37,13 +38,14 @@ class FoodComposition {
   String? mn;
   String? remark;
   // 上面是《中国食物成分表标准版第6版》书上的内容，下面这几个是内部数据库可以有的栏位
-  List<String>? tags;
-  List<String>? category;
+  String? tags;
+  String? category;
   List<String>? photos;
 
   FoodComposition({
     this.foodCode,
     this.foodName,
+    this.foodNameEn,
     this.edible,
     this.water,
     this.energyKCal,
@@ -84,6 +86,7 @@ class FoodComposition {
   FoodComposition.fromJson(Map<String, dynamic> json) {
     foodCode = json['foodCode'];
     foodName = json['foodName'];
+    foodNameEn = json['foodNameEn'];
     edible = json['edible'];
     water = json['water'];
     energyKCal = json['energyKCal'];
@@ -116,8 +119,8 @@ class FoodComposition {
     cu = json['Cu'];
     mn = json['Mn'];
     remark = json['remark'];
-    tags = json['tags']?.cast<String>();
-    category = json['category']?.cast<String>();
+    tags = json['tags'];
+    category = json['category'];
     photos = json['photos']?.cast<String>();
   }
 
@@ -125,6 +128,7 @@ class FoodComposition {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['foodCode'] = foodCode;
     data['foodName'] = foodName;
+    data['foodNameEn'] = foodNameEn;
     data['edible'] = edible;
     data['water'] = water;
     data['energyKCal'] = energyKCal;

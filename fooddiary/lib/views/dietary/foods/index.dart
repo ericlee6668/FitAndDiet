@@ -80,8 +80,9 @@ class _DietaryFoodsState extends State<DietaryFoods> {
         // 转型会把前面的0去掉(让id自增，否则下面serving的id也要指定)
         brand: e.foodCode ?? '',
         product: e.foodName ?? "",
-        tags: e.tags?.join(","),
-        category: e.category?.join(","),
+        productEn: e.foodNameEn ?? "",
+        tags: e.tags?? "",
+        category: e.category?? "",
         // ？？？2023-11-30 这里假设传入的图片是完整的，就不像动作那样再指定文件夹前缀了
         photos: e.photos?.join(","),
         contributor: CacheUser.userName,
@@ -353,7 +354,8 @@ class _DietaryFoodsState extends State<DietaryFoods> {
   _buildSimpleFoodTile(FoodAndServingInfo fsi, int index) {
     var food = fsi.food;
     var servingList = fsi.servingInfoList;
-    var foodName = "${food.product} (${food.brand})";
+    // var foodName = "${food.product} (${food.brand})";
+    var foodName = food.productEn??(food.product??"");
 
     var firstServing = servingList.isNotEmpty ? servingList[0] : null;
     var foodUnit = firstServing?.servingUnit;
@@ -472,110 +474,134 @@ class _DietaryFoodsState extends State<DietaryFoods> {
   _buildSimpleFoodTable(FoodAndServingInfo fsi) {
     var food = fsi.food;
     var servingList = fsi.servingInfoList;
-    var foodName = "${food.product} (${food.brand})";
+    // var foodName = "${food.product} (${food.brand})";
+    var foodName = food.productEn??(food.product??"");
 
-    return Card(
-      elevation: 5,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          SizedBox(
-            width: 1.sw,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5.0), // 设置所有圆角的大小
-                // 设置展开前的背景色
-                // color: const Color.fromARGB(255, 195, 198, 201),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(10.sp),
-                child: RichText(
-                  textAlign: TextAlign.start,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: foodName,
-                        style: TextStyle(
-                          fontSize: CusFontSizes.itemTitle,
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FoodNutrientDetail(
+              foodItem: fsi,
+            ),
+          ),
+        ).then((value) {
+          // 从详情页返回后需要重新查询，因为不知道在内部是不是有变动单份营养素。
+          // 有变动，退出不刷新，再次进入还是能看到旧的；但是返回就刷新对于只是浏览数据不友好。
+          // 因此，详情页会有一个是否被异动的标志，返回true则重新查询；否则就不更新
+          if (value != null && value) {
+            setState(() {
+              foodItems.clear();
+              currentPage = 1;
+            });
+            _loadFoodData();
+          }
+        });
+      },
+      child: Card(
+        elevation: 5,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              width: 1.sw,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5.0), // 设置所有圆角的大小
+                  // 设置展开前的背景色
+                  // color: const Color.fromARGB(255, 195, 198, 201),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(10.sp),
+                  child: RichText(
+                    textAlign: TextAlign.start,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: foodName,
+                          style: TextStyle(
+                            fontSize: CusFontSizes.itemTitle,
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-              dataRowMinHeight: 20.sp,
-              // 设置行高范围
-              dataRowMaxHeight: 30.sp,
-              headingRowHeight: 25.sp,
-              // 设置表头行高
-              horizontalMargin: 10.sp,
-              // 设置水平边距
-              columnSpacing: 10.sp,
-              // 设置列间距
-              columns: [
-                DataColumn(
-                  label: Text(
-                    CusAL.of(context).foodTableMainLabels("0"),
-                    style: TextStyle(fontSize: CusFontSizes.itemSubTitle),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                dataRowMinHeight: 20.sp,
+                // 设置行高范围
+                dataRowMaxHeight: 30.sp,
+                headingRowHeight: 25.sp,
+                // 设置表头行高
+                horizontalMargin: 10.sp,
+                // 设置水平边距
+                columnSpacing: 10.sp,
+                // 设置列间距
+                columns: [
+                  DataColumn(
+                    label: Text(
+                      CusAL.of(context).foodTableMainLabels("0"),
+                      style: TextStyle(fontSize: CusFontSizes.itemSubTitle),
+                    ),
                   ),
-                ),
-                DataColumn(
-                  label: Text(
-                    CusAL.of(context).foodTableMainLabels("1"),
-                    style: TextStyle(fontSize: CusFontSizes.itemSubTitle),
+                  DataColumn(
+                    label: Text(
+                      CusAL.of(context).foodTableMainLabels("1"),
+                      style: TextStyle(fontSize: CusFontSizes.itemSubTitle),
+                    ),
+                    numeric: true,
                   ),
-                  numeric: true,
-                ),
-                DataColumn(
-                  label: Text(
-                    CusAL.of(context).foodTableMainLabels("2"),
-                    style: TextStyle(fontSize: CusFontSizes.itemSubTitle),
+                  DataColumn(
+                    label: Text(
+                      CusAL.of(context).foodTableMainLabels("2"),
+                      style: TextStyle(fontSize: CusFontSizes.itemSubTitle),
+                    ),
+                    numeric: true,
                   ),
-                  numeric: true,
-                ),
-                DataColumn(
-                  label: Text(
-                    CusAL.of(context).foodTableMainLabels("3"),
-                    style: TextStyle(fontSize: CusFontSizes.itemSubTitle),
+                  DataColumn(
+                    label: Text(
+                      CusAL.of(context).foodTableMainLabels("3"),
+                      style: TextStyle(fontSize: CusFontSizes.itemSubTitle),
+                    ),
+                    numeric: true,
                   ),
-                  numeric: true,
-                ),
-                DataColumn(
-                  label: Text(
-                    CusAL.of(context).foodTableMainLabels("4"),
-                    style: TextStyle(fontSize: CusFontSizes.itemSubTitle),
+                  DataColumn(
+                    label: Text(
+                      CusAL.of(context).foodTableMainLabels("4"),
+                      style: TextStyle(fontSize: CusFontSizes.itemSubTitle),
+                    ),
+                    numeric: true,
                   ),
-                  numeric: true,
-                ),
-              ],
-              rows: List<DataRow>.generate(servingList.length, (index) {
-                var serving = servingList[index];
+                ],
+                rows: List<DataRow>.generate(servingList.length, (index) {
+                  var serving = servingList[index];
 
-                return DataRow(
-                  cells: [
-                    _buildDataCell(serving.servingUnit),
-                    _buildDataCell(
-                        formatDoubleToString(serving.energy / oneCalToKjRatio)),
-                    _buildDataCell(formatDoubleToString(serving.protein)),
-                    _buildDataCell(formatDoubleToString(serving.totalFat)),
-                    _buildDataCell(
-                        formatDoubleToString(serving.totalCarbohydrate)),
-                  ],
-                );
-              }),
+                  return DataRow(
+                    cells: [
+                      _buildDataCell(serving.servingUnit),
+                      _buildDataCell(
+                          formatDoubleToString(serving.energy / oneCalToKjRatio)),
+                      _buildDataCell(formatDoubleToString(serving.protein)),
+                      _buildDataCell(formatDoubleToString(serving.totalFat)),
+                      _buildDataCell(
+                          formatDoubleToString(serving.totalCarbohydrate)),
+                    ],
+                  );
+                }),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

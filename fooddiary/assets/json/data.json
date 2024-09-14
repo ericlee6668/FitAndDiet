@@ -34,7 +34,9 @@
     "Se": "2.34",
     "Cu": "0.02",
     "Mn": "0.04",
-    "remark": "北京"
+    "remark": "北京",
+    "tags": "1",
+    "category": "主食"
   },
   {
     "foodCode": "a11102",
@@ -71,7 +73,9 @@
     "Se": "1.63",
     "Cu": "",
     "Mn": "0.09",
-    "remark": "0.22"
+    "remark": "0.22",
+    "tags": "1",
+    "category": "主食"
   },
   {
     "foodCode": "a11103",
@@ -107,7 +111,9 @@
     "Se": "2.83",
     "Cu": "0.25",
     "Mn": "1.13",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "主食"
   },
   {
     "foodCode": "a11104",
@@ -144,85 +150,89 @@
     "Se": "8.45",
     "Cu": "0.1",
     "Mn": "0.78",
-    "remark": "-"
+    "remark": "-",
+    "tags": "1",
+    "category": "主食"
   },
   {
-  "foodCode": "a11105",
-  "foodName": "烙饼",
-  "foodNameEn": "pancakes",
-  "edible": "100",
-  "water": "13.1",
-  "energyKCal": "327",
-  "energyKJ": "1367",
-  "protein": "10.2",
-  "fat": "1.4 73.3",
-  "CHO": "",
-  "dietaryFiber": "9.9",
-  "cholesterol": "0",
-  "ash": "2.0",
-  "vitaminA": "0.0",
-  "carotene": "0.0",
-  "retinol": "0",
-  "thiamin": "0.43",
-  "riboflavin": "0.14",
-  "niacin": "3.9",
-  "vitaminC": "0",
-  "vitaminETotal": "1.23",
-  "vitaminE1": "1.23",
-  "vitaminE2": "Tr",
-  "vitaminE3": "Tr",
-  "Ca": "66",
-  "P": "381",
-  "K": "49.0",
-  "Na": "Tr",
-  "Mg": "158",
-  "Fe": "6.4 4.36",
-  "Zn": "9.80",
-  "Se": "0.63",
-  "Cu": "1.23",
-  "Mn": ""
-},
-
-
+    "foodCode": "a11105",
+    "foodName": "烙饼",
+    "foodNameEn": "pancakes",
+    "edible": "100",
+    "water": "13.1",
+    "energyKCal": "327",
+    "energyKJ": "1367",
+    "protein": "10.2",
+    "fat": "1.4 73.3",
+    "CHO": "",
+    "dietaryFiber": "9.9",
+    "cholesterol": "0",
+    "ash": "2.0",
+    "vitaminA": "0.0",
+    "carotene": "0.0",
+    "retinol": "0",
+    "thiamin": "0.43",
+    "riboflavin": "0.14",
+    "niacin": "3.9",
+    "vitaminC": "0",
+    "vitaminETotal": "1.23",
+    "vitaminE1": "1.23",
+    "vitaminE2": "Tr",
+    "vitaminE3": "Tr",
+    "Ca": "66",
+    "P": "381",
+    "K": "49.0",
+    "Na": "Tr",
+    "Mg": "158",
+    "Fe": "6.4 4.36",
+    "Zn": "9.80",
+    "Se": "0.63",
+    "Cu": "1.23",
+    "Mn": "",
+    "tags": "1",
+    "category": "主食"
+  },
   {
-  "foodCode": "b12101",
-  "foodName": "苹果 (代表值)",
-  "foodNameEn": "apple",
-  "edible": "85",
-  "water": "86.1",
-  "energyKCal": "53",
-  "energyKJ": "227",
-  "protein": "0.4",
-  "fat": "0.2 13.7",
-  "CHO": "",
-  "dietaryFiber": "1.7",
-  "cholesterol": "0",
-  "ash": "0.2",
-  "vitaminA": "4",
-  "carotene": "50",
-  "retinol": "0",
-  "thiamin": "",
-  "riboflavin": "0.02",
-  "niacin": "0.20",
-  "vitaminC": "3.0",
-  "vitaminETotal": "0.43",
-  "vitaminE1": "0.23",
-  "vitaminE2": "0.13",
-  "vitaminE3": "0.01",
-  "Ca": "4",
-  "P": "7",
-  "K": "83",
-  "Na": "1.3",
-  "Mg": "4",
-  "Fe": "0.3",
-  "Zn": "0.04",
-  "Se": "0.10",
-  "Cu": "0.07 0.03",
-  "Mn": ""
-},
+    "foodCode": "b12101",
+    "foodName": "苹果",
+    "foodNameEn": "apple",
+    "edible": "85",
+    "water": "86.1",
+    "energyKCal": "53",
+    "energyKJ": "227",
+    "protein": "0.4",
+    "fat": "0.2 13.7",
+    "CHO": "",
+    "dietaryFiber": "1.7",
+    "cholesterol": "0",
+    "ash": "0.2",
+    "vitaminA": "4",
+    "carotene": "50",
+    "retinol": "0",
+    "thiamin": "",
+    "riboflavin": "0.02",
+    "niacin": "0.20",
+    "vitaminC": "3.0",
+    "vitaminETotal": "0.43",
+    "vitaminE1": "0.23",
+    "vitaminE2": "0.13",
+    "vitaminE3": "0.01",
+    "Ca": "4",
+    "P": "7",
+    "K": "83",
+    "Na": "1.3",
+    "Mg": "4",
+    "Fe": "0.3",
+    "Zn": "0.04",
+    "Se": "0.10",
+    "Cu": "0.07 0.03",
+    "Mn": "",
+    "tags": "1",
+    "category": "fruit"
+  },
   {
     "foodCode": "b12102",
-    "foodName": "梨(代表值）",
+    "foodName": "梨",
     "foodNameEn": "pear",
     "edible": "82",
     "water": "85.9",
@@ -254,7 +264,9 @@
     "Zn": "0.29",
     "Se": "0.10",
     "Cu": "0.06",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12103",
@@ -290,7 +302,9 @@
     "Zn": "0.14",
     "Se": "0.31",
     "Cu": "0.03 0.05",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12104",
@@ -326,7 +340,9 @@
     "Zn": "0.70",
     "Se": "0.18",
     "Cu": "0.08",
-    "Mn": "福建"
+    "Mn": "福建",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12105",
@@ -362,11 +378,13 @@
     "Zn": "0.50",
     "Se": "0.14",
     "Cu": "0.05",
-    "Mn": "北京"
+    "Mn": "北京",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12106",
-    "foodName": "桃（代表值）",
+    "foodName": "桃",
     "foodNameEn": "Peach",
     "edible": "89",
     "water": "88.9",
@@ -399,7 +417,9 @@
     "Se": "",
     "Cu": "0.06 0.07",
     "Mn": "",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12107",
@@ -434,7 +454,9 @@
     "Zn": "0.23",
     "Se": "0.04",
     "Cu": "0.16",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12108",
@@ -469,7 +491,9 @@
     "Zn": "",
     "Se": "-",
     "Cu": "-",
-    "Mn": "江苏"
+    "Mn": "江苏",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12109",
@@ -504,11 +528,13 @@
     "Zn": "0.80",
     "Se": "0.06",
     "Cu": "0.32",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12110",
-    "foodName": "葡萄（代表值）",
+    "foodName": "葡萄",
     "foodNameEn": "Grape",
     "edible": "86",
     "water": "88.5",
@@ -540,11 +566,13 @@
     "Zn": "0.11",
     "Se": "0.18",
     "Cu": "0.04",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12111",
-    "foodName": "石榴（代表值）",
+    "foodName": "石榴",
     "foodNameEn": "Pomegranate",
     "edible": "57",
     "water": "79.2",
@@ -576,7 +604,9 @@
     "Zn": "-",
     "Se": "0.15",
     "Cu": "0.17",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12112",
@@ -613,7 +643,9 @@
     "Se": "0.70",
     "Cu": "0.04",
     "Mn": "0.49",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12113",
@@ -649,7 +681,9 @@
     "Zn": "0.24",
     "Se": "0.07",
     "Cu": "1.04",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12114",
@@ -685,7 +719,9 @@
     "Zn": "0.14",
     "Se": "0.16",
     "Cu": "0.09",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12115",
@@ -721,7 +757,9 @@
     "Zn": "1.44",
     "Se": "0.06",
     "Cu": "0.20",
-    "Mn": "广东"
+    "Mn": "广东",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12116",
@@ -757,7 +795,9 @@
     "Zn": "-",
     "Se": "0.19",
     "Cu": "0.06",
-    "Mn": "广东"
+    "Mn": "广东",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12117",
@@ -793,7 +833,9 @@
     "Zn": "3.26",
     "Se": "0.12",
     "Cu": "0.22",
-    "Mn": "泰国"
+    "Mn": "泰国",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12118",
@@ -829,11 +871,13 @@
     "Zn": "0.07",
     "Se": "0.1",
     "Cu": "0.07",
-    "Mn": "海南"
+    "Mn": "海南",
+    "tags": "1",
+    "category": "fruit"
   },
   {
     "foodCode": "b12119",
-    "foodName": "西瓜（代表值）",
+    "foodName": "西瓜",
     "foodNameEn": "watermelon",
     "edible": "59",
     "water": "92.3",
@@ -866,13 +910,13 @@
     "Se": "0.09",
     "Cu": "0.03",
     "Mn": "0.03",
-    "remark": "甘肃"
+    "remark": "甘肃",
+    "tags": "1",
+    "category": "fruit"
   },
-
-
   {
     "foodCode": "c13101",
-    "foodName": "牛肉（代表值，fat9g)",
+    "foodName": "牛肉",
     "foodNameEn": "beef",
     "edible": "100",
     "water": "69.8",
@@ -905,7 +949,9 @@
     "Se": "3.15",
     "Cu": "0.05",
     "Mn": "0.03",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13102",
@@ -942,11 +988,13 @@
     "Se": "9.07",
     "Cu": "0.07",
     "Mn": "0.21",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13103",
-    "foodName": "猪肉（代表值，fat30g)",
+    "foodName": "猪肉",
     "foodNameEn": "pork",
     "edible": "91",
     "water": "54.9",
@@ -979,7 +1027,9 @@
     "Se": "7.9",
     "Cu": "0.12",
     "Mn": "0.03",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13104",
@@ -1016,7 +1066,9 @@
     "Se": "7.78",
     "Cu": "0.05",
     "Mn": "0.03",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13105",
@@ -1053,7 +1105,9 @@
     "Se": "10.3",
     "Cu": "0.12",
     "Mn": "0.05",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13106",
@@ -1090,7 +1144,9 @@
     "Se": "5.85",
     "Cu": "0.09",
     "Mn": "0.01",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13107",
@@ -1126,44 +1182,48 @@
     "Zn": "156.77",
     "Se": "0.47",
     "Cu": "0.11",
-    "Mn": "青海"
+    "Mn": "青海",
+    "tags": "1",
+    "category": "meat"
   },
   {
-  "foodCode": "c13108",
-  "foodName": "猪心",
-  "foodNameEn": "pig heart",
-  "edible": "97.0",
-  "water": "76.0",
-  "energyKCal": "119",
-  "energyKJ": "497",
-  "protein": "16.6",
-  "fat": "5.3",
-  "CHO": "1.1",
-  "dietaryFiber": "0.0",
-  "cholesterol": "151",
-  "ash": "1.0",
-  "vitaminA": "13",
-  "carotene": "0",
-  "retinol": "13",
-  "thiamin": "0.19",
-  "riboflavin": "0.48",
-  "niacin": "6.8",
-  "vitaminC": "4.0",
-  "vitaminETotal": "0.74",
-  "vitaminE1": "0.73",
-  "vitaminE2": "0.01",
-  "vitaminE3": "Tr",
-  "Ca": "12",
-  "P": "189",
-  "K": "260 71.2",
-  "Na": "17",
-  "Mg": "4.3",
-  "Fe": "1.9",
-  "Zn": "14.94",
-  "Se": "0.37",
-  "Cu": "0.05",
-  "Mn": ""
-},
+    "foodCode": "c13108",
+    "foodName": "猪心",
+    "foodNameEn": "pig heart",
+    "edible": "97.0",
+    "water": "76.0",
+    "energyKCal": "119",
+    "energyKJ": "497",
+    "protein": "16.6",
+    "fat": "5.3",
+    "CHO": "1.1",
+    "dietaryFiber": "0.0",
+    "cholesterol": "151",
+    "ash": "1.0",
+    "vitaminA": "13",
+    "carotene": "0",
+    "retinol": "13",
+    "thiamin": "0.19",
+    "riboflavin": "0.48",
+    "niacin": "6.8",
+    "vitaminC": "4.0",
+    "vitaminETotal": "0.74",
+    "vitaminE1": "0.73",
+    "vitaminE2": "0.01",
+    "vitaminE3": "Tr",
+    "Ca": "12",
+    "P": "189",
+    "K": "260 71.2",
+    "Na": "17",
+    "Mg": "4.3",
+    "Fe": "1.9",
+    "Zn": "14.94",
+    "Se": "0.37",
+    "Cu": "0.05",
+    "Mn": "",
+    "tags": "1",
+    "category": "meat"
+  },
   {
     "foodCode": "c13109",
     "foodName": "猪血",
@@ -1198,7 +1258,9 @@
     "Zn": "7.94",
     "Se": "0.10",
     "Cu": "0.03",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13110",
@@ -1234,7 +1296,9 @@
     "Zn": "11.68",
     "Se": "0.01",
     "Cu": "Tr",
-    "Mn": "河北"
+    "Mn": "河北",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13111",
@@ -1270,7 +1334,9 @@
     "Zn": "26.12",
     "Se": "0.02",
     "Cu": "0.01",
-    "Mn": "河北"
+    "Mn": "河北",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13112",
@@ -1306,7 +1372,9 @@
     "Zn": "13.94",
     "Se": "0.01",
     "Cu": "Tr",
-    "Mn": "河北"
+    "Mn": "河北",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13113",
@@ -1343,7 +1411,9 @@
     "Se": "23.52",
     "Cu": "0.08",
     "Mn": "0.05",
-    "remark": "甘肃"
+    "remark": "甘肃",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13114",
@@ -1380,7 +1450,9 @@
     "Se": "8.77",
     "Cu": "0.07",
     "Mn": "0.16",
-    "remark": "广东"
+    "remark": "广东",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13115",
@@ -1417,7 +1489,9 @@
     "Se": "8.4",
     "Cu": "0.16",
     "Mn": "0.07",
-    "remark": "上海"
+    "remark": "上海",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13116",
@@ -1454,11 +1528,13 @@
     "Se": "7.06",
     "Cu": "0.11",
     "Mn": "0.10",
-    "remark": "河南"
+    "remark": "河南",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13117",
-    "foodName": "羊肉（代表值，fat7g)",
+    "foodName": "羊肉",
     "foodNameEn": "mutton",
     "edible": "100",
     "water": "72.5",
@@ -1491,7 +1567,9 @@
     "Se": "5.95",
     "Cu": "0.13",
     "Mn": "0.06",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13118",
@@ -1528,11 +1606,13 @@
     "Se": "9.9",
     "Cu": "0.03",
     "Mn": "",
-    "remark": "山东"
+    "remark": "山东",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13119",
-    "foodName": "鸡 (代表值)",
+    "foodName": "鸡",
     "foodNameEn": "chicken",
     "edible": "63",
     "water": "70.5",
@@ -1565,7 +1645,9 @@
     "Se": "",
     "Cu": "0.09 0.05",
     "Mn": "",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13120",
@@ -1602,7 +1684,9 @@
     "Se": "9.7",
     "Cu": "0.01",
     "Mn": "0.01",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13121",
@@ -1639,7 +1723,9 @@
     "Se": "8.72",
     "Cu": "Tr",
     "Mn": "0.01",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13122",
@@ -1676,7 +1762,9 @@
     "Se": "6.38",
     "Cu": "0.05",
     "Mn": "0.03",
-    "remark": "河北"
+    "remark": "河北",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13123",
@@ -1713,7 +1801,9 @@
     "Se": "11.2",
     "Cu": "0.11",
     "Mn": "0.12",
-    "remark": "北京"
+    "remark": "北京",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13124",
@@ -1748,11 +1838,13 @@
     "Zn": "19.28",
     "Se": "0.05",
     "Cu": "0.11",
-    "Mn": "北京"
+    "Mn": "北京",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13125",
-    "foodName": "鸭（代表值）",
+    "foodName": "鸭",
     "foodNameEn": "Duck",
     "edible": "68",
     "water": "63.9",
@@ -1785,11 +1877,13 @@
     "Se": "12.25",
     "Cu": "0.21",
     "Mn": "0.06",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "meat"
   },
   {
     "foodCode": "c13126",
-    "foodName": "鸡蛋 (代表值)",
+    "foodName": "鸡蛋",
     "foodNameEn": "Egg",
     "edible": "87",
     "water": "75.2",
@@ -1822,12 +1916,13 @@
     "Se": "13.96",
     "Cu": "0.19 0.03",
     "Mn": "",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "egg"
   },
-
   {
     "foodCode": "d14100",
-    "foodName": "大白菜（代表值）",
+    "foodName": "大白菜",
     "foodNameEn": "cabbage",
     "edible": "89",
     "water": "94.4",
@@ -1859,7 +1954,9 @@
     "Zn": "0.57",
     "Se": "0.06",
     "Cu": "0.19",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "vegetable"
   },
   {
     "foodCode": "d14101",
@@ -1896,7 +1993,9 @@
     "Se": "0.73",
     "Cu": "0.03",
     "Mn": "0.23",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "vegetable"
   },
   {
     "foodCode": "d14102",
@@ -1933,7 +2032,9 @@
     "Se": "2.86",
     "Cu": "0.02",
     "Mn": "0.09",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "vegetable"
   },
   {
     "foodCode": "d14103",
@@ -1969,7 +2070,9 @@
     "Se": "0.43",
     "Cu": "0.03",
     "Mn": "0.16",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "vegetable"
   },
   {
     "foodCode": "d14104",
@@ -2006,7 +2109,9 @@
     "Se": "0.97",
     "Cu": "0.1",
     "Mn": "0.66",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "vegetable"
   },
   {
     "foodCode": "d14105",
@@ -2043,7 +2148,9 @@
     "Se": "0.89",
     "Cu": "0.12",
     "Mn": "0.36",
-    "remark": "甘肃"
+    "remark": "甘肃",
+    "tags": "1",
+    "category": "vegetable"
   },
   {
     "foodCode": "d14106",
@@ -2079,11 +2186,13 @@
     "Zn": "0.12",
     "Se": "0.01",
     "Cu": "0.05",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "vegetable"
   },
   {
     "foodCode": "d14107",
-    "foodName": "茄子 (代表值）",
+    "foodName": "茄子",
     "foodNameEn": "eggplant",
     "edible": "93",
     "water": "93.4",
@@ -2116,7 +2225,9 @@
     "Se": "0.48",
     "Cu": "0.1",
     "Mn": "0.13",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "vegetable"
   },
   {
     "foodCode": "d14108",
@@ -2153,7 +2264,9 @@
     "Se": "1.90",
     "Cu": "0.11",
     "Mn": "0.18",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "vegetable"
   },
   {
     "foodCode": "d14109",
@@ -2190,7 +2303,9 @@
     "Se": "Tr",
     "Cu": "0.04",
     "Mn": "0.06",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "vegetable"
   },
   {
     "foodCode": "d14110",
@@ -2225,7 +2340,9 @@
     "Zn": "0.46",
     "Se": "0.03",
     "Cu": "0.08",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "vegetable"
   },
   {
     "foodCode": "d14111",
@@ -2260,7 +2377,9 @@
     "Zn": "0.02",
     "Se": "0.01",
     "Cu": "0.02",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "vegetable"
   },
   {
     "foodCode": "d14112",
@@ -2297,7 +2416,9 @@
     "Se": "0.1",
     "Cu": "0.03",
     "Mn": "0.07",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "vegetable"
   },
   {
     "foodCode": "d14113",
@@ -2333,7 +2454,9 @@
     "Zn": "0.54 2.16",
     "Se": "0.15",
     "Cu": "0.41",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "vegetable"
   },
   {
     "foodCode": "d14114",
@@ -2369,10 +2492,10 @@
     "Zn": "0.04",
     "Se": "0.05",
     "Cu": "0.26",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "vegetable"
   },
-
-
   {
     "foodCode": "e15101",
     "foodName": "鱼",
@@ -2408,7 +2531,9 @@
     "Se": "6.66",
     "Cu": "0.05",
     "Mn": "0.05",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "seafood"
   },
   {
     "foodCode": "e15102",
@@ -2445,7 +2570,9 @@
     "Se": "0.99",
     "Cu": "0.25",
     "Mn": "",
-    "remark": "合肥"
+    "remark": "合肥",
+    "tags": "1",
+    "category": "seafood"
   },
   {
     "foodCode": "e15103",
@@ -2482,12 +2609,13 @@
     "Se": "82.65",
     "Cu": "1.67",
     "Mn": "0.18",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "seafood"
   },
-
   {
     "foodCode": "f16101",
-    "foodName": "纯牛奶（代表值，全脂）",
+    "foodName": "纯牛奶",
     "foodNameEn": "pure milk",
     "edible": "100",
     "water": "87.6",
@@ -2520,7 +2648,9 @@
     "Se": "1.34",
     "Cu": "0.01",
     "Mn": "0.01",
-    "remark": ""
+    "remark": "",
+    "tags": "1",
+    "category": "milk"
   },
   {
     "foodCode": "f16102",
@@ -2555,11 +2685,13 @@
     "Zn": "1.5",
     "Se": "0.13",
     "Cu": "0.16",
-    "Mn": ""
+    "Mn": "",
+    "tags": "1",
+    "category": "cheese"
   },
   {
     "foodCode": "f16103",
-    "foodName": "酸奶(代表值，全脂)",
+    "foodName": "酸奶",
     "foodNameEn": "yogurt",
     "edible": "100",
     "water": "100",
@@ -2592,7 +2724,9 @@
     "Se": "0.43",
     "Cu": "1.3",
     "Mn": "0.04",
-    "remark": "0.01"
+    "remark": "0.01",
+    "tags": "1",
+    "category": "yogurt"
   },
   {
     "foodCode": "f16104",
@@ -2629,6 +2763,8 @@
     "Se": "0.7",
     "Cu": "0.42",
     "Mn": "Tr",
-    "remark": "青海"
+    "remark": "青海",
+    "tags": "1",
+    "category": "cream"
   }
 ]

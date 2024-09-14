@@ -178,8 +178,9 @@ class _FoodJsonImportState extends State<FoodJsonImport> {
         // 转型会把前面的0去掉(让id自增，否则下面serving的id也要指定)
         brand: e.foodCode ?? '',
         product: e.foodName ?? "",
-        tags: e.tags?.join(","),
-        category: e.category?.join(","),
+        productEn: e.foodNameEn ?? "",
+        tags: e.tags??"",
+        category: e.category??"",
         // ？？？2023-11-30 这里假设传入的图片是完整的，就不像动作那样再指定文件夹前缀了
         photos: e.photos?.join(","),
         contributor: CacheUser.userName,
