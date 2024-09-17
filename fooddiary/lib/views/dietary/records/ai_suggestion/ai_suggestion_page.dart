@@ -10,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:free_fitness/models/paid_llm/common_chat_model_spec.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../apis/paid_llm_apis.dart';
+import '../../../../api/paid_llm_apis.dart';
 import '../../../../common/components/dialog_widgets.dart';
 import '../../../../common/global/constants.dart';
 import '../../../../models/cus_app_localizations.dart';

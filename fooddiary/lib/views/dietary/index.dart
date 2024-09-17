@@ -32,7 +32,7 @@ class DietaryPage extends StatefulWidget {
 }
 
 class _DietaryPageState extends State<DietaryPage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin  {
   final DBDietaryHelper _dietaryHelper = DBDietaryHelper();
   int itemsCount = 0;
   int currentPage = 1; // 数据库查询的时候会从0开始offset
@@ -389,6 +389,10 @@ class _DietaryPageState extends State<DietaryPage>
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 typedef SliverHeaderBuilder = Widget Function(

@@ -426,7 +426,7 @@
     "featuresRestrictionNote":"应用中显示图片、基础动作导入、营养成分导入、数据备份等功能需要文件管理权限，请允许。",
 
     "appNote":"注意事项",
-    "calorieQuery":"热量查询"
-
-   
+    "calorieQuery":"热量查询",
+    "recentWeight":"最新体重：{num}kg",
+    "dailyDiet":"日常饮食"
 }

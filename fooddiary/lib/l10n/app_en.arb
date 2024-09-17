@@ -421,5 +421,7 @@
 
   "appNote":"Note",
   "record": "record",
-  "calorieQuery":"Calorie query"
+  "calorieQuery":"Calorie query",
+  "recentWeight":"Latest Weight:{num}kg",
+  "dailyDiet":"Daily diet"
 }

@@ -732,7 +732,7 @@ class _MePageState extends State<MePage> {
                 ),
                 child:Column(
                   children: [
-                    Image.asset('assets/images/disclaimer.jpg'),
+                    Image.asset('assets/covers/disclaimer.jpg'),
                     ElevatedButton(onPressed: ()=>SmartDialog.dismiss(), child: const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50.0),
                       child: Text('confirm'),
