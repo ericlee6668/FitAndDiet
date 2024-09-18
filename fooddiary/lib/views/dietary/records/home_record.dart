@@ -26,7 +26,8 @@ class HomeRecordPage extends StatefulWidget {
   State<HomeRecordPage> createState() => _HomeRecordPageState();
 }
 
-class _HomeRecordPageState extends State<HomeRecordPage> with AutomaticKeepAliveClientMixin{
+class _HomeRecordPageState extends State<HomeRecordPage>
+    with AutomaticKeepAliveClientMixin {
   final DBUserHelper _userHelper = DBUserHelper();
   final DBDietaryHelper _dietaryHelper = DBDietaryHelper();
   double _currentWeight = 0;
@@ -37,38 +38,32 @@ class _HomeRecordPageState extends State<HomeRecordPage> with AutomaticKeepAlive
   // 查询数据的时候不显示图表
   bool isLoading = false;
 
-  double curCalories=0.0;
+  double tempBreakFastEnergy = 0.0;
+  double curBreakFastCalories = 0.0;
+
+  double tempLunchEnergy = 0.0;
+  double curLunchCalories = 0.0;
+
+  double tempDinnerFastEnergy = 0.0;
+  double curDinnerCalories = 0.0;
+
+  double totalCal = 0;
 
   @override
   void initState() {
     getUser();
     super.initState();
   }
+
   var tempEnergy = 0.0;
+
   void getUser() async {
     var tempUser = await _userHelper.queryUser(userId: CacheUser.userId) ??
         User(userName: 'userName');
     user = tempUser;
     _currentWeight = user?.currentWeight ?? 70;
     _currentHeight = user?.height ?? 170;
-    List<DailyFoodItemWithFoodServing> temp =
-    (await _dietaryHelper.queryDailyFoodItemListWithDetail(
-      userId: CacheUser.userId,
-      startDate: selectedDateStr,
-      endDate: selectedDateStr,
-      withDetail: true,
-    ) as List<DailyFoodItemWithFoodServing>);
-    for (var e in temp) {
-      var foodIntakeSize = e.dailyFoodItem.foodIntakeSize;
-      var servingInfo = e.servingInfo;
-      tempEnergy += foodIntakeSize * servingInfo.energy;
-
-    }
-    var tempCalories = tempEnergy / oneCalToKjRatio;
-    curCalories =tempCalories;
-    setState(() {
-
-    });
+    getMealCal();
   }
 
   @override
@@ -155,48 +150,102 @@ class _HomeRecordPageState extends State<HomeRecordPage> with AutomaticKeepAlive
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      TextButton(onPressed: () async{
-                        var result =  await Navigator.push(context, MaterialPageRoute(builder: (context){
-                          return const AddDailyDietPage();
-                        }));
-                        var tempEnergy = 0.0;
-                        if(result!=null){
-                          var info = result as FoodAndServingInfo;
-                          for (var e in info.servingInfoList) {
-                            tempEnergy += e.energy;
-                          }
-                          print('路由返回值：${info}');
-                        }
+                      TextButton(
+                          onPressed: () async {
+                            var result = await Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return const AddDailyDietPage(
+                                mealtime: CusMeals.breakfast,
+                              );
+                            }));
+                            var tempEnergy = 0.0;
+                            if (result != null) {
+                              // var info = result as FoodAndServingInfo;
+                              // if(result == mealtimeList[0].enLabel){
+                              //   curBreakFastCalories = info.servingInfoList[0].energy/oneCalToKjRatio;
+                              // }else if(result==mealtimeList[1].enLabel){
+                              //
+                              // }else{
+                              //
+                              // }
+                              getMealCal();
+                            }
 
-                        print('路由返回值，卡路里：${tempEnergy/oneCalToKjRatio}');
-                        setState(() {
-                          curCalories += tempEnergy/oneCalToKjRatio;
-                        });
-                      }, child: Column(
-                        children: [
-                          Image.asset('assets/covers/zao.png',width: 22.w,height: 22.w,),
-                          Text('+早餐'),
-                          Text(curCalories==0.0?'未记录':'${curCalories.toStringAsFixed(0)}cal',style: TextStyle(color: Colors.black54),),
-                        ],
-                      )),
-                      TextButton(onPressed: (){
-
-                      }, child: Column(
-                        children: [
-                          Image.asset('assets/covers/wu.png',width: 22.w,height: 22.w,),
-                          Text('+中餐'),
-                          const Text('未记录',style: TextStyle(color: Colors.black54),),
-                        ],
-                      )),
-                      TextButton(onPressed: (){
-
-                      }, child: Column(
-                        children: [
-                          Image.asset('assets/covers/wan.png',width: 22.w,height: 22.w,),
-                          Text('+晚餐'),
-                          Text('未记录',style: TextStyle(color: Colors.black54),),
-                        ],
-                      )),
+                            print('路由返回值，卡路里：${tempEnergy / oneCalToKjRatio}');
+                            // setState(() {
+                            //   curCalories += tempEnergy/oneCalToKjRatio;
+                            // });
+                          },
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                'assets/covers/zao.png',
+                                width: 22.w,
+                                height: 22.w,
+                              ),
+                              Text('+${CusAL.of(context).mealLabels('0')}'),
+                              Text(
+                                curBreakFastCalories == 0.0
+                                    ? CusAL.of(context).noRecord
+                                    : '${curBreakFastCalories.toStringAsFixed(0)}cal',
+                                style: const TextStyle(color: Colors.black54),
+                              ),
+                            ],
+                          )),
+                      TextButton(
+                          onPressed: () async {
+                            var result = await Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return const AddDailyDietPage(
+                                  mealtime: CusMeals.lunch);
+                            }));
+                            if (result != null) {
+                              getMealCal();
+                            }
+                          },
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                'assets/covers/wu.png',
+                                width: 22.w,
+                                height: 22.w,
+                              ),
+                              Text('+${CusAL.of(context).mealLabels('1')}'),
+                              Text(
+                                curLunchCalories == 0.0
+                                    ? CusAL.of(context).noRecord
+                                    : '${curLunchCalories.toStringAsFixed(0)}cal',
+                                style: const TextStyle(color: Colors.black54),
+                              ),
+                            ],
+                          )),
+                      TextButton(
+                          onPressed: () async {
+                            var result = await Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return const AddDailyDietPage(
+                                  mealtime: CusMeals.dinner);
+                            }));
+                            if (result != null) {
+                              getMealCal();
+                            }
+                          },
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                'assets/covers/wan.png',
+                                width: 22.w,
+                                height: 22.w,
+                              ),
+                              Text('+${CusAL.of(context).mealLabels('2')}'),
+                              Text(
+                                curDinnerCalories == 0.0
+                                    ? CusAL.of(context).noRecord
+                                    : '${curDinnerCalories.toStringAsFixed(0)}cal',
+                                style: const TextStyle(color: Colors.black54),
+                              ),
+                            ],
+                          )),
                     ],
                   )
                 ],
@@ -286,7 +335,6 @@ class _HomeRecordPageState extends State<HomeRecordPage> with AutomaticKeepAlive
                           user: user ?? User(userName: ''))),
               ],
             ),
-
           ],
         ),
       ),
@@ -528,9 +576,9 @@ class _HomeRecordPageState extends State<HomeRecordPage> with AutomaticKeepAlive
       margin: const EdgeInsets.only(bottom: 10),
       child: Center(
         child: SemiCircleProgressBar(
-          progress: 0.5,
+          progress: totalCal / 1717 >= 1 ? 1 : totalCal / 1717,
           // 进度值 0.0 到 1.0
-          size: 200,
+          size: 250,
           strokeWidth: 12,
           backgroundColor: Colors.grey[300]!,
           progressColor: Colors.blue,
@@ -544,27 +592,74 @@ class _HomeRecordPageState extends State<HomeRecordPage> with AutomaticKeepAlive
     return Column(
       children: [
         Text(
-          '今天还可以吃',
+          CusAL.of(context).todayEat,
           style: TextStyle(
-              color: Colors.black,
-              fontSize: CusFontSizes.itemSubTitle,
-              fontWeight: FontWeight.bold),
+              fontSize: CusFontSizes.itemSubTitle, fontWeight: FontWeight.bold),
         ),
         Text(
-          '1680千卡',
+          '${(1717 - totalCal <= 0 ? 0 : 1717 - totalCal).toStringAsFixed(0)}calories',
           style: TextStyle(
               color: CusColors.pageChangeBg, fontSize: CusFontSizes.itemTitle),
         ),
+        const SizedBox(height: 10),
         Container(
-           padding: EdgeInsets.symmetric(vertical: 2,horizontal: 8),
-            decoration: BoxDecoration(color: Colors.grey[200],borderRadius: BorderRadius.circular(20)),
-            child: Text('推荐1714千卡')),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+            decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(20)),
+            child: Text(
+              'Recommended 1714 calories',
+              style: TextStyle(
+                  color: Theme.of(context).primaryColor, fontSize: 12),
+            )),
       ],
     );
   }
 
   @override
   bool get wantKeepAlive => true;
+
+  void getMealCal() async {
+    tempBreakFastEnergy = 0;
+    tempLunchEnergy = 0;
+    tempDinnerFastEnergy = 0;
+    List<DailyFoodItemWithFoodServing> temp =
+        (await _dietaryHelper.queryDailyFoodItemListWithDetail(
+      userId: CacheUser.userId,
+      startDate: selectedDateStr,
+      endDate: selectedDateStr,
+      withDetail: true,
+    ) as List<DailyFoodItemWithFoodServing>);
+    //zao
+    var breakFastTemp = temp.where((element) =>
+        element.dailyFoodItem.mealCategory == mealtimeList[0].enLabel);
+    for (var e in breakFastTemp) {
+      var foodIntakeSize = e.dailyFoodItem.foodIntakeSize;
+      var servingInfo = e.servingInfo;
+      tempBreakFastEnergy += foodIntakeSize * servingInfo.energy;
+    }
+    curBreakFastCalories = tempBreakFastEnergy / oneCalToKjRatio;
+    //wu
+    var lunchTemp = temp.where((element) =>
+        element.dailyFoodItem.mealCategory == mealtimeList[1].enLabel);
+    for (var e in lunchTemp) {
+      var foodIntakeSize = e.dailyFoodItem.foodIntakeSize;
+      var servingInfo = e.servingInfo;
+      tempLunchEnergy += foodIntakeSize * servingInfo.energy;
+    }
+    curLunchCalories = tempLunchEnergy / oneCalToKjRatio;
+    //wan
+    var dinnerTemp = temp.where((element) =>
+        element.dailyFoodItem.mealCategory == mealtimeList[2].enLabel);
+    for (var e in dinnerTemp) {
+      var foodIntakeSize = e.dailyFoodItem.foodIntakeSize;
+      var servingInfo = e.servingInfo;
+      tempDinnerFastEnergy += foodIntakeSize * servingInfo.energy;
+    }
+    curDinnerCalories = tempDinnerFastEnergy / oneCalToKjRatio;
+    totalCal = curBreakFastCalories + curLunchCalories + curDinnerCalories;
+    setState(() {});
+  }
 }
 
 class SemiCircleProgressBar extends StatelessWidget {
@@ -600,7 +695,7 @@ class SemiCircleProgressBar extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: 2,
+          bottom: 5,
           child: centerWidget,
         ),
       ],

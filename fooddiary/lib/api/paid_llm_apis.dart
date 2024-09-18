@@ -2,9 +2,9 @@
 
 import 'dart:convert';
 
-import '../dio_client/cus_http_client.dart';
-import '../dio_client/cus_http_request.dart';
-import '../dio_client/interceptor_error.dart';
+import '../dio/cus_http_client.dart';
+import '../dio/cus_http_request.dart';
+import '../dio/interceptor_error.dart';
 import '../models/paid_llm/common_chat_completion_state.dart';
 import '../models/paid_llm/common_chat_model_spec.dart';
 

@@ -428,5 +428,8 @@
     "appNote":"注意事项",
     "calorieQuery":"热量查询",
     "recentWeight":"最新体重：{num}kg",
-    "dailyDiet":"日常饮食"
+    "dailyDiet":"日常饮食",
+    "noRecord": "无记录",
+    "todayEat": "今天还可以吃"
+
 }

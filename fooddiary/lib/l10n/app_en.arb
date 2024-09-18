@@ -423,5 +423,7 @@
   "record": "record",
   "calorieQuery":"Calorie query",
   "recentWeight":"Latest Weight:{num}kg",
-  "dailyDiet":"Daily diet"
+  "dailyDiet":"Daily diet",
+  "noRecord": "no record",
+  "todayEat": "You can still eat today"
 }

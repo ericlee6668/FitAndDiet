@@ -12,16 +12,16 @@ import '../../../models/user_state.dart';
 import 'weight_change_line_chart.dart';
 import 'weight_record_manage.dart';
 
-class WeightChangeRecord extends StatefulWidget {
+class WeightTrendRecord extends StatefulWidget {
   final User? userInfo;
 
-  const WeightChangeRecord({super.key,  this.userInfo});
+  const WeightTrendRecord({super.key,  this.userInfo});
 
   @override
-  State<WeightChangeRecord> createState() => _WeightChangeRecordState();
+  State<WeightTrendRecord> createState() => _WeightTrendRecordState();
 }
 
-class _WeightChangeRecordState extends State<WeightChangeRecord> {
+class _WeightTrendRecordState extends State<WeightTrendRecord> {
   final DBUserHelper _userHelper = DBUserHelper();
 
   double _currentWeight = 0;

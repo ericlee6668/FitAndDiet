@@ -11,7 +11,8 @@ import '../../../../models/cus_app_localizations.dart';
 import '../../../../models/dietary_state.dart';
 
 class AddDailyDietPage extends StatefulWidget {
-  const AddDailyDietPage({super.key});
+  final CusMeals mealtime;
+  const AddDailyDietPage({super.key, required this.mealtime});
 
   @override
   State<AddDailyDietPage> createState() => _AddDailyDietPageState();
@@ -29,7 +30,7 @@ class _AddDailyDietPageState extends State<AddDailyDietPage> {
   String query = '';
   @override
   void initState() {
-    currentMealtime = CusMeals.breakfast;
+    currentMealtime = widget.mealtime;
     currentDate=DateFormat(constDateFormat).format(DateTime.now());
     // 监听上滑滚动
     scrollController.addListener(_scrollListener);
@@ -75,7 +76,7 @@ class _AddDailyDietPageState extends State<AddDailyDietPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('添加早餐'),
+        title: Text(currentMealtime.name),
       ),
       body:  buildSimpleFoodListTabView(),
     );
@@ -138,24 +139,24 @@ class _AddDailyDietPageState extends State<AddDailyDietPage> {
           onPressed: () async {
             var tempStr =
             mealtimeList.firstWhere((e) => e.value == currentMealtime);
-
+            var dailyFoodItem = DailyFoodItem(
+              date: currentDate,
+              mealCategory: tempStr.enLabel,
+              foodId: food.foodId!,
+              servingInfoId: fistServingInfo.servingInfoId!,
+              foodIntakeSize: fistServingInfo.servingSize.toDouble(),
+              userId: CacheUser.userId,
+              gmtCreate: getCurrentDateTime(),
+            );
             // ？？？这里应该有插入是否成功的判断
             var rst = await _dietaryHelper.insertDailyFoodItemList(
               [
-                DailyFoodItem(
-                  date: currentDate,
-                  mealCategory: tempStr.enLabel,
-                  foodId: food.foodId!,
-                  servingInfoId: fistServingInfo.servingInfoId!,
-                  foodIntakeSize: fistServingInfo.servingSize.toDouble(),
-                  userId: CacheUser.userId,
-                  gmtCreate: getCurrentDateTime(),
-                )
+                dailyFoodItem
               ],
             );
 
             if (!mounted) return;
-            Navigator.pop(context,item);
+            Navigator.pop(context,tempStr.enLabel);
             // if (rst.isNotEmpty) {
             //   // 返回餐次，让主页面展开新增的那个折叠栏
             //   Navigator.of(context).pop(tempStr.enLabel);
@@ -176,7 +177,18 @@ class _AddDailyDietPageState extends State<AddDailyDietPage> {
           //     ),
           //   ),
           // );
-          Navigator.pop(context,item);
+          var tempStr =
+          mealtimeList.firstWhere((e) => e.value == currentMealtime);
+          var dailyFoodItem = DailyFoodItem(
+            date: currentDate,
+            mealCategory: tempStr.enLabel,
+            foodId: food.foodId!,
+            servingInfoId: fistServingInfo.servingInfoId!,
+            foodIntakeSize: fistServingInfo.servingSize.toDouble(),
+            userId: CacheUser.userId,
+            gmtCreate: getCurrentDateTime(),
+          );
+          Navigator.pop(context,tempStr.enLabel);
         },
       ),
     );

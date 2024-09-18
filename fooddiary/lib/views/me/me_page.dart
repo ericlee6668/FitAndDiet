@@ -441,7 +441,7 @@ class _MePageState extends State<MePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => WeightChangeRecord(userInfo: userInfo),
+                  builder: (context) => WeightTrendRecord(userInfo: userInfo),
                 ),
               ).then((value) {
                 // 确认新增成功后重新加载当前日期的条目数据
@@ -620,7 +620,7 @@ class _MePageState extends State<MePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => WeightChangeRecord(userInfo: userInfo),
+              builder: (context) => WeightTrendRecord(userInfo: userInfo),
             ),
           ).then((value) {
             // 确认新增成功后重新加载当前日期的条目数据
@@ -656,7 +656,7 @@ class _MePageState extends State<MePage> {
       {
         'icon': 'assets/me/weight_trend.png',
         'title': CusAL.of(context).settingLabels('1'),
-        'page': WeightChangeRecord(userInfo: userInfo)
+        'page': WeightTrendRecord(userInfo: userInfo)
       },
       {
         'icon': 'assets/me/intake_goal.png',

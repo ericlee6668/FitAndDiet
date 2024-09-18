@@ -29,7 +29,7 @@ const String workoutWomanImageUrl = 'assets/covers/workout-woman.jpg';
 const String workoutCalendarImageUrl = 'assets/covers/workout-calendar.jpg';
 const String reportImageUrl = 'assets/covers/app_icon_boohee_life.png';
 const String weightImageUrl = 'assets/covers/icon_circle_weight_select.png';
-const String defaultAvatarImageUrl = 'assets/profile_icons/Avatar.png';
+const String defaultAvatarImageUrl = 'assets/covers/Avatar.webp';
 const String goalImage = 'assets/covers/diet_record_icon_protein.png';
 
 /// 导入的图片默认的地址前缀

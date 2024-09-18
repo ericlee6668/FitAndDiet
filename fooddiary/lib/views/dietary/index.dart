@@ -32,7 +32,7 @@ class DietaryPage extends StatefulWidget {
 }
 
 class _DietaryPageState extends State<DietaryPage>
-    with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin  {
+    with SingleTickerProviderStateMixin {
   final DBDietaryHelper _dietaryHelper = DBDietaryHelper();
   int itemsCount = 0;
   int currentPage = 1; // 数据库查询的时候会从0开始offset
@@ -55,8 +55,9 @@ class _DietaryPageState extends State<DietaryPage>
     controller = TabController(length: foodsTypeZh.length, vsync: this);
     controller.addListener(() {
       if (controller.indexIsChanging) {
+        currentName = foodsTypeZh[controller.index];
         setState(() {
-          currentName = foodsTypeZh[controller.index];
+
         });
         currentCode = queryCode[controller.index];
         queryFoodList(queryCode[controller.index]);
@@ -80,7 +81,7 @@ class _DietaryPageState extends State<DietaryPage>
       appBar: AppBar(
         title: Text(curTitle),
       ),
-      backgroundColor: const Color(0xfff5f5f5),
+      backgroundColor:  Color(box.read('mode') == 'dark'?0xff232229:0xfff5f5f5),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -89,7 +90,7 @@ class _DietaryPageState extends State<DietaryPage>
               automaticallyImplyLeading: false,
               flexibleSpace: FlexibleSpaceBar(
                 background: Container(
-                  color: const Color(0xfff5f5f5),
+                  color:  Color(box.read('mode') == 'dark'?0xff232229:0xfff5f5f5),
                   child: buildFixedBody(),
                 ),
               )),
@@ -125,7 +126,7 @@ class _DietaryPageState extends State<DietaryPage>
                     return Column(
                       children: [
                         Container(
-                          color: Colors.white,
+                          color: Color(box.read('mode') == 'dark'?0xff232229:0xffffffff),
                           height: 38.w,
                           child: TabBar(
                             tabs: foodsTypeZh
@@ -136,7 +137,7 @@ class _DietaryPageState extends State<DietaryPage>
                                         style: TextStyle(
                                             color: currentName == e
                                                 ? Colors.red
-                                                : Colors.black87,
+                                                : Colors.grey[500],
                                             fontSize: 16),
                                       ),
                                     ))
@@ -179,7 +180,7 @@ class _DietaryPageState extends State<DietaryPage>
       children: [
         buildCoverCard(
           context,
-          const WeightChangeRecord(),
+          const WeightTrendRecord(),
           CusAL.of(context).weightRecords,
           CusAL.of(context).weightRecordsSubtitle,
           weightImageUrl,
@@ -292,7 +293,7 @@ class _DietaryPageState extends State<DietaryPage>
         "${CusAL.of(context).mainNutrients('2')} ${formatDoubleToString(firstServing?.protein ?? 0)} ${CusAL.of(context).unitLabels('0')}";
 
     return Container(
-      color: Colors.white,
+      color: Color(box.read('mode') == 'dark'?0xff232229:0xffffffff),
       child: ListTile(
         minVerticalPadding: 5,
         enableFeedback: true,
@@ -452,8 +453,12 @@ class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
   double get minExtent => minHeight;
 
+  // @override
+  // bool shouldRebuild(SliverHeaderDelegate old) {
+  //   return old.maxExtent != maxExtent || old.minExtent != minExtent;
+  // }
   @override
   bool shouldRebuild(SliverHeaderDelegate old) {
-    return old.maxExtent != maxExtent || old.minExtent != minExtent;
+    return true;
   }
 }
