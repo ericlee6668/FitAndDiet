@@ -5,8 +5,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:free_fitness/models/cus_app_localizations.dart';
-import 'package:free_fitness/models/training_state.dart';
+import 'package:fit_track/models/cus_app_localizations.dart';
+import 'package:fit_track/models/training_state.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../../common/components/dialog_widgets.dart';

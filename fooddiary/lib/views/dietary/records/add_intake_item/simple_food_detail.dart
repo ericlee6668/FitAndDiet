@@ -236,7 +236,7 @@ class _SimpleFoodDetailState extends State<SimpleFoodDetail> {
                 style: TextStyle(fontSize: CusFontSizes.pageTitle),
               ),
               TextSpan(
-                text: "${fsInfo.food.product} (${fsInfo.food.brand})",
+                text: "${fsInfo.food.productEn} (${fsInfo.food.brand})",
                 style: TextStyle(fontSize: CusFontSizes.pageAppendix),
               ),
             ],
@@ -256,6 +256,7 @@ class _SimpleFoodDetailState extends State<SimpleFoodDetail> {
             // 主要营养素表格
             buildNutrientTableArea(),
             // 详细营养素区域
+            SizedBox(height: 10.sp),
             buildAllNutrientTableArea(),
           ],
         ),
@@ -615,7 +616,7 @@ class _SimpleFoodDetailState extends State<SimpleFoodDetail> {
     return TableRow(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+          padding: EdgeInsets.symmetric(horizontal: 10.sp,vertical: 3),
           child: Text(
             label,
             style: TextStyle(

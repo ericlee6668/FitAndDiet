@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../common/global/constants.dart';
-import '../../../../../models/paid_llm/llm_chat.dart';
+import '../../../../../models/chat_ai/llm_chat.dart';
 
 class MessageItem extends StatelessWidget {
   final ChatMessage message;

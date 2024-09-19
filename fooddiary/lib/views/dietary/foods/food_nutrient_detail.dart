@@ -365,7 +365,7 @@ class _FoodNutrientDetailState extends State<FoodNutrientDetail> {
         textAlign: TextAlign.start,
       ),
       Padding(
-        padding: EdgeInsets.all(10.sp),
+        padding: EdgeInsets.all(15.sp),
         child: Table(
           // 设置表格边框
           border: TableBorder.all(
@@ -380,7 +380,7 @@ class _FoodNutrientDetailState extends State<FoodNutrientDetail> {
           children: [
             _buildTableRow(
               CusAL.of(context).foodLabels("0"),
-              food.product,
+              food.productEn??'',
             ),
             _buildTableRow(
               CusAL.of(context).foodLabels("1"),
@@ -411,7 +411,7 @@ class _FoodNutrientDetailState extends State<FoodNutrientDetail> {
     return TableRow(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+          padding: EdgeInsets.symmetric(horizontal: 10.sp,vertical: 5),
           child: Text(
             label,
             style: TextStyle(
@@ -427,7 +427,7 @@ class _FoodNutrientDetailState extends State<FoodNutrientDetail> {
             value,
             style: TextStyle(
               fontSize: CusFontSizes.itemSubTitle,
-              color: Theme.of(context).disabledColor,
+              color: Theme.of(context).primaryColor,
             ),
             textAlign: TextAlign.left,
           ),

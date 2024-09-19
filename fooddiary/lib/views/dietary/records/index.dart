@@ -3,8 +3,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:free_fitness/common/global/constants.dart';
-import 'package:free_fitness/models/dietary_state.dart';
+import 'package:fit_track/common/global/constants.dart';
+import 'package:fit_track/models/dietary_state.dart';
 
 import 'package:intl/intl.dart';
 
@@ -270,20 +270,12 @@ class _DietaryRecordsState extends State<DietaryRecords> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // 设置一条白色的下划线，表示可以点击切换
-              Expanded(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Colors.white, width: 1.sp),
-                    ),
-                  ),
-                  child: Text(
-                    showedDateStr,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: CusFontSizes.pageTitle),
-                  ),
-                ),
+              Text(
+                showedDateStr,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: CusFontSizes.pageTitle),
               ),
+              const Icon(Icons.arrow_drop_down)
             ],
           ),
           onTap: () {
@@ -385,31 +377,31 @@ class _DietaryRecordsState extends State<DietaryRecords> {
                 ),
               ],
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (dfiwfsList.isEmpty) {
-            commonExceptionDialog(
-              context,
-              "提示",
-              "本日暂无食物摄入信息，无须AI助手给出分析建议。",
-            );
-          } else {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) =>
-                    OneChatScreen(intakeInfo: buildSuggestionString()),
-              ),
-            );
-          }
-        },
-        tooltip: box.read('language') == "en" ? "AI Assistant" : 'AI分析对话助手',
-        child: const Icon(Icons.chat),
-        // child: Text(
-        //   box.read('language') == "en" ? "AIA" : "AI\n助手",
-        //   style: TextStyle(fontSize: 12.sp),
-        //   textAlign: TextAlign.center,
-        // ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     if (dfiwfsList.isEmpty) {
+      //       commonExceptionDialog(
+      //         context,
+      //         "提示",
+      //         "本日暂无食物摄入信息，无须AI助手给出分析建议。",
+      //       );
+      //     } else {
+      //       Navigator.of(context).push(
+      //         MaterialPageRoute(
+      //           builder: (context) =>
+      //               OneChatScreen(intakeInfo: buildSuggestionString()),
+      //         ),
+      //       );
+      //     }
+      //   },
+      //   tooltip: box.read('language') == "en" ? "AI Assistant" : 'AI分析对话助手',
+      //   child: const Icon(Icons.chat),
+      //   // child: Text(
+      //   //   box.read('language') == "en" ? "AIA" : "AI\n助手",
+      //   //   style: TextStyle(fontSize: 12.sp),
+      //   //   textAlign: TextAlign.center,
+      //   // ),
+      // ),
     );
   }
 
@@ -588,33 +580,75 @@ class _DietaryRecordsState extends State<DietaryRecords> {
             children: [
               Expanded(
                 flex: 3,
-                child: ListTile(
-                  // 设置leading的最小宽度
-                  minLeadingWidth: 24.sp,
-                  leading: const Icon(Icons.food_bank_sharp),
-                  title: _buildListTileText(
-                    showCusLableMapLabel(context, mealtime),
-                    fontSize: CusFontSizes.pageSubTitle,
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddIntakeItem(
+                          mealtime: mealtime.value,
+                          // 注意，这里应该是一个日期选择器插件选中的值，格式化为固定字符串，子组件就不再处理
+                          logDate: selectedDateStr,
+                        ),
+                      ),
+                    ).then((value) {
+                      // 2023-12-04 之前是在食物详情中有设置一个新增成功的返回参数，确认新增成功后重新加载当前日期的条目数据。
+                      // 现在就只要是返回这个页面，都重新加载，也避免了跨级子组件数据返回的设计
+
+                      if (value != null) {
+                        _queryDailyFoodItemList(mealEnLabel: value as String);
+                      }
+                    });
+                  },
+                  child: ListTile(
+                    // 设置leading的最小宽度
+                    minLeadingWidth: 24.sp,
+                    leading: getMealIcon(mealtime.enLabel),
+                    title: _buildListTileText(
+                      showCusLableMapLabel(context, mealtime),
+                      fontSize: CusFontSizes.pageSubTitle,
+                    ),
+                    subtitle: _buildListTileText(
+                      CusAL.of(context).itemLabel(dfiwfsMealItems.length),
+                      fontSize: CusFontSizes.itemContent,
+                    ),
+                    dense: true,
                   ),
-                  subtitle: _buildListTileText(
-                    CusAL.of(context).itemLabel(dfiwfsMealItems.length),
-                    fontSize: CusFontSizes.itemContent,
-                  ),
-                  dense: true,
                 ),
               ),
               Expanded(
                 flex: 3,
-                child: ListTile(
-                  title: _buildListTileText(
-                    tempCalories.toStringAsFixed(0),
-                    textAlign: TextAlign.right,
-                    fontSize: CusFontSizes.pageSubTitle,
-                  ),
-                  subtitle: _buildListTileText(
-                    CusAL.of(context).calorieLabels("2"),
-                    textAlign: TextAlign.right,
-                    fontSize: CusFontSizes.itemContent,
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddIntakeItem(
+                          mealtime: mealtime.value,
+                          // 注意，这里应该是一个日期选择器插件选中的值，格式化为固定字符串，子组件就不再处理
+                          logDate: selectedDateStr,
+                        ),
+                      ),
+                    ).then((value) {
+                      // 2023-12-04 之前是在食物详情中有设置一个新增成功的返回参数，确认新增成功后重新加载当前日期的条目数据。
+                      // 现在就只要是返回这个页面，都重新加载，也避免了跨级子组件数据返回的设计
+
+                      if (value != null) {
+                        _queryDailyFoodItemList(mealEnLabel: value as String);
+                      }
+                    });
+                  },
+                  child: ListTile(
+                    title: _buildListTileText(
+                      tempCalories.toStringAsFixed(0),
+                      textAlign: TextAlign.right,
+                      fontSize: CusFontSizes.pageSubTitle,
+                    ),
+                    subtitle: _buildListTileText(
+                      CusAL.of(context).calorieLabels("2"),
+                      textAlign: TextAlign.right,
+                      fontSize: CusFontSizes.itemContent,
+                    ),
                   ),
                 ),
               ),
@@ -629,6 +663,7 @@ class _DietaryRecordsState extends State<DietaryRecords> {
                           mealtime: mealtime.value,
                           // 注意，这里应该是一个日期选择器插件选中的值，格式化为固定字符串，子组件就不再处理
                           logDate: selectedDateStr,
+                          defaultIndex: 1,
                         ),
                       ),
                     ).then((value) {
@@ -846,7 +881,7 @@ class _DietaryRecordsState extends State<DietaryRecords> {
                       // 2023-12-12 前面不留空，否则食物名称太长就显示得不好看
                       // leading: SizedBox(width: 0.05.sw),
                       title: _buildListTileText(
-                        "${logItem.food.product} (${logItem.food.brand})",
+                        "${logItem.food.productEn} (${logItem.food.brand})",
                       ),
                       subtitle: _buildListTileText(
                         '${cusDoubleTryToIntString(logItem.dailyFoodItem.foodIntakeSize)} * $tempUnit',
@@ -1099,5 +1134,17 @@ class _DietaryRecordsState extends State<DietaryRecords> {
         );
       }).toList(),
     );
+  }
+
+  getMealIcon(String enLabel) {
+    if(enLabel=='breakfast'){
+      return const Icon(Icons.bakery_dining_outlined);
+    }else if(enLabel=='lunch'){
+      return const Icon(Icons.lunch_dining_outlined);
+    }else if(enLabel=='dinner'){
+     return const Icon(Icons.dinner_dining_outlined);
+    }else{
+      return const Icon(Icons.food_bank_outlined);
+    }
   }
 }

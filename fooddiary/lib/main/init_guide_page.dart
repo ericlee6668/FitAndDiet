@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:free_fitness/main/float_view.dart';
+import 'package:fit_track/main/float_view.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 import '../common/global/constants.dart';

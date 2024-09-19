@@ -5,8 +5,8 @@ import 'dart:convert';
 import '../dio/cus_http_client.dart';
 import '../dio/cus_http_request.dart';
 import '../dio/interceptor_error.dart';
-import '../models/paid_llm/common_chat_completion_state.dart';
-import '../models/paid_llm/common_chat_model_spec.dart';
+import '../models/chat_ai/common_chat_completion_state.dart';
+import '../models/chat_ai/common_chat_model_spec.dart';
 
 ///
 /// 这里都是用自己的账号,要付费的

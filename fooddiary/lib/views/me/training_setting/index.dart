@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:free_fitness/models/user_state.dart';
+import 'package:fit_track/models/user_state.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 import '../../../common/utils/db_user_helper.dart';

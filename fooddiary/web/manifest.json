@@ -1,6 +1,6 @@
 {
-    "name": "free_fitness",
-    "short_name": "free_fitness",
+    "name": "fit_track",
+    "short_name": "fit_track",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

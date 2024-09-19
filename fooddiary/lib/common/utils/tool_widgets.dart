@@ -97,7 +97,7 @@ Widget cusFormBuilerTextField(String name,
     TextStyle? hintStyle,
     String? labelText, // 可不传栏位标签，在输入框前面有就行
     String? Function(Object?)? validator,
-    bool? isOutline = false, // 输入框是否有线条
+    bool? isOutline = true, // 输入框是否有线条
     bool isReadOnly = false, // 输入框是否有线条
     TextInputType? keyboardType,
     void Function(String?)? onChanged,

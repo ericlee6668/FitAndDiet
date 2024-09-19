@@ -7,7 +7,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:free_fitness/models/diary_state.dart';
+import 'package:fit_track/models/diary_state.dart';
 
 import '../../common/global/constants.dart';
 import '../../common/utils/db_diary_helper.dart';

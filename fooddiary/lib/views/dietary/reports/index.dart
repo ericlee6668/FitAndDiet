@@ -3,8 +3,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:free_fitness/models/cus_app_localizations.dart';
-import 'package:free_fitness/models/user_state.dart';
+import 'package:fit_track/models/cus_app_localizations.dart';
+import 'package:fit_track/models/user_state.dart';
 import 'package:intl/intl.dart';
 
 import '../../../common/global/constants.dart';

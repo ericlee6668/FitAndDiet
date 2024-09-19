@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:free_fitness/models/user_state.dart';
+import 'package:fit_track/models/user_state.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../common/utils/db_dietary_helper.dart';

@@ -377,7 +377,7 @@ app-release.apk (total compressed)                                         35 MB
     arm64-v8a                                                              24 MB
     Dart AOT symbols accounted decompressed size                           13 MB
       package:flutter                                                       4 MB
-      package:free_fitness                                                  1 MB
+      package:fit_track                                                  1 MB
       package:image                                                       805 KB
       package:flutter_quill                                               682 KB
       package:flutter_localizations                                       412 KB
@@ -484,7 +484,7 @@ app-release.apk (total compressed)                                         19 MB
     arm64-v8a                                                              10 MB
     Dart AOT symbols accounted decompressed size                           13 MB
       package:flutter                                                       4 MB
-      package:free_fitness                                                  1 MB
+      package:fit_track                                                  1 MB
       package:image                                                       805 KB
       package:flutter_quill                                               682 KB
       package:flutter_localizations                                       412 KB
@@ -557,7 +557,7 @@ dart devtools --appSizeBase=apk-code-size-analysis_09.json
 
 问题描述：
 
-- 因为餐次的照片的上传是使用`FormBuilderFilePicker`实现的，底层是`file_picker`，实际是把图片缓存到了该库默认的位置，类似`/data/user/0/com.swm.free_fitness/cache/file_picker/菜品识别1.jpg`；
+- 因为餐次的照片的上传是使用`FormBuilderFilePicker`实现的，底层是`file_picker`，实际是把图片缓存到了该库默认的位置，类似`/data/user/0/com.swm.fit_track/cache/file_picker/菜品识别1.jpg`；
 - 所以在重新安装 app，再恢复饮食日志的时候，餐次图片的地址就是上述缓存的位置；
 - 但由于卸载了 app，应用缓存的数据都丢了，也就无法再看到餐次图片了，那这个图片地址的备份实际没有作用了；
   - 当然，食物摄入量等其他信息不受影响。

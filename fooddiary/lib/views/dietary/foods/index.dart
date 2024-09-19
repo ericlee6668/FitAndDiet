@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:free_fitness/models/dietary_state.dart';
+import 'package:fit_track/models/dietary_state.dart';
 
 import '../../../../common/global/constants.dart';
 import '../../../../common/utils/db_dietary_helper.dart';

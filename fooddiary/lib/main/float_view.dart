@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:free_fitness/common/components/draggable_float/enum_state_event.dart';
-import 'package:free_fitness/views/base_view.dart';
+import 'package:fit_track/common/components/draggable_float/enum_state_event.dart';
+import 'package:fit_track/views/base_view.dart';
 import 'package:get/get.dart';
 
 import 'package:event_bus/event_bus.dart';

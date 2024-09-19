@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:free_fitness/views/training/workouts/action_list.dart';
+import 'package:fit_track/views/training/workouts/action_list.dart';
 
 import '../../../common/global/constants.dart';
 import '../../../common/utils/db_training_helper.dart';

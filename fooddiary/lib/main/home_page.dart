@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:free_fitness/main.dart';
-import 'package:free_fitness/views/base_bview.dart';
-import 'package:free_fitness/views/base_view.dart';
-import 'package:free_fitness/views/training/index.dart';
+import 'package:fit_track/main.dart';
+import 'package:fit_track/views/base_bview.dart';
+import 'package:fit_track/views/base_view.dart';
+import 'package:fit_track/views/training/index.dart';
 import 'package:get/get.dart';
 
 import '../common/global/constants.dart';

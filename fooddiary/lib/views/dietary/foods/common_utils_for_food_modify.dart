@@ -60,28 +60,29 @@ buildServingModifyFormColumn(BuildContext context, CusLabel servingType) {
             ),
           ],
         ),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Flexible(flex: 1, child: SizedBox()),
-            Flexible(
-              flex: 2,
-              child: Text(CusAL.of(context).servingEquivalence),
-            ),
-            Flexible(
-              flex: 1,
-              child: _cusNumberTextField(
-                context,
-                "metric_serving_size",
-                "",
-                suffix: '',
+            Text(CusAL.of(context).servingEquivalence),
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                height: 40,
+                child: _cusNumberTextField(
+                  context,
+                  "metric_serving_size",
+                  "",
+                  suffix: '',
+                ),
               ),
             ),
             _buildUnitDropdown("metric_serving_unit"),
           ],
         ),
       ],
-
+      const SizedBox(height: 10),
       // 食物的品牌和产品名称(没有对应数据库，没法更人性化的筛选，都是用户输入)
       _cusNumberTextField(
         context,
@@ -92,6 +93,7 @@ buildServingModifyFormColumn(BuildContext context, CusLabel servingType) {
           CusAL.of(context).mainNutrients('0'),
         ),
       ),
+      const SizedBox(height: 10),
       _cusNumberTextField(
         context,
         "protein",
@@ -100,6 +102,7 @@ buildServingModifyFormColumn(BuildContext context, CusLabel servingType) {
           CusAL.of(context).mainNutrients('2'),
         ),
       ),
+      const SizedBox(height: 10),
       _cusNumberTextField(
         context,
         "total_fat",
@@ -108,26 +111,31 @@ buildServingModifyFormColumn(BuildContext context, CusLabel servingType) {
           CusAL.of(context).mainNutrients('2'),
         ),
       ),
+      const SizedBox(height: 10),
       _cusSubTextFieldRow(
         context,
         "saturated_fat",
         CusAL.of(context).fatNutrients('1'),
       ),
+      const SizedBox(height: 10),
       _cusSubTextFieldRow(
         context,
         "trans_fat",
         CusAL.of(context).fatNutrients('2'),
       ),
+      const SizedBox(height: 10),
       _cusSubTextFieldRow(
         context,
         "polyunsaturated_fat",
         CusAL.of(context).fatNutrients('3'),
       ),
+      const SizedBox(height: 10),
       _cusSubTextFieldRow(
         context,
         "monounsaturated_fat",
         CusAL.of(context).fatNutrients('4'),
       ),
+      const SizedBox(height: 10),
       _cusNumberTextField(
         context,
         "total_carbohydrate",
@@ -136,16 +144,19 @@ buildServingModifyFormColumn(BuildContext context, CusLabel servingType) {
           CusAL.of(context).mainNutrients('4'),
         ),
       ),
+      const SizedBox(height: 10),
       _cusSubTextFieldRow(
         context,
         "sugar",
         CusAL.of(context).choNutrients('1'),
       ),
+      const SizedBox(height: 10),
       _cusSubTextFieldRow(
         context,
         "dietary_fiber",
         CusAL.of(context).choNutrients('2'),
       ),
+      const SizedBox(height: 10),
       _cusNumberTextField(
         context,
         "sodium",
@@ -155,12 +166,14 @@ buildServingModifyFormColumn(BuildContext context, CusLabel servingType) {
           CusAL.of(context).microNutrients('0'),
         ),
       ),
+      const SizedBox(height: 10),
       _cusNumberTextField(
         context,
         "potassium",
         CusAL.of(context).microNutrients('1'),
         suffix: CusAL.of(context).unitLabels('1'),
       ),
+      const SizedBox(height: 10),
       _cusNumberTextField(
         context,
         "cholesterol",
@@ -202,6 +215,7 @@ _cusNumberTextField(
   String name,
   String labelText, {
   String? suffix,
+  InputBorder? inputBorder,
   String? errorText,
   String? initialValue,
 }) {
@@ -210,6 +224,11 @@ _cusNumberTextField(
     initialValue: initialValue,
     decoration: InputDecoration(
       labelText: labelText,
+      contentPadding: EdgeInsets.symmetric(horizontal: 10),
+      border: inputBorder ??
+          OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
       suffixText: suffix ?? CusAL.of(context).unitLabels('0'),
       // 设置透明底色
       filled: true,
@@ -254,19 +273,23 @@ buildFoodModifyFormColumns(
       labelText: '*${CusAL.of(context).foodLabels("0")}',
       validator: FormBuilderValidators.required(),
     ),
+    const SizedBox(height: 10),
     cusFormBuilerTextField(
       "brand",
       labelText: '*${CusAL.of(context).foodLabels("1")}',
       validator: FormBuilderValidators.required(),
     ),
+    const SizedBox(height: 10),
     cusFormBuilerTextField(
       "tags",
       labelText: CusAL.of(context).foodLabels("2"),
     ),
+    const SizedBox(height: 10),
     cusFormBuilerTextField(
       "category",
       labelText: CusAL.of(context).foodLabels("3"),
     ),
+    const SizedBox(height: 10),
     cusFormBuilerTextField(
       "description",
       maxLines: 4,

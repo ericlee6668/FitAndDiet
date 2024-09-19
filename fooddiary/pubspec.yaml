@@ -1,4 +1,4 @@
-name: free_fitness
+name: fit_track
 description: 使用flutter编写的健身训练、饮食记录、附带简单日记编写的健康生活追踪器.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.

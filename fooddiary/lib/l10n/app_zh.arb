@@ -430,6 +430,7 @@
     "recentWeight":"最新体重：{num}kg",
     "dailyDiet":"日常饮食",
     "noRecord": "无记录",
-    "todayEat": "今天还可以吃"
+    "todayEat": "今天还可以吃",
+    "heathRecord": "健康记录"
 
 }

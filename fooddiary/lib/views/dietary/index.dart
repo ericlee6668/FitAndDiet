@@ -5,8 +5,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:free_fitness/main/float_view.dart';
-import 'package:free_fitness/views/me/intake_goals/intake_target.dart';
+import 'package:fit_track/main/float_view.dart';
+import 'package:fit_track/views/me/intake_goals/intake_target.dart';
 
 import '../../common/components/cus_cards.dart';
 import '../../common/global/constants.dart';
@@ -253,8 +253,8 @@ class _DietaryPageState extends State<DietaryPage>
       itemsCount = temp.total;
       currentPage++;
       isLoading = false;
-      queryFoodList('');
     });
+    queryFoodList('');
   }
 
   queryFoodList(String query) async {

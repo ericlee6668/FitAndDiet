@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:free_fitness/views/base_view.dart';
+import 'package:fit_track/views/base_view.dart';
 import 'package:get/get.dart';
 
 class UsPage extends StatelessWidget {

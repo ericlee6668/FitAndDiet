@@ -23,11 +23,13 @@ import 'simple_food_detail.dart';
 class AddIntakeItem extends StatefulWidget {
   final CusMeals mealtime;
   final String logDate;
+  final int? defaultIndex;
 
   const AddIntakeItem({
     super.key,
     required this.mealtime,
     required this.logDate,
+    this.defaultIndex
   });
 
   @override
@@ -85,10 +87,14 @@ class _AddIntakeItemState extends State<AddIntakeItem>
     // 监听上滑滚动
     scrollController.addListener(_scrollListener);
 
+    if(widget.defaultIndex==1){
+      isShowAddButton = true;
+    }
     // 初始化TabController
-    _tabController = TabController(vsync: this, length: 2, initialIndex: 0);
+    _tabController = TabController(vsync: this, length: 2, initialIndex:widget.defaultIndex??0);
     // 监听Tab切换
     _tabController.addListener(_handleTabSelection);
+    // scrollController.jumpTo(widget.defaultIndex?.toDouble()??0);
 
     // 加载初始化数据，也可以根据当前tab的索引分别初始化
     _loadFoodListData();

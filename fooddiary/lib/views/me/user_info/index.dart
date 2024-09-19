@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:free_fitness/main/float_view.dart';
+import 'package:fit_track/main/float_view.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../common/global/constants.dart';

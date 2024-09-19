@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:free_fitness/views/training/exercise/exercise_modify.dart';
+import 'package:fit_track/views/training/exercise/exercise_modify.dart';
 
 import '../../../common/components/dialog_widgets.dart';
 import '../../../common/utils/db_training_helper.dart';

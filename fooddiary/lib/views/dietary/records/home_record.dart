@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:free_fitness/views/dietary/records/add_intake_item/add_daily_diet_Page.dart';
-import 'package:free_fitness/views/me/weight_change_record/weight_change_line_chart.dart';
-import 'package:free_fitness/views/me/weight_change_record/weight_record_manage.dart';
+import 'package:fit_track/views/dietary/records/add_intake_item/add_daily_diet_Page.dart';
+import 'package:fit_track/views/me/weight_change_record/weight_change_line_chart.dart';
+import 'package:fit_track/views/me/weight_change_record/weight_record_manage.dart';
 import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
 
@@ -71,7 +71,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('健康记录'),
+        title:  Text(CusAL.of(context).heathRecord),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -607,10 +607,26 @@ class _HomeRecordPageState extends State<HomeRecordPage>
             decoration: BoxDecoration(
                 color: Colors.grey[300],
                 borderRadius: BorderRadius.circular(20)),
-            child: Text(
-              'Recommended 1714 calories',
-              style: TextStyle(
-                  color: Theme.of(context).primaryColor, fontSize: 12),
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: '1714',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: CusFontSizes.itemSubTitle,
+                    ),
+                  ),
+                  TextSpan(
+                    text: ' kcal (Rec.)',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: CusFontSizes.itemContent,
+                    ),
+                  ),
+                ]
+              ),
+
             )),
       ],
     );
