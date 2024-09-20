@@ -288,7 +288,7 @@ class _SaveMealPhotosState extends State<SaveMealPhotos> {
                         .toStringAsFixed(2);
 
                 return ListTile(
-                  title: Text("${food.product} (${food.brand})"),
+                  title: Text("${ box.read('language')=='zh'?food.product:food.productEn} (${food.brand})"),
                   subtitle: Text(
                     "$intake - $calories ${CusAL.of(context).calorieLabels('2')}",
                   ),
@@ -296,23 +296,23 @@ class _SaveMealPhotosState extends State<SaveMealPhotos> {
               }),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          if (imagesUrls.isNotEmpty && !isEditing) {
-            handleImageAnalysis(context, imagesUrls);
-          } else {
-            commonExceptionDialog(
-              context,
-              box.read('language') == "en" ? "Tips" : "温馨提示",
-              box.read('language') == "en"
-                  ? """There is no food intake information available for this day and no need for the AI assistant to give analytical advice."""
-                  : "本日暂无食物摄入信息，无须AI助手给出分析建议。",
-            );
-          }
-        },
-        tooltip: box.read('language') == "en" ? "AI Assistant" : 'AI分析对话助手',
-        child: const Icon(Icons.chat),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     if (imagesUrls.isNotEmpty && !isEditing) {
+      //       handleImageAnalysis(context, imagesUrls);
+      //     } else {
+      //       commonExceptionDialog(
+      //         context,
+      //         box.read('language') == "en" ? "Tips" : "温馨提示",
+      //         box.read('language') == "en"
+      //             ? """There is no food intake information available for this day and no need for the AI assistant to give analytical advice."""
+      //             : "本日暂无食物摄入信息，无须AI助手给出分析建议。",
+      //       );
+      //     }
+      //   },
+      //   tooltip: box.read('language') == "en" ? "AI Assistant" : 'AI分析对话助手',
+      //   child: const Icon(Icons.chat),
+      // ),
     );
   }
 }

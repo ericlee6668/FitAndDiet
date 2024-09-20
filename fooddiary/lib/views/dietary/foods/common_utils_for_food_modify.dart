@@ -269,7 +269,7 @@ buildFoodModifyFormColumns(
   return [
     // 食物的品牌和产品名称(没有对应数据库，没法更人性化的筛选，都是用户输入)
     cusFormBuilerTextField(
-      "product",
+      box.read('language')=='zh'?"product":"productEn",
       labelText: '*${CusAL.of(context).foodLabels("0")}',
       validator: FormBuilderValidators.required(),
     ),

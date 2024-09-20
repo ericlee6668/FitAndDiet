@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -61,8 +62,10 @@ class _DiaryModifyRichTextState extends State<DiaryModifyRichText> {
 
   // 手动输入标签的文本框控制器，和存放标签的数组
   final _tagTextController = TextEditingController();
+
   // 这里是标签的初始值，实际用时可以为空数组或空字符串
   List<String> initTags = [];
+
   // 分类和心情的初始值
   String initCategory = "";
   List<String> initMoods = [];
@@ -74,6 +77,7 @@ class _DiaryModifyRichTextState extends State<DiaryModifyRichText> {
   // 可以多次保存，新增时没有手机编号，所以首次保存会返回手记编号，后续再保存其实就是修改了.
   // 默认是没有(如果直接是传过来修改的，那就是传过来的值，在init的时候和其他内容一起初始化)
   int? initDiaryId;
+
   // 上一次保存的时间(如果没有自动保存，显示上次保存时间即可)
   String? lastSavedTime;
 
@@ -138,8 +142,8 @@ class _DiaryModifyRichTextState extends State<DiaryModifyRichText> {
   // 新增手记时，在没有保存的情况下点击重置，则不将修改状态改为false，只是清空当前的内容；只有点击返回时才退出当前页面。
   resetInitData() {
     // 标签清空
-    _formKey.currentState?.fields['mood']?.didChange("");
-    _formKey.currentState?.fields['category']?.didChange([]);
+    _formKey.currentState?.fields['mood']?.didChange([]);
+    _formKey.currentState?.fields['category']?.didChange('');
     initTags = [];
     _tagTextController.text = "";
 
@@ -247,7 +251,7 @@ class _DiaryModifyRichTextState extends State<DiaryModifyRichText> {
             builder: (context) {
               return AlertDialog(
                 title: Text(CusAL.of(context).closeLabel),
-                content:  Text(CusAL.of(context).quiteNotice),
+                content: Text(CusAL.of(context).quiteNotice),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -431,7 +435,8 @@ class _DiaryModifyRichTextState extends State<DiaryModifyRichText> {
             textAlign: isEditing ? TextAlign.start : TextAlign.center,
             decoration: InputDecoration(
               hintText: CusAL.of(context).diaryTitleNote,
-              contentPadding: EdgeInsets.symmetric(vertical: 2.sp),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 2.sp, horizontal: 11),
               // 预览时不显示边框
               border: isEditing
                   ? OutlineInputBorder(
@@ -490,6 +495,10 @@ class _DiaryModifyRichTextState extends State<DiaryModifyRichText> {
   // 编辑时各个标签分类选择
   buildTagSelectArea() {
     return [
+       Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Text('category',style: TextStyle(fontSize:CusFontSizes.itemSubTitle,fontWeight: FontWeight.bold),),
+      ),
       // 这个只能单选，表现类似 radio
       _buildSingleSelectRow(
         "分类",
@@ -501,6 +510,10 @@ class _DiaryModifyRichTextState extends State<DiaryModifyRichText> {
             initCategory = value;
           });
         },
+      ),
+       Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Text('mood',style: TextStyle(fontSize:CusFontSizes.itemSubTitle,fontWeight: FontWeight.bold)),
       ),
       // 这个可以多选，表现类似 checkbox
       _buildMultiSelectRow(
@@ -550,7 +563,8 @@ class _DiaryModifyRichTextState extends State<DiaryModifyRichText> {
                   leading: const Icon(Icons.tag, color: Colors.green),
                   // 2023-12-26 固定白色，在深色主题就看不到字了
                   // backgroundColor: Colors.white,
-                  initiallyExpanded: isQuillToolbarExpanded, // 是否默认展开
+                  initiallyExpanded: isQuillToolbarExpanded,
+                  // 是否默认展开
                   onExpansionChanged: (isExpanded) {
                     setState(() {
                       isQuillToolbarExpanded = isExpanded;
@@ -648,7 +662,18 @@ class _DiaryModifyRichTextState extends State<DiaryModifyRichText> {
   List<FormBuilderChipOption<String>> _categoryChipOptions() {
     return diaryCategoryList
         .map(
-          (e) => FormBuilderChipOption(value: showCusLableMapLabel(context, e)),
+          (e) => FormBuilderChipOption(
+            value: showCusLableMapLabel(context, e),
+            child: SizedBox(
+                width: 50,
+                child: Text(
+                  showCusLableMapLabel(
+                    context,
+                    e,
+                  ),
+                  textAlign: TextAlign.center,
+                )),
+          ),
         )
         .toList();
   }
@@ -656,7 +681,15 @@ class _DiaryModifyRichTextState extends State<DiaryModifyRichText> {
   List<FormBuilderChipOption<String>> _moodChipOptions() {
     return diaryMoodList
         .map(
-          (e) => FormBuilderChipOption(value: showCusLableMapLabel(context, e)),
+          (e) => FormBuilderChipOption(value: showCusLableMapLabel(context, e),child: SizedBox(
+              width: 45,
+              child: Text(
+                showCusLableMapLabel(
+                  context,
+                  e,
+                ),
+                textAlign: TextAlign.center,
+              )),),
         )
         .toList();
   }
@@ -683,6 +716,7 @@ class _DiaryModifyRichTextState extends State<DiaryModifyRichText> {
               fillColor: Colors.transparent,
             ),
             name: name,
+            spacing: 5,
             initialValue: initialValue,
             // 选项列表
             options: options,
@@ -732,6 +766,7 @@ class _DiaryModifyRichTextState extends State<DiaryModifyRichText> {
               fillColor: Colors.transparent,
             ),
             name: name,
+            spacing: 5,
             initialValue: initialValue,
             // 选项列表
             options: options,

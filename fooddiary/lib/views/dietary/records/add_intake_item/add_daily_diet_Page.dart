@@ -188,7 +188,7 @@ class _AddDailyDietPageState extends State<AddDailyDietPage> {
             userId: CacheUser.userId,
             gmtCreate: getCurrentDateTime(),
           );
-          Navigator.pop(context,tempStr.enLabel);
+          // Navigator.pop(context,tempStr.enLabel);
         },
       ),
     );

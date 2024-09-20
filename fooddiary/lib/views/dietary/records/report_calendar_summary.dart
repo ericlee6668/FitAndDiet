@@ -120,7 +120,7 @@ class _ReportCalendarSummaryState extends State<ReportCalendarSummary> {
                 children: [
                   /// 日历显示每日的卡路里数量
                   SizedBox(
-                    height: 0.7.sh,
+                    height: 0.5.sh,
                     child: _buildTableCalendar(),
                   ),
                   SizedBox(height: 8.sp),

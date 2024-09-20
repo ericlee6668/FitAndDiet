@@ -426,5 +426,6 @@
   "dailyDiet":"Daily diet",
   "noRecord": "no record",
   "todayEat": "You can still eat today",
-  "heathRecord": "Health Record"
+  "heathRecord": "Health Record",
+  "calendar": "calendar"
 }

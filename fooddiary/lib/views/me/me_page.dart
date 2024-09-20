@@ -221,7 +221,7 @@ class _MePageState extends State<MePage> {
       body: isLoading
           ? buildLoader(isLoading)
           : Container(
-        color: const Color(0xfff5f5f5),
+        color:  Color(box.read('mode')=='dark'?0xff232229:0xfff5f5f5),
             child: ListView(
                 children: [
                   /// 用户基本信息展示区域(固定高度10+120+120=250)
@@ -248,6 +248,7 @@ class _MePageState extends State<MePage> {
                   //   child: _buildBakAndRestoreAndMoreSettingRow(),
                   // ),
                   _buildFunctionArea(),
+                  const SizedBox(height: 10,),
                   _buildInformation(),
                   const SizedBox(height: 20,)
                 ],
@@ -263,7 +264,7 @@ class _MePageState extends State<MePage> {
       Stack(
         alignment: Alignment.center,
         children: [
-          Image.asset('assets/covers/bg.png',height: 170,width:MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+          Image.asset('assets/covers/bg.png',height: 140,width:MediaQuery.of(context).size.width,fit: BoxFit.cover,),
           // 没有修改头像，就用默认的
           Positioned(
             top: 90.sp,
@@ -298,7 +299,7 @@ class _MePageState extends State<MePage> {
       ),
       Container(
         decoration: BoxDecoration(
-            color: Colors.white,
+            color:Color(box.read('mode')=='dark'?0xff232229:0xffffffff),
             borderRadius: BorderRadius.circular(20)
         ),
         margin: EdgeInsets.all(10.w),
@@ -681,7 +682,6 @@ class _MePageState extends State<MePage> {
     ];
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
         borderRadius: BorderRadius.circular(20)
       ),
       margin: EdgeInsets.all(10.w),
@@ -692,24 +692,26 @@ class _MePageState extends State<MePage> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, i) {
-            return NewCusSettingCard(
-              leadingIcon: Icons.add,
-              icon: listDatas[i]['icon'] as String,
-              title: listDatas[i]['title'] as String,
-              onTap: () {
-                // 处理相应的点击事件
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => listDatas[i]['page'] as Widget,
-                  ),
-                ).then((value) {
-                  // 确认新增成功后重新加载当前日期的条目数据
-                  if (value != null && value == true) {
-                    _queryLoginedUserInfo();
-                  }
-                });
-              },
+            return Material(
+              child: NewCusSettingCard(
+                leadingIcon: Icons.add,
+                icon: listDatas[i]['icon'] as String,
+                title: listDatas[i]['title'] as String,
+                onTap: () {
+                  // 处理相应的点击事件
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => listDatas[i]['page'] as Widget,
+                    ),
+                  ).then((value) {
+                    // 确认新增成功后重新加载当前日期的条目数据
+                    if (value != null && value == true) {
+                      _queryLoginedUserInfo();
+                    }
+                  });
+                },
+              ),
             );
           }),
     );
@@ -719,6 +721,7 @@ class _MePageState extends State<MePage> {
     var list = [
       {
         'title': 'Disclaimer',
+        'subTitle': '',
         'icon':Icons.notification_important_rounded,
         'page': () {
           SmartDialog.compatible.show(
@@ -744,6 +747,7 @@ class _MePageState extends State<MePage> {
         }
       },
       {'title': 'About Us',
+        'subTitle': '',
         'icon':Icons.person_add_sharp,
         'page': () {
         Navigator.push(
@@ -754,16 +758,18 @@ class _MePageState extends State<MePage> {
         );
       }
       },
-      {'title': 'Contact us      ehansenj8u@gmx.com',
+      {'title': 'Contact us',
+        'subTitle': 'ehansenj8u@gmx.com',
         'icon':Icons.contact_page_sharp,
         'page': () {}},
-      {'title': 'Version          V1.0.0',
+      {'title': 'Version',
+        'subTitle': 'V1.0.0',
         'icon':Icons.verified_sharp,
         'page': () {}}
     ];
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color:  Color(box.read('mode')=='dark'?0xff232229:0xffffffff),
           borderRadius: BorderRadius.circular(20)
       ),
       margin: EdgeInsets.all(10.w),
@@ -779,11 +785,16 @@ class _MePageState extends State<MePage> {
               height: 50,
               child: Row(
                 children: [
-                  Icon(list[i]['icon'] as IconData,color: Colors.black38,),
+                  Icon(list[i]['icon'] as IconData,color:box.read('mode')=='dark'? Colors.grey:Colors.black38,),
                   const SizedBox(width: 5),
                   Text(list[i]['title'] as String),
                   const Spacer(),
-                  const Icon(Icons.arrow_forward_ios_outlined,color: Colors.grey,)
+                  Row(
+                    children: [
+                      Text(list[i]['subTitle'] as String),
+                      const Icon(Icons.arrow_forward_ios_outlined,color: Colors.grey,),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -818,6 +829,7 @@ class NewCusSettingCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 60.sp,
+        color: Color(box.read('mode')=='dark'?0xff232229:0xffffffff),
         padding: EdgeInsets.all(2.sp),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

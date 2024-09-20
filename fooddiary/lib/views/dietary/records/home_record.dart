@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fit_track/views/dietary/records/report_calendar_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fit_track/views/dietary/records/add_intake_item/add_daily_diet_Page.dart';
@@ -48,7 +49,8 @@ class _HomeRecordPageState extends State<HomeRecordPage>
   double curDinnerCalories = 0.0;
 
   double totalCal = 0;
-
+  // 如果用户没有设定，则使用预设值2250或1800
+  int valueRDA = 1800;
   @override
   void initState() {
     getUser();
@@ -63,6 +65,25 @@ class _HomeRecordPageState extends State<HomeRecordPage>
     user = tempUser;
     _currentWeight = user?.currentWeight ?? 70;
     _currentHeight = user?.height ?? 170;
+    var userGoal = await _userHelper.queryUserWithIntakeDailyGoal(
+      userId: CacheUser.userId,
+    );
+    var dailyGoal = userGoal.intakeGoals
+        .where((e) => e.dayOfWeek == DateTime.now().weekday.toString())
+        .toList();
+    setState(() {
+      // 如果有对应的星期几的摄入目标，则使用该值
+      if (dailyGoal.isNotEmpty) {
+        valueRDA = dailyGoal.first.rdaDailyGoal;
+      } else if (userGoal.user.rdaGoal != null) {
+        // 如果没有当天特定的，则使用整体的
+        valueRDA = userGoal.user.rdaGoal!;
+      } else {
+        // 如果既没有单独每天的也没有整体的，则默认男女推荐值(不是男的都当做女的)
+        valueRDA = userGoal.user.gender == "male" ? 2250 : 1800;
+      }
+
+    });
     getMealCal();
   }
 
@@ -71,7 +92,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title:  Text(CusAL.of(context).heathRecord),
+        title: Text(CusAL.of(context).heathRecord),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -133,18 +154,38 @@ class _HomeRecordPageState extends State<HomeRecordPage>
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(left: 20.w),
+              margin: EdgeInsets.only(left: 20.w, right: 20.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Text(
-                    CusAL.of(context).dailyDiet,
-                    style: TextStyle(
-                      fontSize: CusFontSizes.flagMedium,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        CusAL.of(context).dailyDiet,
+                        style: TextStyle(
+                          fontSize: CusFontSizes.flagMedium,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ReportCalendarSummary(),
+                            ),
+                          );
+                        },
+                        child: Text(CusAL.of(context).calendar,
+                            style: TextStyle(
+                              fontSize: CusFontSizes.pageSubContent,
+                              fontWeight: FontWeight.bold,
+                            )),
+                      ),
+                    ],
                   ),
                   _buildDailyDietWidget(),
                   Row(
@@ -576,7 +617,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
       margin: const EdgeInsets.only(bottom: 10),
       child: Center(
         child: SemiCircleProgressBar(
-          progress: totalCal / 1717 >= 1 ? 1 : totalCal / 1717,
+          progress: totalCal / valueRDA >= 1 ? 1 : totalCal / valueRDA,
           // 进度值 0.0 到 1.0
           size: 250,
           strokeWidth: 12,
@@ -596,37 +637,35 @@ class _HomeRecordPageState extends State<HomeRecordPage>
           style: TextStyle(
               fontSize: CusFontSizes.itemSubTitle, fontWeight: FontWeight.bold),
         ),
+        const SizedBox(height: 5),
         Text(
-          '${(1717 - totalCal <= 0 ? 0 : 1717 - totalCal).toStringAsFixed(0)}calories',
+          '${(valueRDA - totalCal <= 0 ? 0 : valueRDA - totalCal).toStringAsFixed(0)}calories',
           style: TextStyle(
               color: CusColors.pageChangeBg, fontSize: CusFontSizes.itemTitle),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Container(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+            padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
             decoration: BoxDecoration(
                 color: Colors.grey[300],
                 borderRadius: BorderRadius.circular(20)),
             child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: '1714',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: CusFontSizes.itemSubTitle,
-                    ),
+              text: TextSpan(children: [
+                TextSpan(
+                  text: valueRDA.toString(),
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: CusFontSizes.itemSubTitle,
                   ),
-                  TextSpan(
-                    text: ' kcal (Rec.)',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: CusFontSizes.itemContent,
-                    ),
+                ),
+                TextSpan(
+                  text: ' kcal (Goal)',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: CusFontSizes.itemContent,
                   ),
-                ]
-              ),
-
+                ),
+              ]),
             )),
       ],
     );

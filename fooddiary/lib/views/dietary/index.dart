@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fit_track/main/float_view.dart';
 import 'package:fit_track/views/me/intake_goals/intake_target.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 import '../../common/components/cus_cards.dart';
 import '../../common/global/constants.dart';
@@ -40,15 +42,25 @@ class _DietaryPageState extends State<DietaryPage>
   String query = '';
   bool isLoading = false;
   ScrollController scrollController = ScrollController();
-
+ var selectText ='all'.obs;
   List<FoodAndServingInfo> foodItems = [];
-  List<String> foodsTypeZh = ['all', 'staple food', 'fruit', 'meat', 'Fish and shrimp', 'vegetable', 'Milk and dairy products'];
+  List<String> foodsTypeZh = [
+    'all',
+    'staple food',
+    'fruit',
+    'meat',
+    'Fish and shrimp',
+    'vegetable',
+    'Milk and dairy products'
+  ];
+
   // List<String> foodsTypeZh = ['全部', '主食', '水果', '肉类', '鱼虾类', '蔬菜', '奶及奶制品'];
   List<String> queryCode = ['', 'a1', 'b1', 'c1', 'd1', 'e1', 'f1'];
   late TabController controller;
   var currentName = 'all';
   var currentCode = '';
-  var curTitle ='dietary';
+  var curTitle = 'dietary';
+
   @override
   void initState() {
     scrollController.addListener(_scrollListener);
@@ -56,9 +68,8 @@ class _DietaryPageState extends State<DietaryPage>
     controller.addListener(() {
       if (controller.indexIsChanging) {
         currentName = foodsTypeZh[controller.index];
-        setState(() {
+        selectText.value=currentName;
 
-        });
         currentCode = queryCode[controller.index];
         queryFoodList(queryCode[controller.index]);
         print('ccupage:${currentName}');
@@ -66,9 +77,9 @@ class _DietaryPageState extends State<DietaryPage>
     });
     _loadFoodData();
     eventBus.on<String>().listen((event) {
-       if(event=='loadJsonEvent'){
-         _loadFoodData();
-       }
+      if (event == 'loadJsonEvent') {
+        _loadFoodData();
+      }
     });
     super.initState();
   }
@@ -81,91 +92,106 @@ class _DietaryPageState extends State<DietaryPage>
       appBar: AppBar(
         title: Text(curTitle),
       ),
-      backgroundColor:  Color(box.read('mode') == 'dark'?0xff232229:0xfff5f5f5),
+      backgroundColor: Color(
+          box.read('mode') == 'dark' ? 0xff232229 : 0xfff5f5f5),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
               pinned: false,
-              expandedHeight: 260.w,
+              expandedHeight: MediaQuery.of(context).size.height,
               automaticallyImplyLeading: false,
               flexibleSpace: FlexibleSpaceBar(
                 background: Container(
-                  color:  Color(box.read('mode') == 'dark'?0xff232229:0xfff5f5f5),
+                  color: Color(
+                      box.read('mode') == 'dark' ? 0xff232229 : 0xfff5f5f5),
                   child: buildFixedBody(),
                 ),
               )),
           SliverToBoxAdapter(
             child: Center(
                 child: Text(
-              CusAL.of(context).calorieQuery,
-              style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold),
-            )),
+                  CusAL
+                      .of(context)
+                      .calorieQuery,
+                  style: TextStyle(
+                      color: Theme
+                          .of(context)
+                          .primaryColor,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold),
+                )),
           ),
-          SliverPersistentHeader(
-              pinned: true,
-              delegate: SliverHeaderDelegate.builder(
-                  minHeight: 45.sp,
-                  maxHeight: 45.sp,
-                  builder: (contex, shrinkOffset, overlapsContent) {
-                    print(' shrink: $shrinkOffset, overlaps:$overlapsContent');
-                    WidgetsBinding.instance
-                        .addPostFrameCallback((timeStamp) {
-                      if (shrinkOffset == 0) {
-                        setState(() {
-                          curTitle=CusAL.of(context).dietary;
-                        });
-                      } else if (shrinkOffset == 45.sp) {
-                     setState(() {
-                       curTitle=CusAL.of(context).calorieQuery;
-                     });
-                      }
-                    });
-                    return Column(
-                      children: [
-                        Container(
-                          color: Color(box.read('mode') == 'dark'?0xff232229:0xffffffff),
-                          height: 38.w,
-                          child: TabBar(
-                            tabs: foodsTypeZh
-                                .map((e) => SizedBox(
-                                      height: 28,
-                                      child: Text(
-                                        e,
-                                        style: TextStyle(
-                                            color: currentName == e
-                                                ? Colors.red
-                                                : Colors.grey[500],
-                                            fontSize: 16),
-                                      ),
-                                    ))
-                                .toList(),
-                            controller: controller,
-                            indicatorColor: Colors.red,
-                            indicatorPadding:
-                                const EdgeInsets.symmetric(horizontal: 8),
-                            isScrollable: true,
-                          ),
-                        ),
-                      ],
-                    );
-                  })),
-          SliverList.separated(
-              itemCount: foodItems.length + 1,
-              itemBuilder: (context, index) {
-                if (index == foodItems.length) {
-                  return buildLoader(isLoading);
-                } else {
-                  return _buildSimpleFoodTile(foodItems[index], index);
-                }
-              },
-              separatorBuilder: (context, i) {
-                return const SizedBox(
-                  height: 2,
-                );
-              })
+          // SliverPersistentHeader(
+          //     pinned: true,
+          //     delegate: SliverHeaderDelegate.builder(
+          //         minHeight: 45.sp,
+          //         maxHeight: 45.sp,
+          //         builder: (contex, shrinkOffset, overlapsContent) {
+          //           print(' shrink: $shrinkOffset, overlaps:$overlapsContent');
+          //           WidgetsBinding.instance
+          //               .addPostFrameCallback((timeStamp) {
+          //             if (shrinkOffset == 0) {
+          //               setState(() {
+          //                 curTitle = CusAL
+          //                     .of(context)
+          //                     .dietary;
+          //               });
+          //             } else if (shrinkOffset == 45.sp) {
+          //               setState(() {
+          //                 curTitle = CusAL
+          //                     .of(context)
+          //                     .calorieQuery;
+          //               });
+          //             }
+          //           });
+          //           return Column(
+          //             children: [
+          //               Container(
+          //                 color: Color(box.read('mode') == 'dark'
+          //                     ? 0xff232229
+          //                     : 0xffffffff),
+          //                 height: 38.w,
+          //                 child: Obx(
+          //                   ()=> TabBar(
+          //                     tabs: foodsTypeZh
+          //                         .map((e) =>
+          //                         SizedBox(
+          //                           height: 28,
+          //                           child: Text(
+          //                             e,
+          //                             style: TextStyle(
+          //                                 color: selectText.value == e
+          //                                     ? Colors.red
+          //                                     : Colors.grey[500],
+          //                                 fontSize: 16),
+          //                           ),
+          //                         ))
+          //                         .toList(),
+          //                     controller: controller,
+          //                     indicatorColor: Colors.red,
+          //                     indicatorPadding:
+          //                     const EdgeInsets.symmetric(horizontal: 8),
+          //                     isScrollable: true,
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           );
+          //         })),
+          // SliverList.separated(
+          //     itemCount: foodItems.length + 1,
+          //     itemBuilder: (context, index) {
+          //       if (index == foodItems.length) {
+          //         return buildLoader(isLoading);
+          //       } else {
+          //         return _buildSimpleFoodTile(foodItems[index], index);
+          //       }
+          //     },
+          //     separatorBuilder: (context, i) {
+          //       return const Divider(
+          //         height: 2,
+          //       );
+          //     })
         ],
       ),
     );
@@ -176,48 +202,70 @@ class _DietaryPageState extends State<DietaryPage>
     return GridView(
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, childAspectRatio: 2.1),
+          crossAxisCount: 2, childAspectRatio: 1.5),
       children: [
         buildCoverCard(
           context,
           const WeightTrendRecord(),
-          CusAL.of(context).weightRecords,
-          CusAL.of(context).weightRecordsSubtitle,
+          CusAL
+              .of(context)
+              .weightRecords,
+          CusAL
+              .of(context)
+              .weightRecordsSubtitle,
           weightImageUrl,
         ),
         buildCoverCard(
           context,
           const DietaryReports(),
-          CusAL.of(context).dietaryReports,
-          CusAL.of(context).dietaryReportsSubtitle,
+          CusAL
+              .of(context)
+              .dietaryReports,
+          CusAL
+              .of(context)
+              .dietaryReportsSubtitle,
           reportImageUrl,
         ),
         buildCoverCard(
           context,
           const DietaryFoods(),
-          CusAL.of(context).foodCompo,
-          CusAL.of(context).foodCompoSubtitle,
+          CusAL
+              .of(context)
+              .foodCompo,
+          CusAL
+              .of(context)
+              .foodCompoSubtitle,
           dietaryNutritionImageUrl,
         ),
         buildCoverCard(
           context,
           const MealPhotoGallery(),
-          CusAL.of(context).mealGallery,
-          CusAL.of(context).mealGallerySubtitle,
+          CusAL
+              .of(context)
+              .mealGallery,
+          CusAL
+              .of(context)
+              .mealGallerySubtitle,
           dietaryMealImageUrl,
         ),
         buildCoverCard(
           context,
           const DietaryRecords(),
-          CusAL.of(context).dietaryRecords,
-          CusAL.of(context).dietaryRecordsSubtitle,
+          CusAL
+              .of(context)
+              .dietaryRecords,
+          CusAL
+              .of(context)
+              .dietaryRecordsSubtitle,
           dietaryLogCoverImageUrl,
         ),
         buildCoverCard(
           context,
           const IntakeTargetPage(),
           CusAL.of(context).settingLabels('2'),
-          CusAL.of(context).dietaryRecordsSubtitle,
+          CusAL
+              .of(context)
+              .dietaryRecordsSubtitle,
           goalImage,
         ),
       ],
@@ -274,29 +322,35 @@ class _DietaryPageState extends State<DietaryPage>
     var food = fsi.food;
     var servingList = fsi.servingInfoList;
     // var foodName = "${food.product} (${food.brand})";
-    var foodName = food.productEn??(food.product??"");
+    var foodName = food.productEn ?? (food.product ?? "");
     var firstServing = servingList.isNotEmpty ? servingList[0] : null;
     var foodUnit = firstServing?.servingUnit;
     var foodEnergy =
-        (firstServing?.energy ?? 0 / oneCalToKjRatio).toStringAsFixed(0);
+    (firstServing?.energy ?? 0 / oneCalToKjRatio).toStringAsFixed(0);
 
     // 能量文字
     var text1 = "$foodUnit - $foodEnergy ${CusAL.of(context).unitLabels('2')}";
     // 碳水文字
     var text2 =
-        "${CusAL.of(context).mainNutrients('4')} ${formatDoubleToString(firstServing?.totalCarbohydrate ?? 0)} ${CusAL.of(context).unitLabels('0')}";
+        "${CusAL.of(context).mainNutrients('4')} ${formatDoubleToString(
+        firstServing?.totalCarbohydrate ?? 0)} ${CusAL.of(context).unitLabels(
+        '0')}";
     // 脂肪文字
     var text3 =
-        "${CusAL.of(context).mainNutrients('3')} ${formatDoubleToString(firstServing?.totalFat ?? 0)} ${CusAL.of(context).unitLabels('0')}";
+        "${CusAL.of(context).mainNutrients('3')} ${formatDoubleToString(
+        firstServing?.totalFat ?? 0)} ${CusAL.of(context).unitLabels('0')}";
     // 蛋白质文字
     var text4 =
-        "${CusAL.of(context).mainNutrients('2')} ${formatDoubleToString(firstServing?.protein ?? 0)} ${CusAL.of(context).unitLabels('0')}";
+        "${CusAL.of(context).mainNutrients('2')} ${formatDoubleToString(
+        firstServing?.protein ?? 0)} ${CusAL.of(context).unitLabels('0')}";
 
     return Container(
-      color: Color(box.read('mode') == 'dark'?0xff232229:0xffffffff),
+      color: Color(box.read('mode') == 'dark' ? 0xff232229 : 0xffffffff),
+      height: 70.w,
       child: ListTile(
         minVerticalPadding: 5,
         enableFeedback: true,
+        isThreeLine: true,
         // 食物名称
         title: Text(
           "${index + 1} - $foodName",
@@ -304,8 +358,11 @@ class _DietaryPageState extends State<DietaryPage>
           softWrap: true,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
-            fontSize: CusFontSizes.itemSubTitle,
-            color: Theme.of(context).primaryColor,
+              fontSize: CusFontSizes.itemSubTitle,
+              color: Theme
+                  .of(context)
+                  .primaryColor,
+              fontWeight: FontWeight.bold
           ),
         ),
         // 单份食物营养素
@@ -321,9 +378,10 @@ class _DietaryPageState extends State<DietaryPage>
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => FoodNutrientDetail(
-                foodItem: fsi,
-              ),
+              builder: (context) =>
+                  FoodNutrientDetail(
+                    foodItem: fsi,
+                  ),
             ),
           ).then((value) {
             // 从详情页返回后需要重新查询，因为不知道在内部是不是有变动单份营养素。
@@ -405,14 +463,16 @@ class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     required this.maxHeight,
     this.minHeight = 0,
     required Widget child,
-  })  : builder = ((a, b, c) => child),
+  })
+      : builder = ((a, b, c) => child),
         assert(minHeight <= maxHeight && minHeight >= 0);
 
   //最大和最小高度相同
   SliverHeaderDelegate.fixedHeight({
     required double height,
     required Widget child,
-  })  : builder = ((a, b, c) => child),
+  })
+      : builder = ((a, b, c) => child),
         maxHeight = height,
         minHeight = height;
 
@@ -428,11 +488,9 @@ class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   final SliverHeaderBuilder builder;
 
   @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
+  Widget build(BuildContext context,
+      double shrinkOffset,
+      bool overlapsContent,) {
     Widget child = builder(context, shrinkOffset, overlapsContent);
     //测试代码：如果在调试模式，且子组件设置了key，则打印日志
     assert(() {
@@ -453,12 +511,10 @@ class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
   double get minExtent => minHeight;
 
-  // @override
-  // bool shouldRebuild(SliverHeaderDelegate old) {
-  //   return old.maxExtent != maxExtent || old.minExtent != minExtent;
-  // }
   @override
-  bool shouldRebuild(SliverHeaderDelegate old) {
-    return true;
+  bool shouldRebuild(SliverHeaderDelegate oldDelegate) {
+    return oldDelegate.maxExtent != maxExtent ||
+        oldDelegate.minExtent != minExtent ;
   }
+
 }

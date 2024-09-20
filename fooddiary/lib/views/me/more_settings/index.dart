@@ -42,7 +42,7 @@ class _MoreSettingsState extends State<MoreSettings> {
                 CusAL.of(context).followSystem,
                 'system',
               ),
-              // _buildLanguageListItem('简体中文', 'zh'),
+              _buildLanguageListItem('简体中文', 'zh'),
               _buildLanguageListItem('English', 'en'),
             ],
           ),

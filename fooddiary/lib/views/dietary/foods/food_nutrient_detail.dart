@@ -126,14 +126,17 @@ class _FoodNutrientDetailState extends State<FoodNutrientDetail> {
             ...buildFoodTable(fsInfo),
 
             /// 展示所有单份的数据，不用实时根据摄入数量修改值
-            Text(
-              CusAL.of(context).foodNutrientInfo,
-              style: TextStyle(
-                fontSize: CusFontSizes.pageTitle,
-                fontWeight: FontWeight.bold,
-                color: Colors.green,
+            Padding(
+              padding:  EdgeInsets.only(top: 15.sp,left: 15.sp),
+              child: Text(
+                CusAL.of(context).foodNutrientInfo,
+                style: TextStyle(
+                  fontSize: CusFontSizes.pageTitle,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
+                textAlign: TextAlign.left,
               ),
-              textAlign: TextAlign.left,
             ),
 
             /// 当有单份营养素被选中后，显示删除或修改(仅单个被选中时)按钮；默认即可新增
@@ -355,14 +358,17 @@ class _FoodNutrientDetailState extends State<FoodNutrientDetail> {
     }
 
     return [
-      Text(
-        CusAL.of(context).foodBasicInfo,
-        style: TextStyle(
-          fontSize: CusFontSizes.flagMedium,
-          fontWeight: FontWeight.bold,
-          color: Colors.green,
+      Padding(
+        padding:  EdgeInsets.only(top: 15.sp,left: 15.sp),
+        child: Text(
+          CusAL.of(context).foodBasicInfo,
+          style: TextStyle(
+            fontSize: CusFontSizes.flagMedium,
+            fontWeight: FontWeight.bold,
+            color: Colors.green,
+          ),
+          textAlign: TextAlign.start,
         ),
-        textAlign: TextAlign.start,
       ),
       Padding(
         padding: EdgeInsets.all(15.sp),

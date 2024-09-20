@@ -217,6 +217,7 @@ class _DiaryPageState extends State<DiaryPage> {
       focusedDay: _focusedDay,
       selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
       rangeStartDay: _rangeStart,
+      daysOfWeekHeight: 20,
       rangeEndDay: _rangeEnd,
       calendarFormat: _calendarFormat,
       rangeSelectionMode: _rangeSelectionMode,
@@ -305,10 +306,11 @@ class _DiaryPageState extends State<DiaryPage> {
             children: [
               // Wrap最小高度48吧，调不了
               Wrap(
-                // spacing: 5,
+                spacing: 5,
                 alignment: WrapAlignment.spaceAround,
                 children: [
                   ...[
+                    const SizedBox(width: 10,),
                     buildSmallButtonTag(
                       initCategory,
                       bgColor: CusColors.cateTinyTagBg,
@@ -431,6 +433,89 @@ class _DiaryPageState extends State<DiaryPage> {
           ),
         );
       },
+    );
+  }
+}
+class CalendarPage extends StatefulWidget {
+  @override
+  _CalendarPageState createState() => _CalendarPageState();
+}
+
+class _CalendarPageState extends State<CalendarPage> {
+  // 当前选中的日期
+  DateTime _selectedDay = DateTime.now();
+
+  // 日历的焦点日期
+  DateTime _focusedDay = DateTime.now();
+
+  // 默认的显示格式
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter Calendar'),
+      ),
+      body: Column(
+        children: [
+          TableCalendar(
+            firstDay: DateTime.utc(2020, 1, 1),
+            // 日历可显示的最早日期
+            lastDay: DateTime.utc(2030, 12, 31),
+            // 日历可显示的最晚日期
+            focusedDay: _focusedDay,
+            // 当前聚焦的日期
+            calendarFormat: _calendarFormat,
+            // 日历格式
+            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+            onDaySelected: (selectedDay, focusedDay) {
+              setState(() {
+                _selectedDay = selectedDay;
+                _focusedDay = focusedDay;
+              });
+            },
+            onFormatChanged: (format) {
+              if (_calendarFormat != format) {
+                setState(() {
+                  _calendarFormat = format;
+                });
+              }
+            },
+            onPageChanged: (focusedDay) {
+              _focusedDay = focusedDay;
+            },
+            calendarStyle: const CalendarStyle(
+              todayDecoration: BoxDecoration(
+                color: Colors.blueAccent,
+                shape: BoxShape.circle,
+              ),
+              selectedDecoration: BoxDecoration(
+                color: Colors.orangeAccent,
+                shape: BoxShape.circle,
+              ),
+              outsideDaysVisible: false, // 控制日历视图中非当前月的日期是否可见
+            ),
+            headerStyle: HeaderStyle(
+              formatButtonVisible: true,
+              // 是否显示格式切换按钮
+              titleCentered: true,
+              // 标题居中
+              formatButtonDecoration: BoxDecoration(
+                color: Colors.deepOrange,
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              formatButtonTextStyle: const TextStyle(
+                color: Colors.white,
+              ),
+              leftChevronIcon: const Icon(
+                  Icons.chevron_left, color: Colors.black),
+              rightChevronIcon: const Icon(
+                  Icons.chevron_right, color: Colors.black),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
