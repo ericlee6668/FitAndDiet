@@ -44,7 +44,7 @@ class _MePageState extends State<MePage> {
   int currentUserId = 1;
 
 // ？？？登录用户信息，怎么在app中记录用户信息？缓存一个用户id每次都查？记住状态实时更新？……
-  late User userInfo;
+   User? userInfo;
 
   bool isLoading = false;
 
@@ -55,9 +55,7 @@ class _MePageState extends State<MePage> {
   void initState() {
     super.initState();
 
-    setState(() {
-      currentUserId = CacheUser.userId;
-    });
+    currentUserId = CacheUser.userId;
 
     _queryLoginedUserInfo();
     eventBus.on<String>().listen((event) {
@@ -69,9 +67,7 @@ class _MePageState extends State<MePage> {
 
   _queryLoginedUserInfo() async {
     if (isLoading) return;
-    setState(() {
-      isLoading = true;
-    });
+    isLoading = true;
 
     // 查询登录用户的信息一定会有的
     var tempUser = (await _userHelper.queryUser(userId: currentUserId))!;
@@ -218,35 +214,13 @@ class _MePageState extends State<MePage> {
           ),
         ],
       ),
-      body: isLoading
+      body: userInfo==null
           ? buildLoader(isLoading)
           : Container(
-        color:  Color(box.read('mode')=='dark'?0xff232229:0xfff5f5f5),
             child: ListView(
                 children: [
                   /// 用户基本信息展示区域(固定高度10+120+120=250)
-                  ..._buildBaseUserInfoArea(userInfo),
-
-                  /// 功能区，参看别的app大概留几个
-                  /// 功能区的占位就是除去状态栏、标题、底部按钮、头像区域个人信息外的高度进行等分
-                  /// 底部还预留20sp
-                  // 基本信息和体重趋势
-                  // SizedBox(
-                  //   height: (screenBodyHeight - 250 - 20) / 3,
-                  //   child: _buildInfoAndWeightChangeRow(),
-                  // ),
-                  //
-                  // // 摄入目标和运动设置
-                  // SizedBox(
-                  //   height: (screenBodyHeight - 250 - 20) / 3,
-                  //   child: _buildIntakeGoalAndRestTimeRow(),
-                  // ),
-                  //
-                  // // 备份还原和更多设置
-                  // SizedBox(
-                  //   height: (screenBodyHeight - 250 - 20) / 3,
-                  //   child: _buildBakAndRestoreAndMoreSettingRow(),
-                  // ),
+                  _buildBaseUserInfoArea(userInfo!),
                   _buildFunctionArea(),
                   const SizedBox(height: 10,),
                   _buildInformation(),
@@ -259,157 +233,159 @@ class _MePageState extends State<MePage> {
 
   // 用户基本信息展示区域
   _buildBaseUserInfoArea(User userInfo) {
-    return [
-      SizedBox(height: 10.sp),
-      Stack(
-        alignment: Alignment.center,
-        children: [
-          Image.asset('assets/covers/bg.png',height: 140,width:MediaQuery.of(context).size.width,fit: BoxFit.cover,),
-          // 没有修改头像，就用默认的
-          Positioned(
-            top: 90.sp,
-            right: 0.5.sw - 70.sp,
-            child: userInfo.gender == "male"
-                ? Icon(
-                    Icons.male,
-                    size: CusIconSizes.iconBig,
-                    color: Colors.red,
-                  )
-                : userInfo.gender == "female"
-                    ? Icon(
-                        Icons.female,
-                        size: CusIconSizes.iconBig,
-                        color: Colors.green,
-                      )
-                    : Icon(
-                        Icons.circle_outlined,
-                        size: CusIconSizes.iconNormal,
-                        color: Theme.of(context).disabledColor,
-                      ),
-          ),
-          Positioned(
-            top: 0.sp,
-            right: 0.sp,
-            child: Text(
-              '',
-              style: TextStyle(fontSize: CusFontSizes.flagTiny),
-            ),
-          ),
-        ],
-      ),
-      Container(
-        decoration: BoxDecoration(
-            color:Color(box.read('mode')=='dark'?0xff232229:0xffffffff),
-            borderRadius: BorderRadius.circular(20)
-        ),
-        margin: EdgeInsets.all(10.w),
-        height: 120.sp,
-        child: Row(
+    return Column(
+      children: [
+        SizedBox(height: 10.sp),
+        Stack(
+          alignment: Alignment.center,
           children: [
-            if (_avatarPath.isEmpty)
-              Positioned(
-                child: Container(
-                  width: 90,
-                  height: 90,
-                  margin: const EdgeInsets.only(left: 20),
-                  child: CircleAvatar(
-                    maxRadius: 60.sp,
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: const AssetImage(defaultAvatarImageUrl),
-                    // y圆形头像的边框线
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
-                          width: 2.sp,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+            Image.asset('assets/covers/bg.png',height: 140,width:MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+            // 没有修改头像，就用默认的
+            Positioned(
+              top: 90.sp,
+              right: 0.5.sw - 70.sp,
+              child: userInfo.gender == "male"
+                  ? Icon(
+                Icons.male,
+                size: CusIconSizes.iconBig,
+                color: Colors.red,
+              )
+                  : userInfo.gender == "female"
+                  ? Icon(
+                Icons.female,
+                size: CusIconSizes.iconBig,
+                color: Colors.green,
+              )
+                  : Icon(
+                Icons.circle_outlined,
+                size: CusIconSizes.iconNormal,
+                color: Theme.of(context).disabledColor,
               ),
-            if (_avatarPath.isNotEmpty)
-              GestureDetector(
-                onTap: () {
-                  // 这个直接弹窗显示图片可以缩放
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Dialog(
-                        backgroundColor: Colors.transparent, // 设置背景透明
-                        child: PhotoView(
-                          imageProvider: FileImage(File(_avatarPath)),
-                          // 设置图片背景为透明
-                          backgroundDecoration: const BoxDecoration(
-                            color: Colors.transparent,
-                          ),
-                          // 可以旋转
-                          // enableRotation: true,
-                          // 缩放的最大最小限制
-                          minScale: PhotoViewComputedScale.contained * 0.8,
-                          maxScale: PhotoViewComputedScale.covered * 2,
-                        ),
-                      );
-                    },
-                  );
-                },
-                child: Container(
-                  width: 90,
-                  height: 90,
-                  margin: const EdgeInsets.only(left: 20),
-                  child: CircleAvatar(
-                    maxRadius: 60.sp,
-                    backgroundImage: FileImage(File(_avatarPath)),
-                  ),
-                ),
-              ),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // 用户名、代号、简述
-                  ListTile(
-                    title: Text(
-                      userInfo.userName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: CusFontSizes.flagMediumBig,
-                      ),
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: Text(
-                      "@${userInfo.userCode ?? 'unkown'}",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-              
-                  // 用户简介 description
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                    child: Text(
-                      "${userInfo.description ?? 'no description'} ",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: CusFontSizes.pageContent),
-                    ),
-                  ),
-                ],
+            ),
+            Positioned(
+              top: 0.sp,
+              right: 0.sp,
+              child: Text(
+                '',
+                style: TextStyle(fontSize: CusFontSizes.flagTiny),
               ),
             ),
           ],
         ),
-      ),
-    ];
+        Container(
+          decoration: BoxDecoration(
+              color:Color(box.read('mode')=='dark'?0xff232229:0xffffffff),
+              borderRadius: BorderRadius.circular(20)
+          ),
+          margin: EdgeInsets.all(10.w),
+          height: 120.sp,
+          child: Row(
+            children: [
+              if (_avatarPath=='1')
+                Positioned(
+                  child: Container(
+                    width: 90,
+                    height: 90,
+                    margin: const EdgeInsets.only(left: 20),
+                    child: CircleAvatar(
+                      maxRadius: 60.sp,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: const AssetImage(defaultAvatarImageUrl),
+                      // y圆形头像的边框线
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Theme.of(context).primaryColor,
+                            width: 2.sp,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    // 这个直接弹窗显示图片可以缩放
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          backgroundColor: Colors.transparent, // 设置背景透明
+                          child: PhotoView(
+                            imageProvider: FileImage(File(_avatarPath)),
+                            // 设置图片背景为透明
+                            backgroundDecoration: const BoxDecoration(
+                              color: Colors.transparent,
+                            ),
+                            // 可以旋转
+                            // enableRotation: true,
+                            // 缩放的最大最小限制
+                            minScale: PhotoViewComputedScale.contained * 0.8,
+                            maxScale: PhotoViewComputedScale.covered * 2,
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    width: 90,
+                    height: 90,
+                    margin: const EdgeInsets.only(left: 20),
+                    child: CircleAvatar(
+                      maxRadius: 60.sp,
+                      foregroundImage:FileImage(File(_avatarPath)) ,
+                      backgroundImage: const AssetImage('assets/covers/Avatar.webp'),
+                    ),
+                  ),
+                ),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // 用户名、代号、简述
+                    ListTile(
+                      title: Text(
+                        userInfo.userName,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: CusFontSizes.flagMediumBig,
+                        ),
+                        textAlign: TextAlign.center,
+                        softWrap: true,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      subtitle: Text(
+                        "@${userInfo.userCode ?? 'unkown'}",
+                        textAlign: TextAlign.center,
+                        softWrap: true,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+
+                    // 用户简介 description
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 18.sp),
+                      child: Text(
+                        "${userInfo.description ?? 'no description'} ",
+                        textAlign: TextAlign.center,
+                        softWrap: true,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: CusFontSizes.pageContent),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   _buildInfoAndWeightChangeRow() {
@@ -487,7 +463,7 @@ class _MePageState extends State<MePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TrainingSetting(userInfo: userInfo),
+                  builder: (context) => TrainingSetting(userInfo: userInfo!),
                 ),
               ).then((value) {
                 // 确认新增成功后重新加载当前日期的条目数据
@@ -543,7 +519,7 @@ class _MePageState extends State<MePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TrainingSetting(userInfo: userInfo),
+                builder: (context) => TrainingSetting(userInfo: userInfo!),
               ),
             ).then((value) {
               // 确认新增成功后重新加载当前日期的条目数据
@@ -667,7 +643,7 @@ class _MePageState extends State<MePage> {
       {
         'icon': 'assets/me/training_setting.png',
         'title': CusAL.of(context).settingLabels('3'),
-        'page': TrainingSetting(userInfo: userInfo)
+        'page': TrainingSetting(userInfo: userInfo!)
       },
       {
         'icon': 'assets/me/backup.png',

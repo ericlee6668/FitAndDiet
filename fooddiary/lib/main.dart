@@ -9,7 +9,6 @@ import 'package:fit_track/views/base_bview.dart';
 import 'package:fit_track/views/base_view.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
-import 'firebase_options.dart';
 import 'main/app.dart';
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
