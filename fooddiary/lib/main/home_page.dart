@@ -1,8 +1,3 @@
-// ignore_for_file: avoid_print
-
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -10,9 +5,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:fit_track/main.dart';
 import 'package:fit_track/views/base_bview.dart';
 import 'package:fit_track/views/base_view.dart';
-import 'package:fit_track/views/training/index.dart';
 import 'package:get/get.dart';
-
 import '../common/global/constants.dart';
 import '../common/utils/db_dietary_helper.dart';
 import '../common/utils/tool_widgets.dart';

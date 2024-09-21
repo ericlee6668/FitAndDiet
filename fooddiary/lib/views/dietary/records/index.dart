@@ -1,13 +1,9 @@
-// ignore_for_file: avoid_print
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fit_track/common/global/constants.dart';
 import 'package:fit_track/models/dietary_state.dart';
-
 import 'package:intl/intl.dart';
-
 import '../../../common/utils/db_dietary_helper.dart';
 import '../../../common/utils/db_user_helper.dart';
 import '../../../common/utils/tool_widgets.dart';
@@ -16,14 +12,14 @@ import '../../../main/themes/cus_font_size.dart';
 import '../../../models/cus_app_localizations.dart';
 import '../reports/index.dart';
 import 'add_intake_item/index.dart';
-import 'ai_suggestion/ai_suggestion_page.dart';
 import 'format_tools.dart';
 import 'report_calendar_summary.dart';
 import 'save_meal_photo.dart';
 import 'add_intake_item/simple_food_detail.dart';
 
 class DietaryRecords extends StatefulWidget {
-  const DietaryRecords({super.key});
+  final int? type;
+  const DietaryRecords({super.key, this.type});
 
   @override
   State<DietaryRecords> createState() => _DietaryRecordsState();
@@ -77,7 +73,9 @@ class _DietaryRecordsState extends State<DietaryRecords> {
   @override
   void initState() {
     super.initState();
-
+    if(widget.type==1){
+      isExpandedList[mealtimeList[0].enLabel]=true;
+    }
     _queryDailyFoodItemList();
   }
 

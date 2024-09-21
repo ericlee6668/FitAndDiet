@@ -8,6 +8,7 @@ import '../../../common/utils/tool_widgets.dart';
 import '../../../common/utils/tools.dart';
 import '../../../models/cus_app_localizations.dart';
 import '../../../models/dietary_state.dart';
+import '../records/index.dart';
 import '../records/save_meal_photo.dart';
 
 class MealPhotoGallery extends StatefulWidget {
@@ -80,7 +81,28 @@ class _MealPhotoGalleryState extends State<MealPhotoGallery> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(CusAL.of(context).mealGallery),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(CusAL.of(context).mealGallery),
+            Row(
+              children: [
+                const Text('add one?',style: TextStyle(fontSize: 14),),
+                IconButton(icon: const Icon(Icons.add,size: 30,), onPressed: () {
+                       Navigator.push(
+                         context,
+                         MaterialPageRoute(
+                           builder: (context) => const DietaryRecords(
+                                type:1
+                           ),
+                         ),
+                       );
+                },),
+              ],
+            ),
+
+          ],
+        ),
       ),
       body: (photoItems.isNotEmpty)
           ? ListView.builder(
@@ -122,14 +144,14 @@ class _MealPhotoGalleryState extends State<MealPhotoGallery> {
               subtitle: Text(
                 '[${showCusLable(temp)}] ${photoList.length} ${CusAL.of(context).photoUnitLabel}',
               ),
-              trailing: TextButton(
-                onPressed: () {
-                  handleImageAnalysis(context, photoList);
-                },
-                child: Text(
-                  box.read('language') == "en" ? "AI analysis" : 'AI分析',
-                ),
-              ),
+              // trailing: TextButton(
+              //   onPressed: () {
+              //     handleImageAnalysis(context, photoList);
+              //   },
+              //   child: Text(
+              //     box.read('language') == "en" ? "AI analysis" : 'AI分析',
+              //   ),
+              // ),
             ),
             buildImageCarouselSlider(photoList),
             SizedBox(height: 10.sp),

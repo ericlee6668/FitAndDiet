@@ -209,7 +209,7 @@ class _DietaryPageState extends State<DietaryPage>
         ),
         buildCoverCard(
           context,
-          const DietaryRecords(),
+           DietaryRecords(),
           CusAL.of(context).dietaryRecords,
           CusAL.of(context).dietaryRecordsSubtitle,
           dietaryLogCoverImageUrl,

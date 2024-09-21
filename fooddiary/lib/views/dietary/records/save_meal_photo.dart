@@ -13,7 +13,6 @@ import '../../../common/utils/tools.dart';
 import '../../../main/themes/cus_font_size.dart';
 import '../../../models/cus_app_localizations.dart';
 import '../../../models/dietary_state.dart';
-import 'ai_suggestion/ai_suggestion_page.dart';
 
 class SaveMealPhotos extends StatefulWidget {
   // 2023-12-31 还需要传是为哪一天的餐次添加照片
@@ -125,9 +124,9 @@ class _SaveMealPhotosState extends State<SaveMealPhotos> {
                   List<String> fileNames = [];
                   if (temp != null && temp != "" && temp.toString() != "[]") {
                     // 餐次图片上传，放到设备外部存储固定位置
-                    if (!await MEAL_PHOTO_DIR.exists()) {
-                      await MEAL_PHOTO_DIR.create(recursive: true);
-                    }
+                    // if (!await MEAL_PHOTO_DIR.exists()) {
+                    //   await MEAL_PHOTO_DIR.create(recursive: true);
+                    // }
 
                     // 把上传的文件都异动到指定的位置去
                     // 2024-07-12 注意，暂时不考虑餐次图片被删除的情况
@@ -356,8 +355,8 @@ void handleImageAnalysis(BuildContext context, List<String> imagesUrls) {
 void navigateToOneChatScreen(BuildContext context, String imageUrl) {
   Navigator.of(context).push(
     MaterialPageRoute(
-      builder: (context) => OneChatScreen(
-        intakeInfo: box.read('language') == "en"
+      builder: (context) => Text(
+         box.read('language') == "en"
             ? """Please analyze the given pictures and answer each of the following questions.
          \n\n - Please list the foods in the pictures and estimate the number of servings (in grams) of each food. If the food items are not present, answer truthfully; 
          \n\n - Analyze the nutritional composition of the meal in the picture, whether it is reasonably balanced and healthy;.
@@ -366,7 +365,6 @@ void navigateToOneChatScreen(BuildContext context, String imageUrl) {
          \n\n - 请列出图片中的食物，并预估每种食物的份量(单位：克)。如果不存在食物，请如实回答;
          \n\n - 分析图中这顿饭的营养搭配，是否合理均衡，是否健康;
          \n\n - 优化图片提供食物的比例，达到营养均衡。""",
-        imageUrl: imageUrl,
       ),
     ),
   );
