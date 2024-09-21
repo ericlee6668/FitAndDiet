@@ -114,7 +114,7 @@ class _AddDailyDietPageState extends State<AddDailyDietPage> {
 
   _buildFoodItemCard(FoodAndServingInfo item) {
     var food = item.food;
-    var foodName = "${food.product} (${food.brand})";
+    var foodName = "${box.read('language')=='zh'?food.product:food.productEn} (${food.brand})";
 
     var fistServingInfo = item.servingInfoList[0];
     var foodUnit = fistServingInfo.servingUnit;
