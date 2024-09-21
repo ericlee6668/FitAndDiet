@@ -266,12 +266,15 @@ class _ReportCalendarSummaryState extends State<ReportCalendarSummary> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            CusAL.of(context).dietaryCalendarLabels('0'),
-            style: TextStyle(
-              fontSize: CusFontSizes.flagMedium,
-              fontWeight: FontWeight.bold,
-              color: Colors.green,
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              CusAL.of(context).dietaryCalendarLabels('0'),
+              style: TextStyle(
+                fontSize: CusFontSizes.flagMedium,
+                fontWeight: FontWeight.bold,
+                color: Colors.green,
+              ),
             ),
           ),
           SingleChildScrollView(
@@ -352,24 +355,30 @@ class _ReportCalendarSummaryState extends State<ReportCalendarSummary> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          CusAL.of(context).dietaryCalendarLabels('1'),
-          style: TextStyle(
-            fontSize: CusFontSizes.flagMedium,
-            fontWeight: FontWeight.bold,
-            color: Colors.green,
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            CusAL.of(context).dietaryCalendarLabels('1'),
+            style: TextStyle(
+              fontSize: CusFontSizes.flagMedium,
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
+            ),
           ),
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: _buildSummaryTable(formatList),
         ),
-        Text(
-          CusAL.of(context).dietaryCalendarLabels('2'),
-          style: TextStyle(
-            fontSize: CusFontSizes.flagMedium,
-            fontWeight: FontWeight.bold,
-            color: Colors.green,
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            CusAL.of(context).dietaryCalendarLabels('2'),
+            style: TextStyle(
+              fontSize: CusFontSizes.flagMedium,
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
+            ),
           ),
         ),
         ListView.builder(
@@ -402,7 +411,7 @@ class _ReportCalendarSummaryState extends State<ReportCalendarSummary> {
             //   ),
             // );
             return Card(
-              elevation: 5.sp,
+              elevation: 3.sp,
               child: ListTile(
                 title: Text(
                   '${CusAL.of(context).foodName}: ${food.product} (${food.brand})',

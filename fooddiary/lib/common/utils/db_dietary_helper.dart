@@ -427,7 +427,7 @@ class DBDietaryHelper {
 
     final foodRows = await db.query(
       DietaryDdl.tableNameOfFood,
-      where: '(brand LIKE ? OR product LIKE ?) AND is_deleted = ? ',
+      where: '(brand LIKE ? OR ${box.read('language')=='zh'?'product':'productEn'} LIKE ?) AND is_deleted = ? ',
       whereArgs: ['%$keyword%', '%$keyword%', 0],
       limit: pageSize,
       offset: offset,

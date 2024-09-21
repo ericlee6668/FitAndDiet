@@ -431,7 +431,7 @@ class _AddIntakeItemState extends State<AddIntakeItem>
         return SizedBox(
           height: 60.sp,
           child: CheckboxListTile(
-            title: Text('${e.food.product} (${e.food.brand})'),
+            title: Text('${box.read('language')=='zh'?e.food.product:e.food.productEn} (${e.food.brand})'),
             subtitle: RichText(
               textAlign: TextAlign.left,
               text: TextSpan(
@@ -533,7 +533,7 @@ class _AddIntakeItemState extends State<AddIntakeItem>
   /// 食物列表区域
   _buildFoodItemCard(FoodAndServingInfo item) {
     var food = item.food;
-    var foodName = "${food.product} (${food.brand})";
+    var foodName = "${box.read('language')=='zh'?food.product:food.productEn} (${food.brand})";
 
     var fistServingInfo = item.servingInfoList[0];
     var foodUnit = fistServingInfo.servingUnit;

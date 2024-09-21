@@ -300,7 +300,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        CusAL.of(context).weightLabel(''),
+                        CusAL.of(context).settingLabels('1'),
                         style: TextStyle(
                           fontSize: CusFontSizes.flagMedium,
                           fontWeight: FontWeight.bold,

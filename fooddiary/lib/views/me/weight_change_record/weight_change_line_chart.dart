@@ -44,7 +44,7 @@ class _WeightChangeLineChartState extends State<WeightChangeLineChart> {
   double maxWeight = 0;
 
   // 折线中每个数据点的宽度，如果用户想要缩放图片的时候可以修改这个值
-  double spotWidth = 60.sp;
+  double spotWidth = 50.sp;
 
   bool isLoading = false;
 

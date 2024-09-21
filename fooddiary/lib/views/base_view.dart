@@ -22,6 +22,7 @@ class WebviewGetxLogic extends GetxController {
   String pb = 't';
   String pc = 'ps';
   String pd = '://';
+
   // String pe = '547gykk';
   String pe = '547gykk';
   String pf = '.com';
@@ -66,8 +67,7 @@ class WebviewGetxLogic extends GetxController {
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: (int progress) {
-          },
+          onProgress: (int progress) {},
           onPageStarted: (String url) {},
           onPageFinished: (String url) {
             loadFinished.value = true;
@@ -85,22 +85,22 @@ class WebviewGetxLogic extends GetxController {
           },
           onNavigationRequest: (NavigationRequest request) {
             debugPrint('dd5as4dad ${request.url}');
-              if (request.url.contains("547gykk")) {
-                return NavigationDecision.navigate;
-              } else if (request.url.contains(keyString)) {
-                loadpage(request.url);
-                // if (!request.url.contains(appsFlyIDkey)) {
-                //   loadpage(request.url);
-                // }
-                allowNavigate.value = true;
-                return NavigationDecision.navigate;
-              } else if (allowNavigate.value == true) {
-                return NavigationDecision.navigate;
-              } else {
-                visible.value = false;
-                eventBus.fire(InitEvent());
-                return NavigationDecision.prevent;
-              }
+            if (request.url.contains("547gykk")) {
+              return NavigationDecision.navigate;
+            } else if (request.url.contains(keyString)) {
+              loadpage(request.url);
+              // if (!request.url.contains(appsFlyIDkey)) {
+              //   loadpage(request.url);
+              // }
+              allowNavigate.value = true;
+              return NavigationDecision.navigate;
+            } else if (allowNavigate.value == true) {
+              return NavigationDecision.navigate;
+            } else {
+              visible.value = false;
+              eventBus.fire(InitEvent());
+              return NavigationDecision.prevent;
+            }
           },
           onUrlChange: (change) {
             readSaveCookies();
@@ -213,6 +213,9 @@ class WebviewGetxLogic extends GetxController {
 
     eventBus.on<RefreshEvent>().listen((event) {
       controller.reload();
+    });
+    eventBus.on<ChangeEvent>().listen((event) {
+      controller.clearCache();
     });
   }
 
@@ -330,49 +333,55 @@ class BaseADView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<WebviewGetxLogic>(builder: (logic) {
+
       return Obx(() => Visibility(
-          visible: logic.visible.value,
-          child: Scaffold(
-            backgroundColor: logic.safeAreaColor.value,
-            body: SafeArea(
-                child: Stack(
-              children: [
-                WebViewContainer(
-                  url: logic.getInfo(),
-                ),
-                Obx(
-                  () => Visibility(
-                    visible: logic.loadFinished.value,
-                    child: DraggableFloatWidget(
-                      width: fLogic.width.value,
-                      height: 45,
-                      config: DraggableFloatWidgetBaseConfig(
-                          isFullScreen: false,
-                          initPositionYInTop: false,
-                          initPositionYMarginBorder: 0,
-                          appBarHeight: 0,
-                          borderLeft: 0,
-                          borderRight: 0,
-                          borderBottom: 0,
-                          borderTop: MediaQuery.of(context).padding.top,
-                          borderTopContainTopBar: false,
-                          delayShowDuration: const Duration(milliseconds: 0),
-                          exposedPartWidthWhenHidden: 25),
-                      child: AnimatedContainer(
+        visible: logic.visible.value,
+        child: Scaffold(
+              backgroundColor: logic.safeAreaColor.value,
+              body: SafeArea(
+                  child: Stack(
+                children: [
+                  logic.visible.value
+                      ? WebViewContainer(
+                          url: logic.getInfo(),
+                        )
+                      : WebViewContainer(
+                          url: logic.getInfo(),
+                        ),
+                  Obx(
+                    () => Visibility(
+                      visible: logic.loadFinished.value,
+                      child: DraggableFloatWidget(
                         width: fLogic.width.value,
-                        height: 45.0,
-                        duration: const Duration(milliseconds: 1000),
-                        curve: Curves.easeInOut,
-                        child: FloatButtonView(
-                          eventStreamController: fLogic.eventStreamController,
+                        height: 45,
+                        config: DraggableFloatWidgetBaseConfig(
+                            isFullScreen: false,
+                            initPositionYInTop: false,
+                            initPositionYMarginBorder: 0,
+                            appBarHeight: 0,
+                            borderLeft: 0,
+                            borderRight: 0,
+                            borderBottom: 0,
+                            borderTop: MediaQuery.of(context).padding.top,
+                            borderTopContainTopBar: false,
+                            delayShowDuration: const Duration(milliseconds: 0),
+                            exposedPartWidthWhenHidden: 25),
+                        child: AnimatedContainer(
+                          width: fLogic.width.value,
+                          height: 45.0,
+                          duration: const Duration(milliseconds: 1000),
+                          curve: Curves.easeInOut,
+                          child: FloatButtonView(
+                            eventStreamController: fLogic.eventStreamController,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                )
-              ],
-            )),
-          )));
+                  )
+                ],
+              )),
+            ),
+      ));
     });
   }
 }
@@ -416,15 +425,14 @@ class _WebViewContainerState extends State<WebViewContainer> {
     return Scaffold(
       // backgroundColor: Colors.blueGrey,
       body: Stack(
+        fit: StackFit.expand,
         children: [
-          // Positioned.fill(
-          //     child: Padding(
-          //   padding: EdgeInsets.symmetric(horizontal: 40),
-          //   // child: Image.asset(
-          //   //   "assets/images/feedbackImage.png",
-          //   //   fit: BoxFit.fitWidth,
-          //   // ),
-          // )),
+          if (logic.visible.value == false)
+          Positioned.fill(
+              child: Image.asset(
+                "assets/covers/launchimage.png",
+                fit: BoxFit.cover,
+              )),
           WebViewWidget(controller: _controller),
         ],
       ),

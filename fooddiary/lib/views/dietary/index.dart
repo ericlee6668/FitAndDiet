@@ -42,7 +42,7 @@ class _DietaryPageState extends State<DietaryPage>
   String query = '';
   bool isLoading = false;
   ScrollController scrollController = ScrollController();
- var selectText ='all'.obs;
+  var selectText = 'all'.obs;
   List<FoodAndServingInfo> foodItems = [];
   List<String> foodsTypeZh = [
     'all',
@@ -68,7 +68,7 @@ class _DietaryPageState extends State<DietaryPage>
     controller.addListener(() {
       if (controller.indexIsChanging) {
         currentName = foodsTypeZh[controller.index];
-        selectText.value=currentName;
+        selectText.value = currentName;
 
         currentCode = queryCode[controller.index];
         queryFoodList(queryCode[controller.index]);
@@ -92,8 +92,8 @@ class _DietaryPageState extends State<DietaryPage>
       appBar: AppBar(
         title: Text(curTitle),
       ),
-      backgroundColor: Color(
-          box.read('mode') == 'dark' ? 0xff232229 : 0xfff5f5f5),
+      backgroundColor:
+          Color(box.read('mode') == 'dark' ? 0xff232229 : 0xfff5f5f5),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -110,16 +110,12 @@ class _DietaryPageState extends State<DietaryPage>
           SliverToBoxAdapter(
             child: Center(
                 child: Text(
-                  CusAL
-                      .of(context)
-                      .calorieQuery,
-                  style: TextStyle(
-                      color: Theme
-                          .of(context)
-                          .primaryColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold),
-                )),
+              CusAL.of(context).calorieQuery,
+              style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold),
+            )),
           ),
           // SliverPersistentHeader(
           //     pinned: true,
@@ -207,65 +203,43 @@ class _DietaryPageState extends State<DietaryPage>
         buildCoverCard(
           context,
           const WeightTrendRecord(),
-          CusAL
-              .of(context)
-              .weightRecords,
-          CusAL
-              .of(context)
-              .weightRecordsSubtitle,
+          CusAL.of(context).weightRecords,
+          CusAL.of(context).weightRecordsSubtitle,
           weightImageUrl,
         ),
         buildCoverCard(
           context,
-          const DietaryReports(),
-          CusAL
-              .of(context)
-              .dietaryReports,
-          CusAL
-              .of(context)
-              .dietaryReportsSubtitle,
-          reportImageUrl,
+          const DietaryRecords(),
+          CusAL.of(context).dietaryRecords,
+          CusAL.of(context).dietaryRecordsSubtitle,
+          dietaryLogCoverImageUrl,
         ),
         buildCoverCard(
           context,
           const DietaryFoods(),
-          CusAL
-              .of(context)
-              .foodCompo,
-          CusAL
-              .of(context)
-              .foodCompoSubtitle,
+          CusAL.of(context).foodCompo,
+          CusAL.of(context).foodCompoSubtitle,
           dietaryNutritionImageUrl,
         ),
         buildCoverCard(
           context,
-          const MealPhotoGallery(),
-          CusAL
-              .of(context)
-              .mealGallery,
-          CusAL
-              .of(context)
-              .mealGallerySubtitle,
-          dietaryMealImageUrl,
+          const DietaryReports(),
+          CusAL.of(context).dietaryReports,
+          CusAL.of(context).dietaryReportsSubtitle,
+          reportImageUrl,
         ),
         buildCoverCard(
           context,
-          const DietaryRecords(),
-          CusAL
-              .of(context)
-              .dietaryRecords,
-          CusAL
-              .of(context)
-              .dietaryRecordsSubtitle,
-          dietaryLogCoverImageUrl,
+          const MealPhotoGallery(),
+          CusAL.of(context).mealGallery,
+          CusAL.of(context).mealGallerySubtitle,
+          dietaryMealImageUrl,
         ),
         buildCoverCard(
           context,
           const IntakeTargetPage(),
           CusAL.of(context).settingLabels('2'),
-          CusAL
-              .of(context)
-              .dietaryRecordsSubtitle,
+          CusAL.of(context).dietaryRecordsSubtitle,
           goalImage,
         ),
       ],
@@ -326,23 +300,19 @@ class _DietaryPageState extends State<DietaryPage>
     var firstServing = servingList.isNotEmpty ? servingList[0] : null;
     var foodUnit = firstServing?.servingUnit;
     var foodEnergy =
-    (firstServing?.energy ?? 0 / oneCalToKjRatio).toStringAsFixed(0);
+        (firstServing?.energy ?? 0 / oneCalToKjRatio).toStringAsFixed(0);
 
     // 能量文字
     var text1 = "$foodUnit - $foodEnergy ${CusAL.of(context).unitLabels('2')}";
     // 碳水文字
     var text2 =
-        "${CusAL.of(context).mainNutrients('4')} ${formatDoubleToString(
-        firstServing?.totalCarbohydrate ?? 0)} ${CusAL.of(context).unitLabels(
-        '0')}";
+        "${CusAL.of(context).mainNutrients('4')} ${formatDoubleToString(firstServing?.totalCarbohydrate ?? 0)} ${CusAL.of(context).unitLabels('0')}";
     // 脂肪文字
     var text3 =
-        "${CusAL.of(context).mainNutrients('3')} ${formatDoubleToString(
-        firstServing?.totalFat ?? 0)} ${CusAL.of(context).unitLabels('0')}";
+        "${CusAL.of(context).mainNutrients('3')} ${formatDoubleToString(firstServing?.totalFat ?? 0)} ${CusAL.of(context).unitLabels('0')}";
     // 蛋白质文字
     var text4 =
-        "${CusAL.of(context).mainNutrients('2')} ${formatDoubleToString(
-        firstServing?.protein ?? 0)} ${CusAL.of(context).unitLabels('0')}";
+        "${CusAL.of(context).mainNutrients('2')} ${formatDoubleToString(firstServing?.protein ?? 0)} ${CusAL.of(context).unitLabels('0')}";
 
     return Container(
       color: Color(box.read('mode') == 'dark' ? 0xff232229 : 0xffffffff),
@@ -359,11 +329,8 @@ class _DietaryPageState extends State<DietaryPage>
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontSize: CusFontSizes.itemSubTitle,
-              color: Theme
-                  .of(context)
-                  .primaryColor,
-              fontWeight: FontWeight.bold
-          ),
+              color: Theme.of(context).primaryColor,
+              fontWeight: FontWeight.bold),
         ),
         // 单份食物营养素
         subtitle: Text(
@@ -378,10 +345,9 @@ class _DietaryPageState extends State<DietaryPage>
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  FoodNutrientDetail(
-                    foodItem: fsi,
-                  ),
+              builder: (context) => FoodNutrientDetail(
+                foodItem: fsi,
+              ),
             ),
           ).then((value) {
             // 从详情页返回后需要重新查询，因为不知道在内部是不是有变动单份营养素。
@@ -463,16 +429,14 @@ class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     required this.maxHeight,
     this.minHeight = 0,
     required Widget child,
-  })
-      : builder = ((a, b, c) => child),
+  })  : builder = ((a, b, c) => child),
         assert(minHeight <= maxHeight && minHeight >= 0);
 
   //最大和最小高度相同
   SliverHeaderDelegate.fixedHeight({
     required double height,
     required Widget child,
-  })
-      : builder = ((a, b, c) => child),
+  })  : builder = ((a, b, c) => child),
         maxHeight = height,
         minHeight = height;
 
@@ -488,9 +452,11 @@ class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   final SliverHeaderBuilder builder;
 
   @override
-  Widget build(BuildContext context,
-      double shrinkOffset,
-      bool overlapsContent,) {
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     Widget child = builder(context, shrinkOffset, overlapsContent);
     //测试代码：如果在调试模式，且子组件设置了key，则打印日志
     assert(() {
@@ -514,7 +480,6 @@ class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(SliverHeaderDelegate oldDelegate) {
     return oldDelegate.maxExtent != maxExtent ||
-        oldDelegate.minExtent != minExtent ;
+        oldDelegate.minExtent != minExtent;
   }
-
 }

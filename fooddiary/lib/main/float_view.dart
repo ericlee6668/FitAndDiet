@@ -155,47 +155,35 @@ class _FloatButtonViewState extends State<FloatButtonView> {
                 ),
 
               ),
-              if (logic.isOpen.value)
-                Padding(
-                  padding:  const EdgeInsets.only(top:8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      homeAction();
-                    },
-                    child: SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Image.asset("assets/images/icon_home.png")),
-                  ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    if (logic.isOpen.value)
+                      GestureDetector(
+                          onTap: () {
+                            homeAction();
+                          },
+                          child: const Icon(Icons.home_filled,size: 30,)),
+                
+                    if (logic.isOpen.value)
+                      GestureDetector(
+                        onTap: () {
+                          refreshAction();
+                        },
+                        child: const Icon(Icons.refresh,size: 30,),
+                      ),
+                    if (logic.isOpen.value)
+                      GestureDetector(
+                        onTap: () {
+                          changeAction();
+                        },
+                        child: const Icon(Icons.cleaning_services_rounded,size: 30,),
+                      ),
+                  ],
                 ),
-              if (logic.isOpen.value)
-                Padding(
-                  padding: const EdgeInsets.only(top:8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      refreshAction();
-                    },
-                    child: SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: Image.asset("assets/images/icon_refresh.png"),
-                    ),
-                  ),
-                ),
-              if (logic.isOpen.value)
-                Padding(
-                  padding: const EdgeInsets.only(top:8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      changeAction();
-                    },
-                    child: SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: Image.asset("assets/images/icon_change.png"),
-                    ),
-                  ),
-                ),
+              )
+
             ],
           ),
         ),

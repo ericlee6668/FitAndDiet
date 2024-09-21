@@ -41,6 +41,7 @@ class _FitTrackAppState extends State<FitTrackApp> {
           onGenerateTitle: (context) {
             return CusAL.of(context).appTitle;
           },
+          debugShowCheckedModeBanner: false,
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,

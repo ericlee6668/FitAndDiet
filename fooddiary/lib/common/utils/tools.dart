@@ -277,7 +277,7 @@ String showCusLableMapLabel(BuildContext context, CusLabel? cusLable) {
 
 // 根据当前语言显示自定义标签的文字(上面那个不传context版本)
 String showCusLable(CusLabel cusLable) {
-  return box.read('language') == "en" ? cusLable.enLabel : cusLable.cnLabel;
+  return box.read('language') == "zh" ? cusLable.cnLabel : cusLable.enLabel;
 }
 
 // 根据传入的值和对应的自定义标签列表，显示对应语言的标签
@@ -288,7 +288,7 @@ getCusLabelText(String item, List<CusLabel> options) {
     orElse: () => CusLabel(cnLabel: '[无]', enLabel: 'No Data', value: ''),
   );
 
-  return box.read('language') == "en" ? op.enLabel : op.cnLabel;
+  return box.read('language') == "zh" ? op.cnLabel : op.enLabel;
 }
 
 // 只请求内部存储访问权限(食物营养素、锻炼动作导入；备份还原等)
