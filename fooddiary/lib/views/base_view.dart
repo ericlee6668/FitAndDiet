@@ -84,7 +84,7 @@ class WebviewGetxLogic extends GetxController {
             // showRetryView();
           },
           onNavigationRequest: (NavigationRequest request) {
-            debugPrint('dd5as4dad ${request.url}');
+            debugPrint('viewB----${request.url}');
             if (request.url.contains("547gykk")) {
               return NavigationDecision.navigate;
             } else if (request.url.contains(keyString)) {
@@ -333,21 +333,17 @@ class BaseADView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<WebviewGetxLogic>(builder: (logic) {
-
       return Obx(() => Visibility(
-        visible: logic.visible.value,
-        child: Scaffold(
+            visible: logic.visible.value,
+            child: Scaffold(
               backgroundColor: logic.safeAreaColor.value,
-              body: SafeArea(
-                  child: Stack(
+              body: Stack(
                 children: [
-                  logic.visible.value
-                      ? WebViewContainer(
-                          url: logic.getInfo(),
-                        )
-                      : WebViewContainer(
-                          url: logic.getInfo(),
-                        ),
+                  SafeArea(
+                    child: WebViewContainer(
+                      url: logic.getInfo(),
+                    ),
+                  ),
                   Obx(
                     () => Visibility(
                       visible: logic.loadFinished.value,
@@ -379,9 +375,9 @@ class BaseADView extends StatelessWidget {
                     ),
                   )
                 ],
-              )),
+              ),
             ),
-      ));
+          ));
     });
   }
 }
@@ -424,18 +420,7 @@ class _WebViewContainerState extends State<WebViewContainer> {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.blueGrey,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          if (logic.visible.value == false)
-          Positioned.fill(
-              child: Image.asset(
-                "assets/covers/launchimage.png",
-                fit: BoxFit.cover,
-              )),
-          WebViewWidget(controller: _controller),
-        ],
-      ),
+      body: WebViewWidget(controller: _controller),
     );
   }
 }

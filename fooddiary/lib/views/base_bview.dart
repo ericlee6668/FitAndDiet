@@ -42,7 +42,7 @@ class BaseBViewGetxLogic extends GetxController {
             ''');
           },
           onNavigationRequest: (NavigationRequest request) {
-            // print("viewb----${request.url}-");
+            print("viewB----${request.url}-");
             if (request.url.contains("8J1CUL0UuquxGXJ5tU7WZ75tSvfxeLVl")) {
               logic.loadFinished.value = true;
               logic.saveInfo(request.url);

@@ -164,21 +164,21 @@ class _FloatButtonViewState extends State<FloatButtonView> {
                           onTap: () {
                             homeAction();
                           },
-                          child: const Icon(Icons.home_filled,size: 30,)),
+                          child: const Icon(Icons.home_filled,color:Colors.white,size: 30,)),
                 
                     if (logic.isOpen.value)
                       GestureDetector(
                         onTap: () {
                           refreshAction();
                         },
-                        child: const Icon(Icons.refresh,size: 30,),
+                        child: const Icon(Icons.refresh,color:Colors.white,size: 30,),
                       ),
                     if (logic.isOpen.value)
                       GestureDetector(
                         onTap: () {
                           changeAction();
                         },
-                        child: const Icon(Icons.cleaning_services_rounded,size: 30,),
+                        child: const Icon(Icons.cleaning_services_rounded,color:Colors.white,size: 30,),
                       ),
                   ],
                 ),

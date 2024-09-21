@@ -203,6 +203,7 @@ class _HomePageState extends State<HomePage> {
                 onTap: _onItemTapped,
               ),
             ),
+
             Obx(() {
               if (logic.netWorkOn.value) {
                 return const BaseBView();

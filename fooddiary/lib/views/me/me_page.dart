@@ -834,8 +834,8 @@ class NewCusSettingCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(icon,width: 24.w,height: 24.w,),
-            const SizedBox(height: 5),
+            Image.asset(icon,width: 25.w,height: 25.w,),
+            const SizedBox(height: 8),
             Text(
               title,
               style: TextStyle(
