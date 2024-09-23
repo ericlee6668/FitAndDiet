@@ -217,6 +217,7 @@ class _MePageState extends State<MePage> {
       body: userInfo==null
           ? buildLoader(isLoading)
           : Container(
+            color: const Color(0xfff5f5f5),
             child: ListView(
                 children: [
                   /// 用户基本信息展示区域(固定高度10+120+120=250)
