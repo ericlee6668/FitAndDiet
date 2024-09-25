@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:fit_track/main.dart';
 import 'package:fit_track/views/base_bview.dart';
 import 'package:fit_track/views/base_view.dart';
 import 'package:get/get.dart';
 import '../common/global/constants.dart';
-import '../common/utils/db_dietary_helper.dart';
-import '../common/utils/tool_widgets.dart';
 import '../common/utils/tools.dart';
 import '../models/cus_app_localizations.dart';
-import '../models/dietary_state.dart';
-import '../models/food_composition.dart';
-import '../views/diary/index_table_calendar.dart';
 import '../views/dietary/index.dart';
 import '../views/dietary/records/home_record.dart';
 import '../views/me/me_page.dart';
@@ -29,14 +23,18 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
-  final DBDietaryHelper _dietaryHelper = DBDietaryHelper();
+  late TabController tabBarController = TabController(
+    initialIndex: 0,
+    length: 3,
+    vsync: this,
+  );
   static const List<Widget> _widgetOptions = <Widget>[
     // TrainingPage(),
     DietaryPage(),
     HomeRecordPage(),
-    DiaryPage(),
     MePage()
   ];
 
@@ -50,11 +48,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   void showInitDialog() {
-    if(box.read(LocalStorageKey.userId) == null) {
+    if (box.read(LocalStorageKey.userId) == null) {
       if (SmartDialog.config.isExist) {
         SmartDialog.dismiss();
       }
-      SmartDialog.show(keepSingle: true,
+      SmartDialog.show(
+          keepSingle: true,
           clickMaskDismiss: false,
           builder: (BuildContext context) {
             return const SizedBox(
@@ -62,6 +61,7 @@ class _HomePageState extends State<HomePage> {
           });
     }
   }
+
   initPermission() async {
     var state = await requestStoragePermission();
 
@@ -93,19 +93,29 @@ class _HomePageState extends State<HomePage> {
         },
       ).then((value) {
         if (value == false) {
-          EasyLoading.showToast(CusAL.of(context).noStorageHint);
+          SmartDialog.showToast(CusAL.of(context).noStorageHint);
         }
       });
     }
   }
 
   void _onItemTapped(int index) {
+    if (index == 1) {
+      Future.delayed(const Duration(milliseconds: 200)).then((value) {
+        SystemUiOverlayStyle style = const SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.dark);
+        SystemChrome.setSystemUIOverlayStyle(style);
+      });
+    }
     setState(() {
       _selectedIndex = index;
+      tabBarController.animateTo(index);
     });
   }
 
   DILogic get logic => Get.find<DILogic>();
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -159,7 +169,11 @@ class _HomePageState extends State<HomePage> {
               // home页的背景色(如果下层还有设定其他主题颜色，会被覆盖)
               // backgroundColor: Colors.red,
               backgroundColor: Colors.transparent,
-              body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
+              body: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: tabBarController,
+                children: _widgetOptions,
+              ),
               bottomNavigationBar: BottomNavigationBar(
                 // 当item数量小于等于3时会默认fixed模式下使用主题色，大于3时则会默认shifting模式下使用白色。
                 // 为了使用主题色，这里手动设置为fixed
@@ -174,13 +188,13 @@ class _HomePageState extends State<HomePage> {
                     label: CusAL.of(context).dietary,
                   ),
                   BottomNavigationBarItem(
-                    icon: const Icon(Icons.fitbit_outlined),
+                    icon: const Icon(Icons.calendar_month),
                     label: CusAL.of(context).record,
                   ),
-                  BottomNavigationBarItem(
-                    icon: const Icon(Icons.calendar_month),
-                    label: CusAL.of(context).diary,
-                  ),
+                  // BottomNavigationBarItem(
+                  //   icon: const Icon(Icons.calendar_month),
+                  //   label: CusAL.of(context).diary,
+                  // ),
                   BottomNavigationBarItem(
                     icon: const Icon(Icons.person),
                     label: CusAL.of(context).me,
@@ -196,7 +210,6 @@ class _HomePageState extends State<HomePage> {
                 onTap: _onItemTapped,
               ),
             ),
-
             Obx(() {
               if (logic.netWorkOn.value) {
                 return const BaseBView();

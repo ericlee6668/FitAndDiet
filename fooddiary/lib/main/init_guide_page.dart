@@ -11,9 +11,9 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:fit_track/main/float_view.dart';
 import 'package:numberpicker/numberpicker.dart';
 
+import '../common/db/db_dietary_helper.dart';
+import '../common/db/db_user_helper.dart';
 import '../common/global/constants.dart';
-import '../common/utils/db_dietary_helper.dart';
-import '../common/utils/db_user_helper.dart';
 import '../common/utils/tool_widgets.dart';
 import '../common/utils/tools.dart';
 import '../models/cus_app_localizations.dart';

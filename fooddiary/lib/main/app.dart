@@ -2,7 +2,6 @@
 
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -62,24 +61,13 @@ class _FitTrackAppState extends State<FitTrackApp> {
               ? null
               : Locale(box.read('language')),
 
-          // theme: ThemeData(
-          //   primarySwatch: Colors.blue,
-          //   // ？？？2023-11-22：升级到flutter 3.16 之后默认为true，现在还没有兼容修改部件，后续再启用
-          //   useMaterial3: false,
-          //   appBarTheme: AppBarTheme(
-          //     color: Colors.blue,
-          //     iconTheme: const IconThemeData(color: Colors.white),
-          //     titleTextStyle: TextStyle(fontSize: 20.sp),
-          //   ),
-          // ),
+
 
           // 默认使用浅色主题，预设一个深色主题使用的预设值
           // 跟随系统的默认深色是一个material主题
           darkTheme: FlexThemeData.dark(scheme: FlexScheme.material,transparentStatusBar: false),
 
           /// 根据系统设置使用深色或浅色主题(当有完善的深色模式之后再启用)
-          /// 默认的主题(即theme:null)不是很好看，就只要不是暗色都浅色主题，
-          /// 跟随系统的浅色和深色和手动选择的一样
           theme: box.read('mode') == 'system'
               // 跟随系统的默认浅色是一个绿色主题
               ? FlexThemeData.light(scheme: FlexScheme.amber)
@@ -87,15 +75,10 @@ class _FitTrackAppState extends State<FitTrackApp> {
                   ? FlexThemeData.dark(scheme: FlexScheme.greyLaw)
                   : FlexThemeData.light(scheme: FlexScheme.amber),
 
-          // 使用了initalRoute就不能使用home了，参看文档：
-          // https://flutter.cn/docs/cookbook/navigation/named-routes#2-define-the-routes
-
           // 如果没有在缓存获取到用户信息，就要用户输入；否则就直接进入首页
           home: const HomePage(),
           builder: (context,child){
-            child = FlutterSmartDialog(child: child);
-            child = EasyLoading.init()(context, child);
-            return child;
+            return FlutterSmartDialog(child: child);
           },
         );
       },

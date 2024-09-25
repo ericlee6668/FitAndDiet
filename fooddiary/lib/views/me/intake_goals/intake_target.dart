@@ -1,3 +1,4 @@
+import 'package:fit_track/common/db/db_user_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -6,7 +7,6 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:fit_track/models/user_state.dart';
 
 import '../../../common/global/constants.dart';
-import '../../../common/utils/db_user_helper.dart';
 import '../../../common/utils/tool_widgets.dart';
 import '../../../common/utils/tools.dart';
 import '../../../main/themes/cus_font_size.dart';

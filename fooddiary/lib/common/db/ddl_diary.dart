@@ -2,9 +2,9 @@
 /// 2023-10-23 训练模块相关db语句
 class DiaryDdl {
   // db名称
-  static String databaseName = "embedded_diary.db";
+  static String databaseName = "food_diary.db";
 
-  static const tableNameOfDiary = 'ff_diary';
+  static const tableNameOfDiary = 'ft_diary';
 
   static const String ddlForDiary = """
     CREATE TABLE IF NOT EXISTS $tableNameOfDiary (

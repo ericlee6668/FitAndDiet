@@ -1,9 +1,9 @@
+import 'package:fit_track/common/db/db_user_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fit_track/models/user_state.dart';
 import 'package:numberpicker/numberpicker.dart';
 
-import '../../../common/utils/db_user_helper.dart';
 import '../../../models/cus_app_localizations.dart';
 
 class TrainingSetting extends StatefulWidget {

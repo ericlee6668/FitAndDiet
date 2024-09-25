@@ -36,7 +36,7 @@
     "Mn": "0.04",
     "remark": "北京",
     "tags": "1",
-    "category": "主食"
+    "category": "Staple Food"
   },
   {
     "foodCode": "a11102",
@@ -75,7 +75,7 @@
     "Mn": "0.09",
     "remark": "0.22",
     "tags": "1",
-    "category": "主食"
+    "category": "Staple Food"
   },
   {
     "foodCode": "a11103",
@@ -113,7 +113,7 @@
     "Mn": "1.13",
     "remark": "",
     "tags": "1",
-    "category": "主食"
+    "category": "Staple Food"
   },
   {
     "foodCode": "a11104",
@@ -152,7 +152,7 @@
     "Mn": "0.78",
     "remark": "-",
     "tags": "1",
-    "category": "主食"
+    "category": "Staple Food"
   },
   {
     "foodCode": "a11105",
@@ -190,7 +190,7 @@
     "Cu": "1.23",
     "Mn": "",
     "tags": "1",
-    "category": "主食"
+    "category": "Staple Food"
   },
   {
     "foodCode": "b12101",

@@ -1,6 +1,9 @@
 import 'dart:math';
 
+import 'package:fit_track/common/components/cus_cards.dart';
 import 'package:fit_track/views/dietary/records/report_calendar_summary.dart';
+import 'package:fit_track/views/dietary/records/water_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fit_track/views/dietary/records/add_intake_item/add_daily_diet_Page.dart';
@@ -9,9 +12,9 @@ import 'package:fit_track/views/me/weight_change_record/weight_record_manage.dar
 import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
 
+import '../../../common/db/db_dietary_helper.dart';
+import '../../../common/db/db_user_helper.dart';
 import '../../../common/global/constants.dart';
-import '../../../common/utils/db_dietary_helper.dart';
-import '../../../common/utils/db_user_helper.dart';
 import '../../../common/utils/tool_widgets.dart';
 import '../../../common/utils/tools.dart';
 import '../../../main/themes/cus_font_size.dart';
@@ -49,8 +52,10 @@ class _HomeRecordPageState extends State<HomeRecordPage>
   double curDinnerCalories = 0.0;
 
   double totalCal = 0;
+
   // 如果用户没有设定，则使用预设值2250或1800
   int valueRDA = 1800;
+
   @override
   void initState() {
     getUser();
@@ -82,7 +87,6 @@ class _HomeRecordPageState extends State<HomeRecordPage>
         // 如果既没有单独每天的也没有整体的，则默认男女推荐值(不是男的都当做女的)
         valueRDA = userGoal.user.gender == "male" ? 2250 : 1800;
       }
-
     });
     getMealCal();
   }
@@ -91,294 +95,36 @@ class _HomeRecordPageState extends State<HomeRecordPage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(CusAL.of(context).heathRecord),
+      body: ListView(
+        children: [
+          dailyDietContainer(),
+          const SizedBox(height: 20),
+          waterViewContainer(),
+          const SizedBox(height: 10),
+          bmiContainer(),
+          const SizedBox(height: 20),
+        ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(left: 20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RichText(
-                        textAlign: TextAlign.left,
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: "BMI",
-                              style: TextStyle(
-                                fontSize: CusFontSizes.flagMedium,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            ),
-                            const TextSpan(
-                              text: " (15 ~ 40)",
-                              style: TextStyle(color: Colors.green),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 20.w),
-                        child: Text(
-                          CusAL.of(context).recentWeight(
-                              (user?.currentWeight ?? 50.0).toString()),
-                          style: TextStyle(
-                            fontSize: CusFontSizes.pageSubTitle,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Card(child: _buildBmiArea(context)),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(left: 20.w, right: 20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        CusAL.of(context).dailyDiet,
-                        style: TextStyle(
-                          fontSize: CusFontSizes.flagMedium,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ReportCalendarSummary(),
-                            ),
-                          );
-                        },
-                        child: Text(CusAL.of(context).calendar,
-                            style: TextStyle(
-                              fontSize: CusFontSizes.pageSubContent,
-                              fontWeight: FontWeight.bold,
-                            )),
-                      ),
-                    ],
-                  ),
-                  _buildDailyDietWidget(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TextButton(
-                          onPressed: () async {
-                            var result = await Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const AddDailyDietPage(
-                                mealtime: CusMeals.breakfast,
-                              );
-                            }));
-                            var tempEnergy = 0.0;
-                            if (result != null) {
-                              // var info = result as FoodAndServingInfo;
-                              // if(result == mealtimeList[0].enLabel){
-                              //   curBreakFastCalories = info.servingInfoList[0].energy/oneCalToKjRatio;
-                              // }else if(result==mealtimeList[1].enLabel){
-                              //
-                              // }else{
-                              //
-                              // }
-                              getMealCal();
-                            }
+    );
+  }
 
-                            print('路由返回值，卡路里：${tempEnergy / oneCalToKjRatio}');
-                            // setState(() {
-                            //   curCalories += tempEnergy/oneCalToKjRatio;
-                            // });
-                          },
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                'assets/covers/zao.png',
-                                width: 22.w,
-                                height: 22.w,
-                              ),
-                              Text('+${CusAL.of(context).mealLabels('0')}'),
-                              Text(
-                                curBreakFastCalories == 0.0
-                                    ? CusAL.of(context).noRecord
-                                    : '${curBreakFastCalories.toStringAsFixed(0)}cal',
-                                style: const TextStyle(color: Colors.black54),
-                              ),
-                            ],
-                          )),
-                      TextButton(
-                          onPressed: () async {
-                            var result = await Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const AddDailyDietPage(
-                                  mealtime: CusMeals.lunch);
-                            }));
-                            if (result != null) {
-                              getMealCal();
-                            }
-                          },
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                'assets/covers/wu.png',
-                                width: 22.w,
-                                height: 22.w,
-                              ),
-                              Text('+${CusAL.of(context).mealLabels('1')}'),
-                              Text(
-                                curLunchCalories == 0.0
-                                    ? CusAL.of(context).noRecord
-                                    : '${curLunchCalories.toStringAsFixed(0)}cal',
-                                style: const TextStyle(color: Colors.black54),
-                              ),
-                            ],
-                          )),
-                      TextButton(
-                          onPressed: () async {
-                            var result = await Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const AddDailyDietPage(
-                                  mealtime: CusMeals.dinner);
-                            }));
-                            if (result != null) {
-                              getMealCal();
-                            }
-                          },
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                'assets/covers/wan.png',
-                                width: 22.w,
-                                height: 22.w,
-                              ),
-                              Text('+${CusAL.of(context).mealLabels('2')}'),
-                              Text(
-                                curDinnerCalories == 0.0
-                                    ? CusAL.of(context).noRecord
-                                    : '${curDinnerCalories.toStringAsFixed(0)}cal',
-                                style: const TextStyle(color: Colors.black54),
-                              ),
-                            ],
-                          )),
-                    ],
-                  )
-                ],
-              ),
+  waterViewContainer() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Text(
+            CusAL.of(context).water,
+            style: TextStyle(
+              fontSize: CusFontSizes.flagMedium,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
             ),
-            Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        CusAL.of(context).settingLabels('1'),
-                        style: TextStyle(
-                          fontSize: CusFontSizes.flagMedium,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              // 这里只显示修改体重
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => WeightRecordManage(
-                                      user: user ?? User(userName: '')),
-                                ),
-                              ).then(
-                                (value) async {
-                                  // 强制重新加载体重变化图表
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  var tempUser = (await _userHelper.queryUser(
-                                    userId: CacheUser.userId,
-                                  ))!;
-
-                                  setState(() {
-                                    user = tempUser;
-                                    _currentWeight = user?.currentWeight ?? 70;
-                                    _currentHeight = user?.height ?? 170;
-                                    isLoading = false;
-                                  });
-                                },
-                              );
-                            },
-                            child: Text(CusAL.of(context).manageLabel),
-                          ),
-                          SizedBox(width: 10.sp),
-                          ElevatedButton(
-                            onPressed: () {
-                              // 这里只显示修改体重
-                              _buildModifyWeightOrBmiDialog(onlyWeight: true)
-                                  .then(
-                                (value) async {
-                                  // 强制重新加载体重变化图表
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  var tempUser = (await _userHelper.queryUser(
-                                    userId: CacheUser.userId,
-                                  ))!;
-
-                                  setState(() {
-                                    user = tempUser;
-                                    _currentWeight = user?.currentWeight ?? 70;
-                                    _currentHeight = user?.height ?? 170;
-                                    isLoading = false;
-                                  });
-                                },
-                              );
-                            },
-                            child: Text(CusAL.of(context).recordLabel),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                if (!isLoading)
-                  Card(
-                      child: WeightChangeLineChart(
-                          user: user ?? User(userName: ''))),
-              ],
-            ),
-          ],
+          ),
         ),
-      ),
+        const WaterView()
+      ],
     );
   }
 
@@ -607,6 +353,43 @@ class _HomeRecordPageState extends State<HomeRecordPage>
               ),
             ),
           ),
+          SizedBox(
+            height: 5,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    (user?.currentWeight ?? 50).toString(),
+                    style: TextStyle(
+                        fontSize: CusFontSizes.pageSubTitle,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text('Height')
+                ],
+              ),
+              Column(
+                children: [
+                  Text("${cusDoubleTryToIntString(user?.currentWeight ?? 60)}kg",
+                      style: TextStyle(
+                          fontSize: CusFontSizes.pageSubTitle,
+                          fontWeight: FontWeight.bold)),
+                  Text('Weight')
+                ],
+              ),
+              Column(
+                children: [
+                  Text('${bmi.toStringAsFixed(2)}bmi',
+                      style: TextStyle(
+                          fontSize: CusFontSizes.pageSubTitle,
+                          fontWeight: FontWeight.bold)),
+                  Text('bmi')
+                ],
+              ),
+            ],
+          )
         ],
       ),
     );
@@ -659,7 +442,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                   ),
                 ),
                 TextSpan(
-                  text: ' kcal (Goal)',
+                  text: ' kcal (Rec.)',
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
                     fontSize: CusFontSizes.itemContent,
@@ -714,6 +497,274 @@ class _HomeRecordPageState extends State<HomeRecordPage>
     curDinnerCalories = tempDinnerFastEnergy / oneCalToKjRatio;
     totalCal = curBreakFastCalories + curLunchCalories + curDinnerCalories;
     setState(() {});
+  }
+
+  bmiContainer() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RichText(
+                textAlign: TextAlign.left,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "BMI",
+                      style: TextStyle(
+                        fontSize: CusFontSizes.flagMedium,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    const TextSpan(
+                      text: " (15 ~ 40)",
+                      style: TextStyle(color: Colors.green),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          buildCardContainer(child: _buildBmiArea(context)),
+        ],
+      ),
+    );
+  }
+
+  dailyDietContainer() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.only(left: 20.w, right: 20.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                CusAL.of(context).dailyDiet,
+                style: TextStyle(
+                  fontSize: CusFontSizes.flagMedium,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ReportCalendarSummary(),
+                    ),
+                  );
+                },
+                child: SizedBox(
+                  height: 20,
+                  child: Text(CusAL.of(context).calendar,
+                      style: TextStyle(
+                        fontSize: CusFontSizes.pageSubContent,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+              ),
+            ],
+          ),
+          _buildDailyDietWidget(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextButton(
+                  onPressed: () async {
+                    var result = await Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const AddDailyDietPage(
+                        mealtime: CusMeals.breakfast,
+                      );
+                    }));
+                    var tempEnergy = 0.0;
+                    if (result != null) {
+                      // var info = result as FoodAndServingInfo;
+                      // if(result == mealtimeList[0].enLabel){
+                      //   curBreakFastCalories = info.servingInfoList[0].energy/oneCalToKjRatio;
+                      // }else if(result==mealtimeList[1].enLabel){
+                      //
+                      // }else{
+                      //
+                      // }
+                      getMealCal();
+                    }
+
+                    print('路由返回值，卡路里：${tempEnergy / oneCalToKjRatio}');
+                    // setState(() {
+                    //   curCalories += tempEnergy/oneCalToKjRatio;
+                    // });
+                  },
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'assets/covers/zao.png',
+                        width: 22.w,
+                        height: 22.w,
+                      ),
+                      Text('+${CusAL.of(context).mealLabels('0')}'),
+                      Text(
+                        curBreakFastCalories == 0.0
+                            ? CusAL.of(context).noRecord
+                            : '${curBreakFastCalories.toStringAsFixed(0)}cal',
+                        style: const TextStyle(color: Colors.black54),
+                      ),
+                    ],
+                  )),
+              TextButton(
+                  onPressed: () async {
+                    var result = await Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const AddDailyDietPage(mealtime: CusMeals.lunch);
+                    }));
+                    if (result != null) {
+                      getMealCal();
+                    }
+                  },
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'assets/covers/wu.png',
+                        width: 22.w,
+                        height: 22.w,
+                      ),
+                      Text('+${CusAL.of(context).mealLabels('1')}'),
+                      Text(
+                        curLunchCalories == 0.0
+                            ? CusAL.of(context).noRecord
+                            : '${curLunchCalories.toStringAsFixed(0)}cal',
+                        style: const TextStyle(color: Colors.black54),
+                      ),
+                    ],
+                  )),
+              TextButton(
+                  onPressed: () async {
+                    var result = await Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const AddDailyDietPage(mealtime: CusMeals.dinner);
+                    }));
+                    if (result != null) {
+                      getMealCal();
+                    }
+                  },
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'assets/covers/wan.png',
+                        width: 22.w,
+                        height: 22.w,
+                      ),
+                      Text('+${CusAL.of(context).mealLabels('2')}'),
+                      Text(
+                        curDinnerCalories == 0.0
+                            ? CusAL.of(context).noRecord
+                            : '${curDinnerCalories.toStringAsFixed(0)}cal',
+                        style: const TextStyle(color: Colors.black54),
+                      ),
+                    ],
+                  )),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  weightTrendWidget() {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                CusAL.of(context).settingLabels('1'),
+                style: TextStyle(
+                  fontSize: CusFontSizes.flagMedium,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // 这里只显示修改体重
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => WeightRecordManage(
+                              user: user ?? User(userName: '')),
+                        ),
+                      ).then(
+                        (value) async {
+                          // 强制重新加载体重变化图表
+                          setState(() {
+                            isLoading = true;
+                          });
+                          var tempUser = (await _userHelper.queryUser(
+                            userId: CacheUser.userId,
+                          ))!;
+
+                          setState(() {
+                            user = tempUser;
+                            _currentWeight = user?.currentWeight ?? 70;
+                            _currentHeight = user?.height ?? 170;
+                            isLoading = false;
+                          });
+                        },
+                      );
+                    },
+                    child: Text(CusAL.of(context).manageLabel),
+                  ),
+                  SizedBox(width: 10.sp),
+                  ElevatedButton(
+                    onPressed: () {
+                      // 这里只显示修改体重
+                      _buildModifyWeightOrBmiDialog(onlyWeight: true).then(
+                        (value) async {
+                          // 强制重新加载体重变化图表
+                          setState(() {
+                            isLoading = true;
+                          });
+                          var tempUser = (await _userHelper.queryUser(
+                            userId: CacheUser.userId,
+                          ))!;
+
+                          setState(() {
+                            user = tempUser;
+                            _currentWeight = user?.currentWeight ?? 70;
+                            _currentHeight = user?.height ?? 170;
+                            isLoading = false;
+                          });
+                        },
+                      );
+                    },
+                    child: Text(CusAL.of(context).recordLabel),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+        if (!isLoading)
+          Card(child: WeightChangeLineChart(user: user ?? User(userName: ''))),
+      ],
+    );
   }
 }
 

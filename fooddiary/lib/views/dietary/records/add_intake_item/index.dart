@@ -1,9 +1,9 @@
+import 'package:fit_track/common/db/db_dietary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../common/global/constants.dart' as constants;
 import '../../../../common/global/constants.dart';
-import '../../../../common/utils/db_dietary_helper.dart';
 import '../../../../common/utils/tool_widgets.dart';
 
 import '../../../../common/utils/tools.dart';

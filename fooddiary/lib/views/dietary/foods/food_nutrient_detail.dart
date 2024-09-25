@@ -1,12 +1,12 @@
 // ignore_for_file: avoid_print
 
+import 'package:fit_track/common/db/db_dietary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../common/global/constants.dart';
 import '../../../../models/dietary_state.dart';
 import '../../../common/components/dialog_widgets.dart';
-import '../../../common/utils/db_dietary_helper.dart';
 import '../../../common/utils/tool_widgets.dart';
 import '../../../common/utils/tools.dart';
 import '../../../main/themes/cus_font_size.dart';

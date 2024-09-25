@@ -4,8 +4,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 //辅助配置
 import 'cus_http_options.dart';
@@ -128,7 +128,7 @@ class HttpRequest {
       // print("code:${httpException.code}");
       // print("msg:${httpException.msg}");
       if (showErrorMessage) {
-        EasyLoading.showToast(httpException.msg);
+        SmartDialog.showToast(httpException.msg);
       }
 
       // 2024-06-20 这里还是要把错误抛出去，在请求的API处方便trycatch拦截处理
@@ -136,7 +136,7 @@ class HttpRequest {
       throw httpException;
     } finally {
       if (showLoading) {
-        EasyLoading.dismiss();
+        SmartDialog.dismiss();
       }
     }
   }

@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:fit_track/common/db/db_user_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,7 +14,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:photo_view/photo_view.dart';
 import '../../../common/utils/tool_widgets.dart';
 import '../../common/global/constants.dart';
-import '../../common/utils/db_user_helper.dart';
 import '../../main/themes/cus_font_size.dart';
 import '../../models/cus_app_localizations.dart';
 import '../../models/user_state.dart';
@@ -28,8 +28,8 @@ import 'user_info/modify_user/index.dart';
 import 'weight_change_record/index.dart';
 
 class MePage extends StatefulWidget {
-  const MePage({super.key});
-
+  const MePage({super.key,this.animationController});
+  final AnimationController? animationController;
   @override
   State<MePage> createState() => _MePageState();
 }

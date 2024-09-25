@@ -4,9 +4,9 @@ import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fit_track/views/base_bview.dart';
 import 'package:fit_track/views/base_view.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'main/app.dart';
@@ -63,10 +63,10 @@ class AppCatchError {
 
     // 弹窗提醒用户
     if (kDebugMode) {
-      EasyLoading.showToast(
+      SmartDialog.showToast(
         error.toString(),
-        duration: const Duration(seconds: 5),
-        toastPosition: EasyLoadingToastPosition.top,
+        displayTime: const Duration(seconds: 5),
+        alignment: Alignment.topCenter,
       );
     }
 

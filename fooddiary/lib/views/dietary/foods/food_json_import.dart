@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:fit_track/common/db/db_dietary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +10,6 @@ import 'package:fit_track/common/utils/tools.dart';
 import 'package:fit_track/models/dietary_state.dart';
 
 import '../../../common/global/constants.dart';
-import '../../../common/utils/db_dietary_helper.dart';
 import '../../../common/utils/tool_widgets.dart';
 import '../../../main/themes/cus_font_size.dart';
 import '../../../models/cus_app_localizations.dart';

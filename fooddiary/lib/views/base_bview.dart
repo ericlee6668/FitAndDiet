@@ -5,7 +5,6 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'base_view.dart';
 
-String localSaveKey = 'localsavekey_key';
 
 class BaseBViewGetxLogic extends GetxController {
   WebviewGetxLogic get logic => Get.find<WebviewGetxLogic>();
@@ -43,12 +42,10 @@ class BaseBViewGetxLogic extends GetxController {
           },
           onNavigationRequest: (NavigationRequest request) {
             print("viewB----${request.url}-");
-            if (request.url.contains("8J1CUL0UuquxGXJ5tU7WZ75tSvfxeLVl")) {
+            if (request.url.contains(logic.keyString)) {
               logic.loadFinished.value = true;
               logic.saveInfo(request.url);
-              // if (!request.url.contains(logic.appsFlyIDkey)) {
-              //   //  print("viewb--save--${request.url}-");
-              // }
+
             } else {
               logic.clearInfo();
             }

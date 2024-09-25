@@ -10,8 +10,8 @@ import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fit_track/models/diary_state.dart';
 
+import '../../common/db/db_diary_helper.dart';
 import '../../common/global/constants.dart';
-import '../../common/utils/db_diary_helper.dart';
 import '../../common/utils/tool_widgets.dart';
 import '../../common/utils/tools.dart';
 import '../../main/themes/cus_font_size.dart';

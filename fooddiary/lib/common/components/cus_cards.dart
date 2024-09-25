@@ -1,3 +1,4 @@
+import 'package:fit_track/main/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -75,7 +76,7 @@ buildCoverCard(
   return Card(
     clipBehavior: Clip.hardEdge,
     elevation: 5,
-    shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(10)),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     margin: const EdgeInsets.all(8),
     child: InkWell(
       onTap: () {
@@ -93,33 +94,63 @@ buildCoverCard(
       child: Row(
         children: [
           Padding(
-              padding: EdgeInsets.only(left:5.sp),
-              child: Image.asset(imageUrl, fit: BoxFit.contain,height: 45,width: 45,),
+            padding: EdgeInsets.only(left: 5.sp),
+            child: Image.asset(
+              imageUrl,
+              fit: BoxFit.contain,
+              height: 45,
+              width: 45,
             ),
+          ),
           const SizedBox(width: 5),
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  title,
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
-                  ),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                title,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
                 ),
-                Text(textAlign: TextAlign.center,subtitle, maxLines: 2, style: TextStyle(
+              ),
+              Text(
+                textAlign: TextAlign.center,
+                subtitle,
+                maxLines: 2,
+                style: TextStyle(
                   fontSize: 12.sp,
-                ),),
-              ]
-
-            ),
+                ),
+              ),
+            ]),
           ),
         ],
       ),
+    ),
+  );
+}
+
+buildCardContainer({Widget? child,double? radius}) {
+  return Container(
+    decoration: BoxDecoration(
+      color: AppTheme.white,
+      borderRadius:  BorderRadius.only(
+          topLeft: Radius.circular(radius??8),
+          bottomLeft: Radius.circular(radius??8),
+          bottomRight: Radius.circular(radius??8),
+          topRight: Radius.circular(radius??8)),
+      boxShadow: <BoxShadow>[
+        BoxShadow(
+            color: AppTheme.grey.withOpacity(0.2),
+            offset: const Offset(1.1, 1.1),
+            blurRadius: 10.0),
+      ],
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(16),
+      child: child,
     ),
   );
 }

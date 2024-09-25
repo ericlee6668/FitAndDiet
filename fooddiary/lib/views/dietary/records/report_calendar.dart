@@ -14,14 +14,14 @@ import '../../../models/cus_app_localizations.dart';
 import '../../../models/dietary_state.dart';
 import 'format_tools.dart';
 
-class ReportCalendarSummary extends StatefulWidget {
-  const ReportCalendarSummary({super.key});
+class ReportCalendar extends StatefulWidget {
+  const ReportCalendar({super.key});
 
   @override
-  State<ReportCalendarSummary> createState() => _ReportCalendarSummaryState();
+  State<ReportCalendar> createState() => _ReportCalendarState();
 }
 
-class _ReportCalendarSummaryState extends State<ReportCalendarSummary> {
+class _ReportCalendarState extends State<ReportCalendar> {
   // 初始化或查询时加载饮食日记数据，没加载完就都是加载中
   final DBDietaryHelper _dietaryHelper = DBDietaryHelper();
 
@@ -36,6 +36,7 @@ class _ReportCalendarSummaryState extends State<ReportCalendarSummary> {
 
   /// 根据条件查询的日记条目数据
   List<DailyFoodItemWithFoodServing> dfiwfsList = [];
+  List<DailyFoodItemWithFoodServing> dfiwfsList23 = [];
   // 数据是否加载中
   bool isLoading = false;
 
@@ -390,26 +391,6 @@ class _ReportCalendarSummaryState extends State<ReportCalendarSummary> {
             var intakeSize = value[index].dailyFoodItem.foodIntakeSize;
             var servingUnit = value[index].servingInfo.servingUnit;
 
-            // return Container(
-            //   margin: const EdgeInsets.symmetric(
-            //     horizontal: 12.0,
-            //     vertical: 4.0,
-            //   ),
-            //   decoration: BoxDecoration(
-            //     border: Border.all(),
-            //     borderRadius: BorderRadius.circular(12.sp),
-            //   ),
-            //   child: ListTile(
-            //     title: Text(
-            //       '${CusAL.of(context).foodName}: ${food.product} (${food.brand})',
-            //       style: TextStyle(fontSize: CusFontSizes.itemSubTitle),
-            //     ),
-            //     subtitle: Text(
-            //       '${CusAL.of(context).eatableSize}: ${cusDoubleTryToIntString(intakeSize)} x $servingUnit',
-            //       style: TextStyle(fontSize: CusFontSizes.itemSubTitle),
-            //     ),
-            //   ),
-            // );
             return Card(
               elevation: 3.sp,
               child: ListTile(

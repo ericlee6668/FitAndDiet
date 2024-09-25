@@ -1,11 +1,11 @@
 // ignore_for_file: avoid_print
 
+import 'package:fit_track/common/db/db_dietary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 
 import '../../../../common/global/constants.dart';
-import '../../../../common/utils/db_dietary_helper.dart';
 import '../../../../common/utils/tool_widgets.dart';
 import '../../../../models/cus_app_localizations.dart';
 import '../../../../models/dietary_state.dart';

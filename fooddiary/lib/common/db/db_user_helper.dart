@@ -4,13 +4,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../models/user_state.dart';
-
 import 'ddl_user.dart';
+
 
 class DBUserHelper {
   ///
@@ -43,7 +44,7 @@ class DBUserHelper {
     Directory? directory2 = await getApplicationDocumentsDirectory();
     String path = "${directory2?.path}/${UserDdl.databaseName}";
 
-    print("初始化 User sqlite数据库存放的地址：$path");
+    debugPrint("初始化 User sqlite数据库存放的地址：$path");
 
     // 在给定路径上打开/创建数据库
     var userDb = await openDatabase(path, version: 1, onCreate: _createDb);
@@ -53,7 +54,7 @@ class DBUserHelper {
 
   // 创建训练数据库相关表
   void _createDb(Database db, int newVersion) async {
-    print("开始创建表 _createDb……");
+    debugPrint("开始创建表 _createDb……");
 
     await db.transaction((txn) async {
       txn.execute(UserDdl.ddlForUser);

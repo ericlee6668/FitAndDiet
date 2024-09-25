@@ -11,8 +11,8 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 import '../../common/components/cus_cards.dart';
+import '../../common/db/db_dietary_helper.dart';
 import '../../common/global/constants.dart';
-import '../../common/utils/db_dietary_helper.dart';
 import '../../common/utils/tool_widgets.dart';
 import '../../common/utils/tools.dart';
 import '../../main/themes/cus_font_size.dart';
@@ -21,6 +21,7 @@ import '../../models/dietary_state.dart';
 import '../../models/food_composition.dart';
 import '../me/weight_change_record/index.dart';
 import 'foods/food_nutrient_detail.dart';
+import 'foods/food_page.dart';
 import 'foods/index.dart';
 import 'meal_gallery/meal_photo_gallery.dart';
 import 'records/index.dart';
@@ -117,77 +118,77 @@ class _DietaryPageState extends State<DietaryPage>
                   fontWeight: FontWeight.bold),
             )),
           ),
-          // SliverPersistentHeader(
-          //     pinned: true,
-          //     delegate: SliverHeaderDelegate.builder(
-          //         minHeight: 45.sp,
-          //         maxHeight: 45.sp,
-          //         builder: (contex, shrinkOffset, overlapsContent) {
-          //           print(' shrink: $shrinkOffset, overlaps:$overlapsContent');
-          //           WidgetsBinding.instance
-          //               .addPostFrameCallback((timeStamp) {
-          //             if (shrinkOffset == 0) {
-          //               setState(() {
-          //                 curTitle = CusAL
-          //                     .of(context)
-          //                     .dietary;
-          //               });
-          //             } else if (shrinkOffset == 45.sp) {
-          //               setState(() {
-          //                 curTitle = CusAL
-          //                     .of(context)
-          //                     .calorieQuery;
-          //               });
-          //             }
-          //           });
-          //           return Column(
-          //             children: [
-          //               Container(
-          //                 color: Color(box.read('mode') == 'dark'
-          //                     ? 0xff232229
-          //                     : 0xffffffff),
-          //                 height: 38.w,
-          //                 child: Obx(
-          //                   ()=> TabBar(
-          //                     tabs: foodsTypeZh
-          //                         .map((e) =>
-          //                         SizedBox(
-          //                           height: 28,
-          //                           child: Text(
-          //                             e,
-          //                             style: TextStyle(
-          //                                 color: selectText.value == e
-          //                                     ? Colors.red
-          //                                     : Colors.grey[500],
-          //                                 fontSize: 16),
-          //                           ),
-          //                         ))
-          //                         .toList(),
-          //                     controller: controller,
-          //                     indicatorColor: Colors.red,
-          //                     indicatorPadding:
-          //                     const EdgeInsets.symmetric(horizontal: 8),
-          //                     isScrollable: true,
-          //                   ),
-          //                 ),
-          //               ),
-          //             ],
-          //           );
-          //         })),
-          // SliverList.separated(
-          //     itemCount: foodItems.length + 1,
-          //     itemBuilder: (context, index) {
-          //       if (index == foodItems.length) {
-          //         return buildLoader(isLoading);
-          //       } else {
-          //         return _buildSimpleFoodTile(foodItems[index], index);
-          //       }
-          //     },
-          //     separatorBuilder: (context, i) {
-          //       return const Divider(
-          //         height: 2,
-          //       );
-          //     })
+          SliverPersistentHeader(
+              pinned: true,
+              delegate: SliverHeaderDelegate.builder(
+                  minHeight: 45.sp,
+                  maxHeight: 45.sp,
+                  builder: (contex, shrinkOffset, overlapsContent) {
+                    print(' shrink: $shrinkOffset, overlaps:$overlapsContent');
+                    WidgetsBinding.instance
+                        .addPostFrameCallback((timeStamp) {
+                      if (shrinkOffset == 0) {
+                        setState(() {
+                          curTitle = CusAL
+                              .of(context)
+                              .dietary;
+                        });
+                      } else if (shrinkOffset == 45.sp) {
+                        setState(() {
+                          curTitle = CusAL
+                              .of(context)
+                              .calorieQuery;
+                        });
+                      }
+                    });
+                    return Column(
+                      children: [
+                        Container(
+                          color: Color(box.read('mode') == 'dark'
+                              ? 0xff232229
+                              : 0xffffffff),
+                          height: 38.w,
+                          child: Obx(
+                            ()=> TabBar(
+                              tabs: foodsTypeZh
+                                  .map((e) =>
+                                  SizedBox(
+                                    height: 28,
+                                    child: Text(
+                                      e,
+                                      style: TextStyle(
+                                          color: selectText.value == e
+                                              ? Colors.red
+                                              : Colors.grey[500],
+                                          fontSize: 16),
+                                    ),
+                                  ))
+                                  .toList(),
+                              controller: controller,
+                              indicatorColor: Colors.red,
+                              indicatorPadding:
+                              const EdgeInsets.symmetric(horizontal: 8),
+                              isScrollable: true,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  })),
+          SliverList.separated(
+              itemCount: foodItems.length + 1,
+              itemBuilder: (context, index) {
+                if (index == foodItems.length) {
+                  return buildLoader(isLoading);
+                } else {
+                  return _buildSimpleFoodTile(foodItems[index], index);
+                }
+              },
+              separatorBuilder: (context, i) {
+                return const Divider(
+                  height: 2,
+                );
+              })
         ],
       ),
     );
@@ -216,7 +217,7 @@ class _DietaryPageState extends State<DietaryPage>
         ),
         buildCoverCard(
           context,
-          const DietaryFoods(),
+          const FoodPage(),
           CusAL.of(context).foodCompo,
           CusAL.of(context).foodCompoSubtitle,
           dietaryNutritionImageUrl,

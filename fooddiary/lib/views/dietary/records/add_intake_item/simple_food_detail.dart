@@ -1,10 +1,10 @@
+import 'package:fit_track/common/db/db_dietary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../../../common/global/constants.dart';
-import '../../../../../common/utils/db_dietary_helper.dart';
 import '../../../../../models/dietary_state.dart';
 import '../../../../common/utils/tools.dart';
 import '../../../../main/themes/cus_font_size.dart';
