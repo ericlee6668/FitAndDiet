@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:fit_track/common/components/cus_cards.dart';
+import 'package:fit_track/main/themes/app_theme.dart';
 import 'package:fit_track/views/dietary/records/report_calendar_summary.dart';
 import 'package:fit_track/views/dietary/records/water_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -97,13 +98,23 @@ class _HomeRecordPageState extends State<HomeRecordPage>
     return Scaffold(
       body: ListView(
         children: [
+          titleWidget(),
+          const SizedBox(height: 20),
           dailyDietContainer(),
+          const SizedBox(height: 20),
+          bmiContainer(),
           const SizedBox(height: 20),
           waterViewContainer(),
           const SizedBox(height: 10),
-          bmiContainer(),
-          const SizedBox(height: 20),
         ],
+      ),
+    );
+  }
+  titleWidget(){
+    return Center(
+      child: Text(
+        CusAL.of(context).heathRecord,
+        style: TextStyle(color: Theme.of(context).primaryColor,fontSize: CusFontSizes.itemTitle,fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -113,7 +124,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Text(
             CusAL.of(context).water,
             style: TextStyle(
@@ -238,13 +249,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
     var tempHeight = (user?.height ?? 120) / 100;
     var bmi = (tempWeight / (tempHeight * tempHeight));
 
-    /// 注意，这里的所有内容都是基于
-    ///   BMI 范围: 偏瘦<=18.4;正常18.5~23.9;过重24.0~27.9;肥胖>=28.0
-    ///   显示的长度15-40
-    ///   对应矩形长度：0-300.sp
-    ///   然后每个范围显示不同的颜色，指针也是使用padding进行偏移描点。
-    /// 改一个，全都乱，尤其是flex
-    /// 2023-12-18 几个区间用计算式
+
     var uwtFlex = ((18.4 - 15) / (40 - 15) * 300).toInt();
     var nwtFlex = ((23.9 - 18.4) / (40 - 15) * 300).toInt();
     var owtFlex = ((28 - 23.9) / (40 - 15) * 300).toInt();
@@ -353,7 +358,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Row(
@@ -367,16 +372,17 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                         fontSize: CusFontSizes.pageSubTitle,
                         fontWeight: FontWeight.bold),
                   ),
-                  Text('Height')
+                  const Text('Height')
                 ],
               ),
               Column(
                 children: [
-                  Text("${cusDoubleTryToIntString(user?.currentWeight ?? 60)}kg",
+                  Text(
+                      "${cusDoubleTryToIntString(user?.currentWeight ?? 60)}kg",
                       style: TextStyle(
                           fontSize: CusFontSizes.pageSubTitle,
                           fontWeight: FontWeight.bold)),
-                  Text('Weight')
+                  const Text('Weight')
                 ],
               ),
               Column(
@@ -385,7 +391,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                       style: TextStyle(
                           fontSize: CusFontSizes.pageSubTitle,
                           fontWeight: FontWeight.bold)),
-                  Text('bmi')
+                  const Text('bmi')
                 ],
               ),
             ],
@@ -430,21 +436,21 @@ class _HomeRecordPageState extends State<HomeRecordPage>
         Container(
             padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
             decoration: BoxDecoration(
-                color: Colors.grey[300],
+                color: Colors.blueAccent,
                 borderRadius: BorderRadius.circular(20)),
             child: RichText(
               text: TextSpan(children: [
                 TextSpan(
                   text: valueRDA.toString(),
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color:Colors.white,
                     fontSize: CusFontSizes.itemSubTitle,
                   ),
                 ),
                 TextSpan(
                   text: ' kcal (Rec.)',
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color:Colors.white,
                     fontSize: CusFontSizes.itemContent,
                   ),
                 ),
@@ -502,7 +508,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
   bmiContainer() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -533,7 +539,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
           const SizedBox(
             height: 20,
           ),
-          buildCardContainer(child: _buildBmiArea(context)),
+          buildCardContainer(child: _buildBmiArea(context),context:context),
         ],
       ),
     );
@@ -542,7 +548,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
   dailyDietContainer() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.only(left: 20.w, right: 20.w),
+      margin: EdgeInsets.only(left: 15.w, right: 15.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
@@ -567,14 +573,11 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                     ),
                   );
                 },
-                child: SizedBox(
-                  height: 20,
-                  child: Text(CusAL.of(context).calendar,
-                      style: TextStyle(
-                        fontSize: CusFontSizes.pageSubContent,
-                        fontWeight: FontWeight.bold,
-                      )),
-                ),
+                child: Text(CusAL.of(context).calendar,
+                    style: TextStyle(
+                      fontSize: CusFontSizes.pageSubContent,
+                      fontWeight: FontWeight.bold,
+                    )),
               ),
             ],
           ),
@@ -620,7 +623,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                         curBreakFastCalories == 0.0
                             ? CusAL.of(context).noRecord
                             : '${curBreakFastCalories.toStringAsFixed(0)}cal',
-                        style: const TextStyle(color: Colors.black54),
+                        style:  TextStyle(color: Theme.of(context).primaryColorDark),
                       ),
                     ],
                   )),
@@ -646,8 +649,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                         curLunchCalories == 0.0
                             ? CusAL.of(context).noRecord
                             : '${curLunchCalories.toStringAsFixed(0)}cal',
-                        style: const TextStyle(color: Colors.black54),
-                      ),
+                        style:  TextStyle(color: Theme.of(context).primaryColorDark)),
                     ],
                   )),
               TextButton(
@@ -672,8 +674,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                         curDinnerCalories == 0.0
                             ? CusAL.of(context).noRecord
                             : '${curDinnerCalories.toStringAsFixed(0)}cal',
-                        style: const TextStyle(color: Colors.black54),
-                      ),
+                        style:  TextStyle(color:Theme.of(context).primaryColorDark)),
                     ],
                   )),
             ],

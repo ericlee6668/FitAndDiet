@@ -5,6 +5,8 @@ import 'package:fit_track/views/dietary/records/wave_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../common/global/constants.dart';
+
 class WaterView extends StatefulWidget {
   const WaterView(
       {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation})
@@ -32,7 +34,7 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
           left: 24, right: 24, top: 16, bottom: 18),
       child: Container(
         decoration: BoxDecoration(
-          color: AppTheme.white,
+          color:box.read('mode')=='light'?Colors.white:AppTheme.mainDark,
           borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(8.0),
               bottomLeft: Radius.circular(8.0),
@@ -67,19 +69,18 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                               child: Obx(() => Text(
                                     logic.waterDrink.value.toString(),
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(
+                                    style:  TextStyle(
                                       fontFamily:
                                           AppTheme.fontName,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 32,
-                                      color: AppTheme
-                                          .nearlyDarkBlue,
+                                      color: Theme.of(context).primaryColor,
                                     ),
                                   )),
                             ),
-                            const Padding(
+                             Padding(
                               padding:
-                                  EdgeInsets.only(left: 8, bottom: 8),
+                                  const EdgeInsets.only(left: 8, bottom: 8),
                               child: Text(
                                 'ml',
                                 textAlign: TextAlign.center,
@@ -88,24 +89,24 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                                   fontWeight: FontWeight.w500,
                                   fontSize: 18,
                                   letterSpacing: -0.2,
-                                  color: AppTheme.nearlyDarkBlue,
+                                  color: Theme.of(context).primaryColor,
                                 ),
                               ),
                             ),
                           ],
                         ),
                         Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               left: 4, top: 2, bottom: 14),
                           child: Text(
                             'of daily goal ${logic.waterTotal.value.toString()} ml',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: AppTheme.fontName,
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
                               letterSpacing: 0.0,
-                              color: AppTheme.darkText,
+                              color: AppTheme.text50,
                             ),
                           ),
                         ),
@@ -144,16 +145,19 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                                       'assets/covers/bell.png'),
                                 ),
                                 const Flexible(
-                                  child: Text(
-                                    'Drinking water is good for your health.',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontFamily:
-                                          AppTheme.fontName,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12,
-                                      letterSpacing: 0.0,
-                                      // color: HexColor('#F65283'),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 8.0),
+                                    child: Text(
+                                      'Drinking water is good for your health.',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontFamily:
+                                            AppTheme.fontName,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
+                                        letterSpacing: 0.0,
+                                        // color: HexColor('#F65283'),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -188,8 +192,8 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                                 blurRadius: 8.0),
                           ],
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
+                        child: const Padding(
+                          padding: EdgeInsets.all(6.0),
                           child: Icon(
                             Icons.add,
                             color: AppTheme.nearlyDarkBlue,

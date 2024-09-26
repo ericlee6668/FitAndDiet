@@ -70,10 +70,10 @@ class _FitTrackAppState extends State<FitTrackApp> {
           /// 根据系统设置使用深色或浅色主题(当有完善的深色模式之后再启用)
           theme: box.read('mode') == 'system'
               // 跟随系统的默认浅色是一个绿色主题
-              ? FlexThemeData.light(scheme: FlexScheme.amber)
+              ? FlexThemeData.dark(scheme: FlexScheme.cyanM3)
               : box.read('mode') == 'dark'
-                  ? FlexThemeData.dark(scheme: FlexScheme.greyLaw)
-                  : FlexThemeData.light(scheme: FlexScheme.amber),
+                  ? FlexThemeData.dark(scheme: FlexScheme.cyanM3)
+                  : FlexThemeData.light(scheme: FlexScheme.greyLaw),
 
           // 如果没有在缓存获取到用户信息，就要用户输入；否则就直接进入首页
           home: const HomePage(),

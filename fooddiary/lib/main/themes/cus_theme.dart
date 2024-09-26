@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'app_theme.dart';
+
 /// 浅色主题
 ThemeData lightTheme = ThemeData(
   // 浅色背景
@@ -35,15 +37,17 @@ ThemeData lightTheme = ThemeData(
   // appbar主题
   appBarTheme: AppBarTheme(
     // color: Colors.blue,
-    iconTheme: const IconThemeData(color: Colors.white),
+    backgroundColor: AppTheme.primary20,
+    iconTheme: const IconThemeData(color: AppTheme.white),
     titleTextStyle: TextStyle(fontSize: 20.sp),
   ),
   // 颜色组，定义应用可以使用的颜色集。定义了许多小部件的默认颜色
   colorScheme: ColorScheme.fromSeed(
-    seedColor: Colors.red,
+    seedColor: Colors.white,
   ).copyWith(
-    primary: Colors.green,
+    primary: AppTheme.primary20,
   ),
+
   // 指定某种按钮的主体
   elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(

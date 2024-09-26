@@ -712,15 +712,15 @@ class _DietaryRecordsState extends State<DietaryRecords> {
                         ),
                   // 折叠栏展开后的背景色
                   // backgroundColor: Theme.of(context).focusColor,
-                  trailing: SizedBox(
-                    // 设置的这个宽度让餐次中的表格数据和顶部保持差不多样子(7分之1)
-                    width: 0.142.sw,
-                    child: Icon(
-                      isExpandedList[mealtime.enLabel]!
-                          ? Icons.arrow_drop_up
-                          : Icons.arrow_drop_down,
-                    ),
-                  ),
+                  // trailing: SizedBox(
+                  //   // 设置的这个宽度让餐次中的表格数据和顶部保持差不多样子(7分之1)
+                  //   width: 0.142.sw,
+                  //   child: Icon(
+                  //     isExpandedList[mealtime.enLabel]!
+                  //         ? Icons.arrow_drop_up
+                  //         : Icons.arrow_drop_down,
+                  //   ),
+                  // ),
                   onExpansionChanged: (isExpanded) {
                     setState(() {
                       isExpandedList[mealtime.enLabel] = isExpanded; // 更新展开状态列表

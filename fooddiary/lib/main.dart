@@ -45,7 +45,7 @@ class AppCatchError {
           // await GetStorage().write('language', 'system');
           // await GetStorage().write('mode', 'dark');
           // await GetStorage().write('mode', 'light');
-          await GetStorage().write('mode', 'system');
+          await GetStorage().write('mode', 'dark');
           runApp(const FitTrackApp());
           pustLogic();
         });

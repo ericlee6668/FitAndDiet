@@ -1,8 +1,6 @@
 
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-
-
-import 'package:permission_handler/permission_handler.dart';
 
 class WaterLogic extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -41,7 +39,11 @@ class WaterLogic extends GetxController
   }
 
   drinkwater(){
-    waterDrink.value = waterDrink.value + 100;
+    if(waterDrink.value>=2000){
+      SmartDialog.showToast('You have drunk the daily maximum amount of water');
+    }else{
+      waterDrink.value = waterDrink.value + 100;
+    }
   }
 
 

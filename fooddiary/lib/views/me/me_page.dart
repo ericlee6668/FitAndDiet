@@ -275,7 +275,7 @@ class _MePageState extends State<MePage> {
         ),
         Container(
           decoration: BoxDecoration(
-              color:Color(box.read('mode')=='dark'?0xff232229:0xffffffff),
+              color:Color(box.read('mode')=='light'?0xff232229:0xffffffff),
               borderRadius: BorderRadius.circular(20)
           ),
           margin: EdgeInsets.all(10.w),
@@ -746,7 +746,7 @@ class _MePageState extends State<MePage> {
     ];
     return Container(
       decoration: BoxDecoration(
-          color:  Color(box.read('mode')=='dark'?0xff232229:0xffffffff),
+          color:  Color(box.read('mode')=='light'?0xff232229:0xffffffff),
           borderRadius: BorderRadius.circular(20)
       ),
       margin: EdgeInsets.all(10.w),
@@ -762,7 +762,7 @@ class _MePageState extends State<MePage> {
               height: 50,
               child: Row(
                 children: [
-                  Icon(list[i]['icon'] as IconData,color:box.read('mode')=='dark'? Colors.grey:Colors.black38,),
+                  Icon(list[i]['icon'] as IconData,color:box.read('mode')=='light'? Colors.grey:Colors.black38,),
                   const SizedBox(width: 5),
                   Text(list[i]['title'] as String),
                   const Spacer(),
@@ -806,7 +806,7 @@ class NewCusSettingCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 60.sp,
-        color: Color(box.read('mode')=='dark'?0xff232229:0xffffffff),
+        color: Color(box.read('mode')=='light'?0xff232229:0xffffffff),
         padding: EdgeInsets.all(2.sp),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

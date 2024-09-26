@@ -338,11 +338,6 @@ Map<CusNutType, Color> cusNutrientColors = {
 final List<CusLabel> genderOptions = [
   CusLabel(enLabel: 'Male', cnLabel: "男", value: 'male'),
   CusLabel(enLabel: 'Female', cnLabel: "女", value: 'female'),
-  CusLabel(
-    enLabel: 'Thunder Fighter',
-    cnLabel: "雷霆战机",
-    value: 'thunder fighter',
-  ),
   CusLabel(enLabel: 'Other', cnLabel: "其他", value: 'other'),
 ];
 

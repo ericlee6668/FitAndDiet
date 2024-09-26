@@ -1,3 +1,4 @@
+import 'package:fit_track/common/global/constants.dart';
 import 'package:fit_track/main/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -132,10 +133,10 @@ buildCoverCard(
   );
 }
 
-buildCardContainer({Widget? child,double? radius}) {
+buildCardContainer({Widget? child,double? radius,BuildContext? context}) {
   return Container(
     decoration: BoxDecoration(
-      color: AppTheme.white,
+      color:box.read('mode')=='light'?Colors.white:Color(0xff232229),
       borderRadius:  BorderRadius.only(
           topLeft: Radius.circular(radius??8),
           bottomLeft: Radius.circular(radius??8),

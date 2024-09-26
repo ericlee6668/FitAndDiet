@@ -414,7 +414,7 @@ class _ReportCalendarSummaryState extends State<ReportCalendarSummary> {
               elevation: 3.sp,
               child: ListTile(
                 title: Text(
-                  '${CusAL.of(context).foodName}: ${food.product} (${food.brand})',
+                  '${CusAL.of(context).foodName}: ${box.read('language')=='zh'?food.product:food.productEn} (${food.brand})',
                   style: TextStyle(fontSize: CusFontSizes.itemSubTitle),
                 ),
                 subtitle: Text(

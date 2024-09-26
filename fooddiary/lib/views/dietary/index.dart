@@ -22,7 +22,6 @@ import '../../models/food_composition.dart';
 import '../me/weight_change_record/index.dart';
 import 'foods/food_nutrient_detail.dart';
 import 'foods/food_page.dart';
-import 'foods/index.dart';
 import 'meal_gallery/meal_photo_gallery.dart';
 import 'records/index.dart';
 import 'reports/index.dart';
@@ -94,7 +93,7 @@ class _DietaryPageState extends State<DietaryPage>
         title: Text(curTitle),
       ),
       backgroundColor:
-          Color(box.read('mode') == 'dark' ? 0xff232229 : 0xfff5f5f5),
+          Color(box.read('mode') == 'light' ? 0xff232229 : 0xfff5f5f5),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -104,7 +103,7 @@ class _DietaryPageState extends State<DietaryPage>
               flexibleSpace: FlexibleSpaceBar(
                 background: Container(
                   color: Color(
-                      box.read('mode') == 'dark' ? 0xff232229 : 0xfff5f5f5),
+                      box.read('mode') == 'light' ? 0xfff5f5f5 : 0xff232229),
                   child: buildFixedBody(),
                 ),
               )),
@@ -144,7 +143,7 @@ class _DietaryPageState extends State<DietaryPage>
                     return Column(
                       children: [
                         Container(
-                          color: Color(box.read('mode') == 'dark'
+                          color: Color(box.read('mode') == 'light'
                               ? 0xff232229
                               : 0xffffffff),
                           height: 38.w,
@@ -210,7 +209,7 @@ class _DietaryPageState extends State<DietaryPage>
         ),
         buildCoverCard(
           context,
-           DietaryRecords(),
+          const DietaryRecords(),
           CusAL.of(context).dietaryRecords,
           CusAL.of(context).dietaryRecordsSubtitle,
           dietaryLogCoverImageUrl,
@@ -316,7 +315,7 @@ class _DietaryPageState extends State<DietaryPage>
         "${CusAL.of(context).mainNutrients('2')} ${formatDoubleToString(firstServing?.protein ?? 0)} ${CusAL.of(context).unitLabels('0')}";
 
     return Container(
-      color: Color(box.read('mode') == 'dark' ? 0xff232229 : 0xffffffff),
+      color: Color(box.read('mode') == 'light' ? 0xff232229 : 0xffffffff),
       height: 70.w,
       child: ListTile(
         minVerticalPadding: 5,
