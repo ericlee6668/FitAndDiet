@@ -64,7 +64,7 @@ dependencies:
   # 时间线列表
   timeline_tile: ^2.0.0
   # 文本转语音
-#  flutter_tts: ^4.0.2
+  flutter_tts: ^4.0.2
   # 权限处理
   permission_handler: ^11.1.0
   # 轮播组件
@@ -142,7 +142,8 @@ flutter:
     - assets/
     - assets/covers/
     - assets/me/
-    - assets/json/data.json
+    - assets/json/
+    - assets/healtip/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

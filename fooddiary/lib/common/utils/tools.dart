@@ -316,4 +316,19 @@ Future<bool> requestStoragePermission() async {
     // 除了安卓和ios其他先不考虑
     return false;
   }
+
+}
+int calculateAge(String birthDateStr) {
+  DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+  DateTime birthDate = dateFormat.parse(birthDateStr); // 将字符串转换为 DateTime
+  DateTime today = DateTime.now();
+  int age = today.year - birthDate.year;
+
+  // 如果还没过生日，需要减去一岁
+  if (today.month < birthDate.month ||
+      (today.month == birthDate.month && today.day < birthDate.day)) {
+    age--;
+  }
+
+  return age;
 }

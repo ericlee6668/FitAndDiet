@@ -65,16 +65,21 @@ class _FitTrackAppState extends State<FitTrackApp> {
 
           // 默认使用浅色主题，预设一个深色主题使用的预设值
           // 跟随系统的默认深色是一个material主题
-          darkTheme: FlexThemeData.dark(scheme: FlexScheme.material,transparentStatusBar: false),
+          darkTheme: FlexThemeData.light(scheme: FlexScheme.redM3,transparentStatusBar: false),
 
           /// 根据系统设置使用深色或浅色主题(当有完善的深色模式之后再启用)
+          // theme: box.read('mode') == 'system'
+          //     // 跟随系统的默认浅色是一个绿色主题
+          //     ? FlexThemeData.light(scheme: FlexScheme.material)
+          //     : box.read('mode') == 'light'
+          //         ? FlexThemeData.light(scheme: FlexScheme.material)
+          //         : FlexThemeData.dark(scheme: FlexScheme.greyLaw),
           theme: box.read('mode') == 'system'
               // 跟随系统的默认浅色是一个绿色主题
-              ? FlexThemeData.dark(scheme: FlexScheme.cyanM3)
-              : box.read('mode') == 'dark'
-                  ? FlexThemeData.dark(scheme: FlexScheme.cyanM3)
-                  : FlexThemeData.light(scheme: FlexScheme.greyLaw),
-
+              ? FlexThemeData.light(scheme: FlexScheme.brandBlue)
+              : box.read('mode') == 'light'
+                  ? FlexThemeData.light(scheme: FlexScheme.brandBlue)
+                  : FlexThemeData.dark(scheme: FlexScheme.greyLaw),
           // 如果没有在缓存获取到用户信息，就要用户输入；否则就直接进入首页
           home: const HomePage(),
           builder: (context,child){

@@ -234,6 +234,7 @@ class _FoodNutrientDetailNewState extends State<FoodNutrientDetailNew> {
                   style: TextStyle(
                     fontSize: CusFontSizes.itemTitle,
                     fontWeight: FontWeight.bold,
+                    color: Colors.black87
                   ),
                 ),
               ],

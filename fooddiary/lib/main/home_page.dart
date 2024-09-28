@@ -1,3 +1,4 @@
+import 'package:fit_track/views/dietary/foods/food_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -10,7 +11,10 @@ import '../common/utils/tools.dart';
 import '../models/cus_app_localizations.dart';
 import '../views/dietary/index.dart';
 import '../views/dietary/records/home_record.dart';
+import '../views/home/health_tip_page.dart';
+import '../views/home/home_page.dart';
 import '../views/me/me_page.dart';
+import '../views/training/index.dart';
 import 'float_view.dart';
 import 'init_guide_page.dart';
 
@@ -28,11 +32,13 @@ class _HomePageState extends State<HomePage>
   int _selectedIndex = 0;
   late TabController tabBarController = TabController(
     initialIndex: 0,
-    length: 3,
+    length: 5,
     vsync: this,
   );
   static const List<Widget> _widgetOptions = <Widget>[
     // TrainingPage(),
+    HomeExercisePage(),
+    FoodPage(),
     DietaryPage(),
     HomeRecordPage(),
     MePage()
@@ -55,6 +61,7 @@ class _HomePageState extends State<HomePage>
       SmartDialog.show(
           keepSingle: true,
           clickMaskDismiss: false,
+          maskColor: Colors.black.withOpacity(0.8),
           builder: (BuildContext context) {
             return const SizedBox(
                 width: 400, height: 500, child: InitGuidePage());
@@ -100,7 +107,7 @@ class _HomePageState extends State<HomePage>
   }
 
   void _onItemTapped(int index) {
-    if (index == 1) {
+    if (index ==0 || index ==3) {
       Future.delayed(const Duration(milliseconds: 200)).then((value) {
         SystemUiOverlayStyle style = const SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
@@ -179,10 +186,15 @@ class _HomePageState extends State<HomePage>
                 // 为了使用主题色，这里手动设置为fixed
                 type: BottomNavigationBarType.fixed,
                 items: <BottomNavigationBarItem>[
-                  // BottomNavigationBarItem(
-                  //   icon: const Icon(Icons.fitbit_outlined),
-                  //   label: CusAL.of(context).training,
-                  // ),
+                  BottomNavigationBarItem(
+                    icon: const Icon(Icons.model_training),
+                    label: CusAL.of(context).training,
+                  ),
+
+                  BottomNavigationBarItem(
+                    icon: const Icon(Icons.fastfood),
+                    label: CusAL.of(context).food,
+                  ),
                   BottomNavigationBarItem(
                     icon: const Icon(Icons.food_bank_outlined),
                     label: CusAL.of(context).dietary,
@@ -191,10 +203,7 @@ class _HomePageState extends State<HomePage>
                     icon: const Icon(Icons.calendar_month),
                     label: CusAL.of(context).record,
                   ),
-                  // BottomNavigationBarItem(
-                  //   icon: const Icon(Icons.calendar_month),
-                  //   label: CusAL.of(context).diary,
-                  // ),
+
                   BottomNavigationBarItem(
                     icon: const Icon(Icons.person),
                     label: CusAL.of(context).me,

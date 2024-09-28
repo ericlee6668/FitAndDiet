@@ -55,7 +55,7 @@ class _InitGuidePageState extends State<InitGuidePage> {
     userName: "defaultUser",
     userCode: "defaultUser",
     gender: genderOptions.first.value,
-    description: "A defaultUser",
+    description: "lose fat program",
     password: "123456",
     dateOfBirth: "1994-07-02",
     height: 170,

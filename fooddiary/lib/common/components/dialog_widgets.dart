@@ -71,14 +71,21 @@ Image buildExerciseImage(Exercise exercise) {
   //   imageUrl = cusExImgPre + imageUrl;
   // }
 
-  return Image.file(
-    // 预备的时候，肯定显示第一个动作的图片
-    File(imageUrl),
-    errorBuilder:
-        (BuildContext context, Object exception, StackTrace? stackTrace) {
-      return Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown);
-    },
-  );
+  return imageUrl.startsWith('http')
+      ? Image.network(
+          imageUrl,
+          errorBuilder: (BuildContext context, Object exception,
+                  StackTrace? stackTrace) =>
+              Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown),
+        )
+      : Image.file(
+          // 预备的时候，肯定显示第一个动作的图片
+          File(imageUrl),
+          errorBuilder:
+              (BuildContext context, Object exception, StackTrace? stackTrace) {
+            return Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown);
+          },
+        );
 }
 
 // 图片轮播
@@ -87,32 +94,39 @@ buildImageCarouselSlider(
   bool isNoImage = false, // 是否不显示图片，默认就算无图片也显示占位图片
   int type = 3, // 轮播图是否可以点击预览图片，预设为3(具体类型参看下方实现方法)
 }) {
-  return CarouselSlider(
-    options: CarouselOptions(
-      autoPlay: true, // 自动播放
-      enlargeCenterPage: true, // 居中图片放大
-      aspectRatio: 16 / 9, // 图片宽高比
-      viewportFraction: 0.7, // 图片占屏幕宽度的比例
-      // 只有一张图片时不滚动
-      enableInfiniteScroll: imageList.length > 1,
+  return Visibility(
+    visible: imageList.isNotEmpty,
+    child: CarouselSlider(
+      options: CarouselOptions(
+        autoPlay: true,
+        // 自动播放
+        enlargeCenterPage: true,
+        // 居中图片放大
+        aspectRatio: 16 / 9,
+        // 图片宽高比
+        viewportFraction: 0.7,
+        // 图片占屏幕宽度的比例
+        // 只有一张图片时不滚动
+        enableInfiniteScroll: imageList.length > 1,
+      ),
+      // 除非指定不显示图片，否则没有图片也显示一张占位图片
+      items: isNoImage
+          ? null
+          : imageList.isEmpty
+              ? [Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown)]
+              : imageList.map((imageUrl) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return _buildImageCarouselSliderType(
+                        type,
+                        context,
+                        imageUrl,
+                        imageList,
+                      );
+                    },
+                  );
+                }).toList(),
     ),
-    // 除非指定不显示图片，否则没有图片也显示一张占位图片
-    items: isNoImage
-        ? null
-        : imageList.isEmpty
-            ? [Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown)]
-            : imageList.map((imageUrl) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return _buildImageCarouselSliderType(
-                      type,
-                      context,
-                      imageUrl,
-                      imageList,
-                    );
-                  },
-                );
-              }).toList(),
   );
 }
 
@@ -128,12 +142,19 @@ _buildImageCarouselSliderType(
   String imageUrl,
   List<String> imageList,
 ) {
-  buildChildImage() => Image.file(
-        File(imageUrl),
-        errorBuilder:
-            (BuildContext context, Object exception, StackTrace? stackTrace) =>
-                Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown),
-      );
+  buildChildImage() => imageUrl.startsWith('http')
+      ? Image.network(
+          imageUrl,
+          errorBuilder: (BuildContext context, Object exception,
+                  StackTrace? stackTrace) =>
+              Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown),
+        )
+      : Image.file(
+          File(imageUrl),
+          errorBuilder: (BuildContext context, Object exception,
+                  StackTrace? stackTrace) =>
+              Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown),
+        );
 
   buildCommonImageWidget(Function() onTap) =>
       GestureDetector(onTap: onTap, child: buildChildImage());
@@ -245,13 +266,20 @@ buildImageCarouselSliderTypeOld(
           },
         );
       },
-      child: Image.file(
-        File(imageUrl),
-        errorBuilder:
-            (BuildContext context, Object exception, StackTrace? stackTrace) {
-          return Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown);
-        },
-      ),
+      child: imageUrl.startsWith('http')
+          ? Image.network(
+              imageUrl,
+              errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) =>
+                  Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown),
+            )
+          : Image.file(
+              File(imageUrl),
+              errorBuilder: (BuildContext context, Object exception,
+                  StackTrace? stackTrace) {
+                return Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown);
+              },
+            ),
     );
   } else if (type == 2) {
     return GestureDetector(
@@ -266,13 +294,20 @@ buildImageCarouselSliderTypeOld(
           ),
         );
       },
-      child: Image.file(
-        File(imageUrl),
-        errorBuilder:
-            (BuildContext context, Object exception, StackTrace? stackTrace) {
-          return Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown);
-        },
-      ),
+      child: imageUrl.startsWith('http')
+          ? Image.network(
+              imageUrl,
+              errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) =>
+                  Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown),
+            )
+          : Image.file(
+              File(imageUrl),
+              errorBuilder: (BuildContext context, Object exception,
+                  StackTrace? stackTrace) {
+                return Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown);
+              },
+            ),
     );
   } else if (type == 3) {
     return GestureDetector(
@@ -307,16 +342,23 @@ buildImageCarouselSliderTypeOld(
           },
         );
       },
-      child: Image.file(
-        File(imageUrl),
-        errorBuilder:
-            (BuildContext context, Object exception, StackTrace? stackTrace) {
-          return Image.asset(
-            placeholderImageUrl,
-            fit: BoxFit.scaleDown,
-          );
-        },
-      ),
+      child: imageUrl.startsWith('http')
+          ? Image.network(
+              imageUrl,
+              errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) =>
+                  Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown),
+            )
+          : Image.file(
+              File(imageUrl),
+              errorBuilder: (BuildContext context, Object exception,
+                  StackTrace? stackTrace) {
+                return Image.asset(
+                  placeholderImageUrl,
+                  fit: BoxFit.scaleDown,
+                );
+              },
+            ),
     );
   } else {
     return Container(
@@ -325,13 +367,20 @@ buildImageCarouselSliderTypeOld(
       decoration: const BoxDecoration(
         color: Colors.grey,
       ),
-      child: Image.file(
-        File(imageUrl),
-        errorBuilder:
-            (BuildContext context, Object exception, StackTrace? stackTrace) {
-          return Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown);
-        },
-      ),
+      child: imageUrl.startsWith('http')
+          ? Image.network(
+              imageUrl,
+              errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) =>
+                  Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown),
+            )
+          : Image.file(
+              File(imageUrl),
+              errorBuilder: (BuildContext context, Object exception,
+                  StackTrace? stackTrace) {
+                return Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown);
+              },
+            ),
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:fit_track/views/dietary/records/report_calendar_summary.dart';
 import 'package:fit_track/views/dietary/records/water_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fit_track/views/dietary/records/add_intake_item/add_daily_diet_Page.dart';
 import 'package:fit_track/views/me/weight_change_record/weight_change_line_chart.dart';
@@ -98,6 +99,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
     return Scaffold(
       body: ListView(
         children: [
+          const SizedBox(height: 20),
           titleWidget(),
           const SizedBox(height: 20),
           dailyDietContainer(),
@@ -408,7 +410,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
         child: SemiCircleProgressBar(
           progress: totalCal / valueRDA >= 1 ? 1 : totalCal / valueRDA,
           // 进度值 0.0 到 1.0
-          size: 250,
+          size: 300,
           strokeWidth: 12,
           backgroundColor: Colors.grey[300]!,
           progressColor: Colors.blue,

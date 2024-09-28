@@ -41,6 +41,12 @@ class AppTheme {
   static const Color text99 = Color(0xFFFAFDFF);
   static const Color text100 = Color(0xFFFFFFFF);
 
+  static const primaryColor1 =  Color(0xFF92A3FD);
+  static const primaryColor2 =  Color(0xFF9DCEFF);
+
+  static const secondaryColor1 =  Color(0xFFC58BF2);
+  static const secondaryColor2 =  Color(0xFFEEA4CE);
+
   static const Color primary0 = Color(0xFF000000);
   static const Color primary10 = Color(0xFF07232C);
   static const Color primary20 = Color(0xFF0F4557);
@@ -205,4 +211,6 @@ class AppTheme {
     letterSpacing: 0.2,
     color: lightText, // was lightText
   );
+  static List<Color> get primaryG => [primaryColor1,primaryColor2];
+  static List<Color> get secondaryG => [secondaryColor1,secondaryColor2];
 }

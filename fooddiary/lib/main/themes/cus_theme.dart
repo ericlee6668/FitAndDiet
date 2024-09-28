@@ -32,21 +32,22 @@ ThemeData lightTheme = ThemeData(
     bodySmall: TextStyle(
         fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black54),
     labelLarge: TextStyle(
-        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
+        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black54),
   ),
   // appbar主题
   appBarTheme: AppBarTheme(
     // color: Colors.blue,
-    backgroundColor: AppTheme.primary20,
-    iconTheme: const IconThemeData(color: AppTheme.white),
+    backgroundColor: AppTheme.primaryColor1,
+    iconTheme: const IconThemeData(color: Colors.black54),
     titleTextStyle: TextStyle(fontSize: 20.sp),
   ),
   // 颜色组，定义应用可以使用的颜色集。定义了许多小部件的默认颜色
   colorScheme: ColorScheme.fromSeed(
-    seedColor: Colors.white,
+    seedColor: AppTheme.primaryColor2,
   ).copyWith(
     primary: AppTheme.primary20,
   ),
+  tabBarTheme: const TabBarTheme(labelColor: Colors.black,indicatorColor: Colors.black),
 
   // 指定某种按钮的主体
   elevatedButtonTheme: ElevatedButtonThemeData(

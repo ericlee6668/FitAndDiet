@@ -1,3 +1,4 @@
+import 'package:fit_track/main/themes/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -160,7 +161,7 @@ class _FoodPageState extends State<FoodPage>
         });
       },
       child: Container(
-        color: Color(box.read('mode') == 'light' ? 0xff232229 : 0xffffffff),
+        color: box.read('mode') == 'light' ?Colors.white  : AppTheme.mainDark,
         height: 70.w,
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -278,7 +279,7 @@ class _FoodPageState extends State<FoodPage>
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            color: Color(box.read('mode') == 'light' ? 0xff232229 : 0xffffffff),
+            color: box.read('mode') == 'light' ?Colors.white  : AppTheme.mainDark,
             height: 42.w,
             child: TabBar(
               tabs: foodsTypeZh
@@ -286,11 +287,7 @@ class _FoodPageState extends State<FoodPage>
                         height: 28,
                         child: Text(
                           e,
-                          style: TextStyle(
-                              color: selectText.value == e
-                                  ? Colors.red
-                                  : Colors.black54,
-                              fontSize: 16),
+                      style: TextStyle(color: box.read('mode') == 'light' ?Colors.black  : Colors.white54),
                         ),
                       ))
                   .toList(),

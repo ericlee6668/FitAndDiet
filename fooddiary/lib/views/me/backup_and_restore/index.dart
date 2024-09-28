@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../../common/db/db_diary_helper.dart';
+import '../../../common/db/db_training_helper.dart';
 import '../../../common/db/db_user_helper.dart';
 import '../../../common/utils/tool_widgets.dart';
 import '../../../common/utils/tools.dart';
@@ -33,7 +34,7 @@ class BackupAndRestore extends StatefulWidget {
 
 class _BackupAndRestoreState extends State<BackupAndRestore> {
   final DBDietaryHelper _dietaryHelper = DBDietaryHelper();
-  // final DBTrainingHelper _trainingHelper = DBTrainingHelper();
+  final DBTrainingHelper _trainingHelper = DBTrainingHelper();
   final DBDiaryHelper _diaryHelper = DBDiaryHelper();
   final DBUserHelper _userHelper = DBUserHelper();
 
@@ -117,7 +118,7 @@ class _BackupAndRestoreState extends State<BackupAndRestore> {
     // 等到所有文件导出，都默认放在同一个文件夹下，所以就不用返回路径了
     await _userHelper.exportDatabase();
     await _dietaryHelper.exportDatabase();
-    // await _trainingHelper.exportDatabase();
+    await _trainingHelper.exportDatabase();
     await _diaryHelper.exportDatabase();
 
     // 创建或检索压缩包临时存放的文件夹
@@ -239,7 +240,7 @@ class _BackupAndRestoreState extends State<BackupAndRestore> {
           await _dietaryHelper.deleteDB();
           await _userHelper.deleteDB();
           await _diaryHelper.deleteDB();
-          // await _trainingHelper.deleteDB();
+          await _trainingHelper.deleteDB();
 
           // 保存恢复的数据(应该检查的？？？)
           await _saveJsonFileDataToDb(jsonFiles);
@@ -320,25 +321,25 @@ class _BackupAndRestoreState extends State<BackupAndRestore> {
         await _dietaryHelper.insertMealPhotoList(temp);
       } else if (filename == "ff_trained_detail_log.json") {
         var temp = jsonMapList.map((e) => TrainedDetailLog.fromMap(e)).toList();
-        // await _trainingHelper.insertTrainingDetailLogList(temp);
+        await _trainingHelper.insertTrainingDetailLogList(temp);
       } else if (filename == "ff_diary.json") {
         var temp = jsonMapList.map((e) => Diary.fromMap(e)).toList();
         await _diaryHelper.insertDiaryList(temp);
       } else if (filename == "ff_exercise.json") {
         var temp = jsonMapList.map((e) => Exercise.fromMap(e)).toList();
-        // await _trainingHelper.insertExerciseList(temp);
+        await _trainingHelper.insertExerciseList(temp);
       } else if (filename == "ff_action.json") {
         var temp = jsonMapList.map((e) => TrainingAction.fromMap(e)).toList();
-        // await _trainingHelper.insertTrainingActionList(temp);
+        await _trainingHelper.insertTrainingActionList(temp);
       } else if (filename == "ff_group.json") {
         var temp = jsonMapList.map((e) => TrainingGroup.fromMap(e)).toList();
-        // await _trainingHelper.insertTrainingGroupList(temp);
+        await _trainingHelper.insertTrainingGroupList(temp);
       } else if (filename == "ff_plan.json") {
         var temp = jsonMapList.map((e) => TrainingPlan.fromMap(e)).toList();
-        // await _trainingHelper.insertTrainingPlanList(temp);
+        await _trainingHelper.insertTrainingPlanList(temp);
       } else if (filename == "ff_plan_has_group.json") {
         var temp = jsonMapList.map((e) => PlanHasGroup.fromMap(e)).toList();
-        // await _trainingHelper.insertPlanHasGroupList(temp);
+        await _trainingHelper.insertPlanHasGroupList(temp);
       } else if (filename == "ff_food.json") {
         var temp = jsonMapList.map((e) => Food.fromMap(e)).toList();
         await _dietaryHelper.insertFoodList(temp);
