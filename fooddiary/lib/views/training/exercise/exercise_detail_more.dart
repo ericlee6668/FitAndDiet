@@ -187,7 +187,7 @@ class _ExerciseDetailMoreState extends State<ExerciseDetailMore> {
     return TableRow(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+          padding: EdgeInsets.symmetric(horizontal: 12.sp,vertical: 3.sp),
           child: Text(
             label,
             style: TextStyle(
@@ -202,7 +202,7 @@ class _ExerciseDetailMoreState extends State<ExerciseDetailMore> {
             value,
             style: TextStyle(
               fontSize: CusFontSizes.pageSubContent,
-              color: Theme.of(context).disabledColor,
+              color: Theme.of(context).colorScheme.primary,
             ),
             textAlign: TextAlign.left,
           ),

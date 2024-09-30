@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,17 +37,22 @@ class _TrainingExerciseState extends State<TrainingExercise> {
 
   // 存锻炼加载了的列表
   List<Exercise> exerciseItems = [];
+
   // 解析后的动作列表(文件和动作都不支持移除)
   List<CustomExercise> cusExercises = [];
+
   // 锻炼的总数(查询时则为符合条件的总数，默认一页只有10条，看不到总数量)
   int itemsCount = 0;
   int currentPage = 1; // 数据库查询的时候会从0开始offset
   int pageSize = 10;
   bool isLoading = false;
+
   // 如果用户没选公共文件夹，则默认json文件图片路径是完整的
   String cusExerciseImagePerfix = "";
+
   // 页面滚动控制器
   late ScrollController scrollController;
+
   // 查询条件
   Map<String, dynamic>? queryConditon;
 
@@ -57,19 +63,21 @@ class _TrainingExerciseState extends State<TrainingExercise> {
     super.initState();
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
-    initStorage();
-    loadJsonData();
-
+    _loadExerciseData();
+    // if(box.read('isReadExerciseJson')!=true){
+    //   loadJsonData();
+    // }
   }
-  Future<void> loadJsonData() async {
 
+  Future<void> loadJsonData() async {
     // 读取 assets 中的 JSON 文件
-    String jsonString = await rootBundle.loadString('assets/json/exercise.json');
+    String jsonString =
+        await rootBundle.loadString('assets/json/exercise.json');
     // 解析 JSON 数据
     List jsonResponse = json.decode(jsonString);
     var temp = jsonResponse.map((e) => CustomExercise.fromJson(e)).toList();
     cusExercises.addAll(temp);
-    // _saveToDb();
+    _saveToDb();
   }
 
   // 将json数据保存到数据库中
@@ -86,7 +94,8 @@ class _TrainingExerciseState extends State<TrainingExercise> {
     for (var e in cusExercises) {
       var tempExercise = Exercise(
         // exerciseId 数据库自增
-        exerciseCode: e.code ?? e.id ?? '', // json文件的id就是代号
+        exerciseCode: e.code ?? e.id ?? '',
+        // json文件的id就是代号
         exerciseName: e.name ?? "",
         category: e.category ?? "",
         countingMode: e.countingMode ?? countingOptions.first.value,
@@ -103,7 +112,7 @@ class _TrainingExerciseState extends State<TrainingExercise> {
         // images: e.images?.join(","),
         // 如果用户有指定文件夹的位置，就加上；没有的话就加上默认相册的位置
         images:
-        e.images?.map((e) => cusExerciseImagePerfix + e).toList().join(","),
+            e.images?.map((e) => cusExerciseImagePerfix + e).toList().join(","),
         // 导入json都为true则可以读取相册中对应位置的图片
         isCustom: true,
         contributor: CacheUser.userName,
@@ -133,8 +142,9 @@ class _TrainingExerciseState extends State<TrainingExercise> {
       cusExercises = [];
       isLoading = false;
     });
-
+    box.write('isReadExerciseJson', true);
   }
+
   @override
   void dispose() {
     scrollController.removeListener(_scrollListener);
@@ -287,84 +297,83 @@ class _TrainingExerciseState extends State<TrainingExercise> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: '${CusAL.of(context).exercise}\n',
-                style: TextStyle(
-                  fontSize: CusFontSizes.pageTitle,
-                ),
-              ),
-              TextSpan(
-                text: CusAL.of(context).itemCount(itemsCount),
-                style: TextStyle(fontSize: CusFontSizes.pageAppendix),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          /// 导入json文件
-          IconButton(
-            icon: const Icon(Icons.import_export),
-            onPressed: clickExerciseImport,
-          ),
-          // 新增单个动作
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () async {
-              if (!mounted) return;
-              final result = await Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext ctx) => const ExerciseModify(),
-                ),
-              );
+      // appBar: AppBar(
+      //   title: RichText(
+      //     text: TextSpan(
+      //       children: [
+      //         TextSpan(
+      //           text: '${CusAL.of(context).exercise}\n',
+      //           style: TextStyle(
+      //             fontSize: CusFontSizes.pageTitle,
+      //           ),
+      //         ),
+      //         TextSpan(
+      //           text: CusAL.of(context).itemCount(itemsCount),
+      //           style: TextStyle(fontSize: CusFontSizes.pageAppendix),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      //   actions: [
+      //     /// 导入json文件
+      //     IconButton(
+      //       icon: const Icon(Icons.import_export),
+      //       onPressed: clickExerciseImport,
+      //     ),
+      //     // 新增单个动作
+      //     IconButton(
+      //       icon: const Icon(Icons.add),
+      //       onPressed: () async {
+      //         if (!mounted) return;
+      //         final result = await Navigator.of(context).push(
+      //           MaterialPageRoute(
+      //             builder: (BuildContext ctx) => const ExerciseModify(),
+      //           ),
+      //         );
+      //
+      //         // 2023-11-05 这里的新增和下面的展开详情的修改之后返回列表页面，
+      //         // 都可以考虑直接重新加载页面，不管子组件返回值
+      //         if (result != null && result) {
+      //           setState(() {
+      //             exerciseItems.clear();
+      //             // ？？？新增之后重新开始，修改的话有必要吗？
+      //             currentPage = 1;
+      //           });
+      //           _loadExerciseData();
+      //         }
+      //       },
+      //     )
+      //   ],
+      // ),
+      body: Column(
+        children: <Widget>[
+          /// 上方的条件查询区域
+          ExerciseQueryForm(onQuery: _handleQuery),
 
-              // 2023-11-05 这里的新增和下面的展开详情的修改之后返回列表页面，
-              // 都可以考虑直接重新加载页面，不管子组件返回值
-              if (result != null && result) {
-                setState(() {
-                  exerciseItems.clear();
-                  // ？？？新增之后重新开始，修改的话有必要吗？
-                  currentPage = 1;
-                });
-                _loadExerciseData();
-              }
-            },
-          )
-        ],
-      ),
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            /// 上方的条件查询区域
-            ExerciseQueryForm(onQuery: _handleQuery),
-
-            /// 运动的数据列表
-            Expanded(
-              child: GridView.builder(
-                itemCount: exerciseItems.length + 1,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,
-                  childAspectRatio: 3, // 主轴和纵轴的比例
-                ),
-                controller: scrollController,
-                itemBuilder: (context, index) {
-                  if (index == exerciseItems.length) {
-                    return buildLoader(isLoading);
-                  } else {
-                    // 示意图可以有多个，就取第一张好了
-                    var exerciseItem = exerciseItems[index];
-
-                    // 向左滑可删除指定行
-                    return _buildDismissible(exerciseItem, index);
-                  }
-                },
+          /// 运动的数据列表
+          Expanded(
+            child: GridView.builder(
+              itemCount: exerciseItems.length + 1,
+              padding: EdgeInsets.zero,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+                childAspectRatio: 3, // 主轴和纵轴的比例
               ),
+              controller: scrollController,
+              itemBuilder: (context, index) {
+                if (index == exerciseItems.length) {
+                  return buildLoader(isLoading);
+                } else {
+                  // 示意图可以有多个，就取第一张好了
+                  var exerciseItem = exerciseItems[index];
+
+                  // 向左滑可删除指定行
+                  return _buildDismissible(exerciseItem, index);
+                }
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -418,20 +427,20 @@ class _TrainingExerciseState extends State<TrainingExercise> {
       },
       // 确认删除时的操作
       onDismissed: (direction) {
-        setState(() {
-          // 确认要删除后，先从列表中移除，然后从数据库删除
-          exerciseItems.removeAt(index);
-          _removeExerciseById(exerciseItem.exerciseId!);
-        });
-
-        if (!mounted) return;
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(CusAL.of(context).deletedInfo),
-            duration: const Duration(seconds: 2),
-          ),
-        );
+        // setState(() {
+        //   // 确认要删除后，先从列表中移除，然后从数据库删除
+        //   exerciseItems.removeAt(index);
+        //   _removeExerciseById(exerciseItem.exerciseId!);
+        // });
+        //
+        // if (!mounted) return;
+        //
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //     content: Text(CusAL.of(context).deletedInfo),
+        //     duration: const Duration(seconds: 2),
+        //   ),
+        // );
       },
       // 实际展示的基础活动列表
       child: _buildExerciseItemCard(index),
@@ -446,7 +455,7 @@ class _TrainingExerciseState extends State<TrainingExercise> {
     List<String> imageList = (exerciseItem.images?.trim().isNotEmpty == true)
         ? exerciseItem.images!.split(",")
         : [];
-   var imageListNew =imageList.map((e) => e='https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/$e').toList();
+
     return Card(
       child: InkWell(
         onTap: () {
@@ -474,11 +483,16 @@ class _TrainingExerciseState extends State<TrainingExercise> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              width: 0.4.sw,
-              height: 0.3.sh,
-              child: buildImageCarouselSlider(imageListNew),
-            ),
+            Container(
+                width: 120.w,
+                height: 100.w,
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                // child: buildImageCarouselSlider(imageList, type: 0),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                        fit: BoxFit.cover,
+                        'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${imageList[0]}'))),
             Expanded(
               flex: 3,
               child: Column(

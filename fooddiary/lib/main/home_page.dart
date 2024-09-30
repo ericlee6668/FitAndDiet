@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage>
   static const List<Widget> _widgetOptions = <Widget>[
     // TrainingPage(),
     HomeExercisePage(),
-    FoodPage(),
+    // FoodPage(),
     DietaryPage(),
     HomeRecordPage(),
     MePage()
@@ -191,10 +191,10 @@ class _HomePageState extends State<HomePage>
                     label: CusAL.of(context).training,
                   ),
 
-                  BottomNavigationBarItem(
-                    icon: const Icon(Icons.fastfood),
-                    label: CusAL.of(context).food,
-                  ),
+                  // BottomNavigationBarItem(
+                  //   icon: const Icon(Icons.fastfood),
+                  //   label: CusAL.of(context).food,
+                  // ),
                   BottomNavigationBarItem(
                     icon: const Icon(Icons.food_bank_outlined),
                     label: CusAL.of(context).dietary,

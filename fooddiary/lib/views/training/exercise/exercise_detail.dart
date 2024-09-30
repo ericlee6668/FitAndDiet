@@ -1,3 +1,4 @@
+import 'package:fit_track/main/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fit_track/views/training/exercise/exercise_modify.dart';
@@ -175,7 +176,7 @@ class _ExerciseDetailDialogState extends State<ExerciseDetailDialog> {
   // 分页按钮行
   _buildPageButton() {
     return Container(
-      color: CusColors.pageChangeBg,
+      color: AppTheme.error70,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.sp),
         child: Row(
@@ -186,7 +187,7 @@ class _ExerciseDetailDialogState extends State<ExerciseDetailDialog> {
                 Icons.arrow_back,
                 size: CusIconSizes.iconBig,
                 color: _currentIndex > 0
-                    ? Theme.of(context).primaryColor
+                    ? Colors.white
                     : Theme.of(context).disabledColor,
               ),
               onPressed: () {
@@ -225,7 +226,7 @@ class _ExerciseDetailDialogState extends State<ExerciseDetailDialog> {
                 Icons.arrow_forward,
                 size: CusIconSizes.iconBig,
                 color: _currentIndex < _currentItems.length - 1
-                    ? Theme.of(context).primaryColor
+                    ? Colors.white
                     : Theme.of(context).disabledColor,
               ),
               onPressed: () {

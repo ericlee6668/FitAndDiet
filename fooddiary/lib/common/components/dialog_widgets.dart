@@ -52,6 +52,7 @@ buildTitleAndDescription(Widget? title, String subtitle) {
         scrollDirection: Axis.vertical,
         child: Text(
           subtitle,
+          style: const TextStyle(fontSize: 16),
           overflow: TextOverflow.clip, // ellipsis
           // maxLines: 10,
         ),
@@ -115,13 +116,19 @@ buildImageCarouselSlider(
           : imageList.isEmpty
               ? [Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown)]
               : imageList.map((imageUrl) {
+                  var imageListNew = imageList
+                      .map((e) => e =
+                          'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/$e')
+                      .toList();
+                  var newImageUrl =
+                      'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/$imageUrl';
                   return Builder(
                     builder: (BuildContext context) {
                       return _buildImageCarouselSliderType(
                         type,
                         context,
-                        imageUrl,
-                        imageList,
+                        newImageUrl,
+                        imageListNew,
                       );
                     },
                   );
@@ -229,7 +236,7 @@ _buildImageCarouselSliderType(
       return Container(
         width: MediaQuery.of(context).size.width,
         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-        decoration: const BoxDecoration(color: Colors.grey),
+        decoration: const BoxDecoration(color: Colors.transparent),
         child: buildChildImage(),
       );
   }

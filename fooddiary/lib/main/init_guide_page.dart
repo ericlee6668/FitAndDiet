@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:fit_track/common/db/db_training_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,8 +18,10 @@ import '../common/global/constants.dart';
 import '../common/utils/tool_widgets.dart';
 import '../common/utils/tools.dart';
 import '../models/cus_app_localizations.dart';
+import '../models/custom_exercise.dart';
 import '../models/dietary_state.dart';
 import '../models/food_composition.dart';
+import '../models/training_state.dart';
 import '../models/user_state.dart';
 import 'home_page.dart';
 
@@ -40,6 +43,7 @@ class InitGuidePage extends StatefulWidget {
 
 class _InitGuidePageState extends State<InitGuidePage> {
   final DBUserHelper _userHelper = DBUserHelper();
+  final DBTrainingHelper _dbHelper = DBTrainingHelper();
   final DBDietaryHelper _dietaryHelper = DBDietaryHelper();
   // 用户输入的称呼
   final TextEditingController _usernameController = TextEditingController();
@@ -69,8 +73,12 @@ class _InitGuidePageState extends State<InitGuidePage> {
   );
 @override
   void initState() {
-    loadJsonData();
+    loadData();
     super.initState();
+  }
+  void loadData() async{
+    await loadJsonData();
+    await loadJsonData2();
   }
   @override
   Widget build(BuildContext context) {
@@ -302,6 +310,74 @@ class _InitGuidePageState extends State<InitGuidePage> {
       }
     }
     eventBus.fire('loadJsonEvent');
+  }
+
+
+  // 解析后的动作列表(文件和动作都不支持移除)
+  List<CustomExercise> cusExercises = [];
+  // 如果用户没选公共文件夹，则默认json文件图片路径是完整的
+  String cusExerciseImagePerfix = "";
+  // 异步函数读取和解析 JSON 文件
+  Future<void> loadJsonData2() async {
+    // 读取 assets 中的 JSON 文件
+    String jsonString = await rootBundle.loadString('assets/json/exercise.json');
+    // 解析 JSON 数据
+    List jsonResponse = json.decode(jsonString);
+    var temp = jsonResponse.map((e) => CustomExercise.fromJson(e)).toList();
+    cusExercises.addAll(temp);
+    box.write('isReadExerciseJson', true);
+    _saveExerciseToDb();
+  }
+  // 将json数据保存到数据库中
+  _saveExerciseToDb() async {
+
+    // 这里导入去重的工作要放在上面解析文件时，这里就全部保存了。
+    // 而且id自增，食物或者编号和数据库重复，这里插入数据库中也不会报错。
+    for (var e in cusExercises) {
+      var tempExercise = Exercise(
+        // exerciseId 数据库自增
+        exerciseCode: e.code ?? e.id ?? '', // json文件的id就是代号
+        exerciseName: e.name ?? "",
+        category: e.category ?? "",
+        countingMode: e.countingMode ?? countingOptions.first.value,
+        force: e.force,
+        level: e.level,
+        mechanic: e.mechanic,
+        equipment: e.equipment,
+        standardDuration: int.tryParse(e.standardDuration ?? "1") ?? 1,
+        // json描述是字符串数组，直接用换行符拼接
+        instructions: e.instructions?.join("\n\n"),
+        ttsNotes: e.ttsNotes,
+        primaryMuscles: e.primaryMuscles?.join(","),
+        secondaryMuscles: e.secondaryMuscles?.join(","),
+        // images: e.images?.join(","),
+        // 如果用户有指定文件夹的位置，就加上；没有的话就加上默认相册的位置
+        images:
+        e.images?.map((e) => cusExerciseImagePerfix + e).toList().join(","),
+        // 导入json都为true则可以读取相册中对应位置的图片
+        isCustom: true,
+        contributor: CacheUser.userName,
+        gmtCreate: getCurrentDateTime(),
+      );
+
+      try {
+        await _dbHelper.insertExerciseThrowError(tempExercise);
+      } on Exception catch (e) {
+        // 将错误信息展示给用户
+        if (!mounted) return;
+        // ？？？可以抽公共的错误处理和提示弹窗
+
+        commonExceptionDialog(
+          context,
+          CusAL.of(context).exceptionWarningTitle,
+          e.toString(),
+        );
+
+
+        return;
+      }
+    }
+
   }
 
   void _skip() async {

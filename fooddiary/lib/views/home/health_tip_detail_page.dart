@@ -42,7 +42,7 @@ class HealthTipDetailPage extends StatelessWidget {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: const Text("Health tip"),
+      title: const Text("Health tips"),
       backgroundColor: const Color(0xff102B46),
       iconTheme: const IconThemeData(color: Colors.white),
     );
