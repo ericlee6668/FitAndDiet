@@ -95,6 +95,12 @@ class _HomeRecordPageState extends State<HomeRecordPage>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.dark, // 设置状态栏图标为黑色
+        statusBarBrightness: Brightness.light, // 设置iOS状态栏文本为黑色
+      ),
+    );
     super.build(context);
     return Scaffold(
       body: ListView(
@@ -112,11 +118,15 @@ class _HomeRecordPageState extends State<HomeRecordPage>
       ),
     );
   }
-  titleWidget(){
+
+  titleWidget() {
     return Center(
       child: Text(
         CusAL.of(context).heathRecord,
-        style: TextStyle(color: Theme.of(context).primaryColor,fontSize: CusFontSizes.itemTitle,fontWeight: FontWeight.bold),
+        style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontSize: CusFontSizes.itemTitle,
+            fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -250,7 +260,6 @@ class _HomeRecordPageState extends State<HomeRecordPage>
     // 存的是cm，所以要/100
     var tempHeight = (user?.height ?? 120) / 100;
     var bmi = (tempWeight / (tempHeight * tempHeight));
-
 
     var uwtFlex = ((18.4 - 15) / (40 - 15) * 300).toInt();
     var nwtFlex = ((23.9 - 18.4) / (40 - 15) * 300).toInt();
@@ -445,14 +454,14 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                 TextSpan(
                   text: valueRDA.toString(),
                   style: TextStyle(
-                    color:Colors.white,
+                    color: Colors.white,
                     fontSize: CusFontSizes.itemSubTitle,
                   ),
                 ),
                 TextSpan(
                   text: ' kcal (Rec.)',
                   style: TextStyle(
-                    color:Colors.white,
+                    color: Colors.white,
                     fontSize: CusFontSizes.itemContent,
                   ),
                 ),
@@ -541,7 +550,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
           const SizedBox(
             height: 20,
           ),
-          buildCardContainer(child: _buildBmiArea(context),context:context),
+          buildCardContainer(child: _buildBmiArea(context), context: context),
         ],
       ),
     );
@@ -573,7 +582,16 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                     MaterialPageRoute(
                       builder: (context) => const ReportCalendarSummary(),
                     ),
-                  );
+                  ).then((value) =>
+                      Future.delayed(const Duration(milliseconds: 200))
+                          .then((value) => SystemChrome.setSystemUIOverlayStyle(
+                                const SystemUiOverlayStyle(
+                                  statusBarIconBrightness: Brightness.dark,
+                                  // 设置状态栏图标为黑色
+                                  statusBarBrightness:
+                                      Brightness.light, // 设置iOS状态栏文本为黑色
+                                ),
+                              )));
                 },
                 child: Text(CusAL.of(context).calendar,
                     style: TextStyle(
@@ -589,12 +607,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
             children: [
               TextButton(
                   onPressed: () async {
-                    var result = await Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return const AddDailyDietPage(
-                        mealtime: CusMeals.breakfast,
-                      );
-                    }));
+                    var result = navigateAddDiary(CusMeals.breakfast);
                     var tempEnergy = 0.0;
                     if (result != null) {
                       // var info = result as FoodAndServingInfo;
@@ -605,7 +618,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                       // }else{
                       //
                       // }
-                      getMealCal();
+                      // getMealCal();
                     }
 
                     print('路由返回值，卡路里：${tempEnergy / oneCalToKjRatio}');
@@ -625,19 +638,14 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                         curBreakFastCalories == 0.0
                             ? CusAL.of(context).noRecord
                             : '${curBreakFastCalories.toStringAsFixed(0)}cal',
-                        style:  TextStyle(color: Theme.of(context).primaryColorDark),
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColorDark),
                       ),
                     ],
                   )),
               TextButton(
                   onPressed: () async {
-                    var result = await Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return const AddDailyDietPage(mealtime: CusMeals.lunch);
-                    }));
-                    if (result != null) {
-                      getMealCal();
-                    }
+                    await navigateAddDiary(CusMeals.lunch);
                   },
                   child: Column(
                     children: [
@@ -648,21 +656,16 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                       ),
                       Text('+${CusAL.of(context).mealLabels('1')}'),
                       Text(
-                        curLunchCalories == 0.0
-                            ? CusAL.of(context).noRecord
-                            : '${curLunchCalories.toStringAsFixed(0)}cal',
-                        style:  TextStyle(color: Theme.of(context).primaryColorDark)),
+                          curLunchCalories == 0.0
+                              ? CusAL.of(context).noRecord
+                              : '${curLunchCalories.toStringAsFixed(0)}cal',
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColorDark)),
                     ],
                   )),
               TextButton(
                   onPressed: () async {
-                    var result = await Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return const AddDailyDietPage(mealtime: CusMeals.dinner);
-                    }));
-                    if (result != null) {
-                      getMealCal();
-                    }
+                    await navigateAddDiary(CusMeals.dinner);
                   },
                   child: Column(
                     children: [
@@ -673,10 +676,11 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                       ),
                       Text('+${CusAL.of(context).mealLabels('2')}'),
                       Text(
-                        curDinnerCalories == 0.0
-                            ? CusAL.of(context).noRecord
-                            : '${curDinnerCalories.toStringAsFixed(0)}cal',
-                        style:  TextStyle(color:Theme.of(context).primaryColorDark)),
+                          curDinnerCalories == 0.0
+                              ? CusAL.of(context).noRecord
+                              : '${curDinnerCalories.toStringAsFixed(0)}cal',
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColorDark)),
                     ],
                   )),
             ],
@@ -729,6 +733,14 @@ class _HomeRecordPageState extends State<HomeRecordPage>
                             _currentHeight = user?.height ?? 170;
                             isLoading = false;
                           });
+                          SystemChrome.setSystemUIOverlayStyle(
+                            const SystemUiOverlayStyle(
+                              statusBarIconBrightness: Brightness.dark,
+                              // 设置状态栏图标为黑色
+                              statusBarBrightness:
+                                  Brightness.light, // 设置iOS状态栏文本为黑色
+                            ),
+                          );
                         },
                       );
                     },
@@ -768,6 +780,23 @@ class _HomeRecordPageState extends State<HomeRecordPage>
           Card(child: WeightChangeLineChart(user: user ?? User(userName: ''))),
       ],
     );
+  }
+
+  navigateAddDiary(CusMeals mealtime) async {
+    return await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return AddDailyDietPage(
+        mealtime: mealtime,
+      );
+    })).then((value) {
+      getMealCal();
+      Future.delayed(const Duration(milliseconds: 200))
+          .then((value) => SystemChrome.setSystemUIOverlayStyle(
+                const SystemUiOverlayStyle(
+                  statusBarIconBrightness: Brightness.dark, // 设置状态栏图标为黑色
+                  statusBarBrightness: Brightness.light, // 设置iOS状态栏文本为黑色
+                ),
+              ));
+    });
   }
 }
 

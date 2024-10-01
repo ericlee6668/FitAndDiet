@@ -501,7 +501,7 @@ class _TrainingExerciseState extends State<TrainingExercise> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(10.sp, 0, 0, 5.sp),
                     child: Text(
-                      "${index + 1} ${exerciseItem.exerciseName}",
+                      exerciseItem.exerciseName,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(

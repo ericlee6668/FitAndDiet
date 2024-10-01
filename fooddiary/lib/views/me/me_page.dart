@@ -11,6 +11,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:fit_track/main/float_view.dart';
 import 'package:fit_track/views/base_view.dart';
 import 'package:fit_track/views/me/us/us.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:photo_view/photo_view.dart';
 import '../../../common/utils/tool_widgets.dart';
@@ -31,8 +32,10 @@ import 'user_info/modify_user/index.dart';
 import 'weight_change_record/index.dart';
 
 class MePage extends StatefulWidget {
-  const MePage({super.key,this.animationController});
+  const MePage({super.key, this.animationController});
+
   final AnimationController? animationController;
+
   @override
   State<MePage> createState() => _MePageState();
 }
@@ -47,7 +50,7 @@ class _MePageState extends State<MePage> {
   int currentUserId = 1;
 
 // ？？？登录用户信息，怎么在app中记录用户信息？缓存一个用户id每次都查？记住状态实时更新？……
-   User? userInfo;
+  User? userInfo;
 
   bool isLoading = false;
 
@@ -62,9 +65,9 @@ class _MePageState extends State<MePage> {
 
     _queryLoginedUserInfo();
     eventBus.on<String>().listen((event) {
-       if(event=='updateAvatar'){
-         _queryLoginedUserInfo();
-       }
+      if (event == 'updateAvatar') {
+        _queryLoginedUserInfo();
+      }
     });
   }
 
@@ -172,8 +175,6 @@ class _MePageState extends State<MePage> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     // 计算屏幕剩余的高度
@@ -217,22 +218,26 @@ class _MePageState extends State<MePage> {
           ),
         ],
       ),
-      body: userInfo==null
+      body: userInfo == null
           ? buildLoader(isLoading)
           : Container(
-            color: const Color(0xfff5f5f5),
-            child: ListView(
+              color: const Color(0xfff5f5f5),
+              child: ListView(
                 children: [
                   /// 用户基本信息展示区域(固定高度10+120+120=250)
                   _buildBaseUserInfoArea(userInfo!),
                   // _buildFunctionArea(),
                   _buildFunctionArea2(),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   _buildInformation(),
-                  const SizedBox(height: 20,)
+                  const SizedBox(
+                    height: 20,
+                  )
                 ],
               ),
-          ),
+            ),
     );
   }
 
@@ -241,19 +246,25 @@ class _MePageState extends State<MePage> {
     return Column(
       children: [
         SizedBox(height: 10.sp),
-        Image.asset('assets/covers/bg.png',height: 140,width:MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+        Image.asset(
+          'assets/covers/bg.png',
+          height: 140,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+        ),
         Container(
           decoration: BoxDecoration(
-              color:box.read('mode') == 'light' ?Colors.white  : AppTheme.mainDark,
-              borderRadius: BorderRadius.circular(20)
-          ),
+              color: box.read('mode') == 'light'
+                  ? Colors.white
+                  : AppTheme.mainDark,
+              borderRadius: BorderRadius.circular(20)),
           margin: EdgeInsets.all(10.w),
           height: 140.sp,
           child: Column(
             children: [
               Row(
                 children: [
-                  if (_avatarPath=='1')
+                  if (_avatarPath == '1')
                     Positioned(
                       child: Container(
                         width: 90,
@@ -262,7 +273,8 @@ class _MePageState extends State<MePage> {
                         child: CircleAvatar(
                           maxRadius: 60.sp,
                           backgroundColor: Colors.transparent,
-                          backgroundImage: const AssetImage(defaultAvatarImageUrl),
+                          backgroundImage:
+                              const AssetImage(defaultAvatarImageUrl),
                           // y圆形头像的边框线
                           child: Container(
                             decoration: BoxDecoration(
@@ -276,41 +288,42 @@ class _MePageState extends State<MePage> {
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        // 这个直接弹窗显示图片可以缩放
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Dialog(
-                              backgroundColor: Colors.transparent, // 设置背景透明
-                              child: PhotoView(
-                                imageProvider: FileImage(File(_avatarPath)),
-                                // 设置图片背景为透明
-                                backgroundDecoration: const BoxDecoration(
-                                  color: Colors.transparent,
-                                ),
-                                // 可以旋转
-                                // enableRotation: true,
-                                // 缩放的最大最小限制
-                                minScale: PhotoViewComputedScale.contained * 0.8,
-                                maxScale: PhotoViewComputedScale.covered * 2,
+                  GestureDetector(
+                    onTap: () {
+                      // 这个直接弹窗显示图片可以缩放
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            backgroundColor: Colors.transparent, // 设置背景透明
+                            child: PhotoView(
+                              imageProvider: FileImage(File(_avatarPath)),
+                              // 设置图片背景为透明
+                              backgroundDecoration: const BoxDecoration(
+                                color: Colors.transparent,
                               ),
-                            );
-                          },
-                        );
-                      },
-                      child: Container(
-                        width: 90,
-                        height: 90,
-                        margin: const EdgeInsets.only(left: 20),
-                        child: CircleAvatar(
-                          maxRadius: 60.sp,
-                          foregroundImage:FileImage(File(_avatarPath)) ,
-                          backgroundImage: const AssetImage('assets/covers/Avatar.webp'),
-                        ),
+                              // 可以旋转
+                              // enableRotation: true,
+                              // 缩放的最大最小限制
+                              minScale: PhotoViewComputedScale.contained * 0.8,
+                              maxScale: PhotoViewComputedScale.covered * 2,
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      width: 90,
+                      height: 90,
+                      margin: const EdgeInsets.only(left: 20),
+                      child: CircleAvatar(
+                        maxRadius: 60.sp,
+                        foregroundImage: FileImage(File(_avatarPath)),
+                        backgroundImage:
+                            const AssetImage('assets/covers/Avatar.webp'),
                       ),
                     ),
+                  ),
                   Expanded(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -347,23 +360,25 @@ class _MePageState extends State<MePage> {
                             softWrap: true,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: CusFontSizes.pageContent),
+                            style:
+                                TextStyle(fontSize: CusFontSizes.pageContent),
                           ),
                         ),
-
                       ],
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 15,),
-               Padding(
+              const SizedBox(
+                height: 15,
+              ),
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Row(
                   children: [
                     Expanded(
                       child: TitleSubtitleCell(
-                        title: (userInfo.height??170).toString(),
+                        title: (userInfo.height ?? 170).toString(),
                         subtitle: "Height",
                       ),
                     ),
@@ -372,7 +387,8 @@ class _MePageState extends State<MePage> {
                     ),
                     Expanded(
                       child: TitleSubtitleCell(
-                        title: '${cusDoubleTryToIntString(userInfo.currentWeight??50)}kg',
+                        title:
+                            '${cusDoubleTryToIntString(userInfo.currentWeight ?? 50)}kg',
                         subtitle: "Weight",
                       ),
                     ),
@@ -381,7 +397,8 @@ class _MePageState extends State<MePage> {
                     ),
                     Expanded(
                       child: TitleSubtitleCell(
-                        title:calculateAge(userInfo.dateOfBirth??'').toString(),
+                        title:
+                            calculateAge(userInfo.dateOfBirth ?? '').toString(),
                         subtitle: "Age",
                       ),
                     ),
@@ -413,7 +430,8 @@ class _MePageState extends State<MePage> {
                 // 确认新增成功后重新加载当前日期的条目数据
                 _queryLoginedUserInfo();
               });
-            }, icon: '',
+            },
+            icon: '',
           ),
         ),
         Expanded(
@@ -433,7 +451,8 @@ class _MePageState extends State<MePage> {
                   _queryLoginedUserInfo();
                 }
               });
-            }, icon: '',
+            },
+            icon: '',
           ),
         ),
       ],
@@ -458,7 +477,8 @@ class _MePageState extends State<MePage> {
                 // 确认新增成功后重新加载当前日期的条目数据
                 _queryLoginedUserInfo();
               });
-            }, icon: '',
+            },
+            icon: '',
           ),
         ),
         Expanded(
@@ -476,7 +496,8 @@ class _MePageState extends State<MePage> {
                 // 确认新增成功后重新加载当前日期的条目数据
                 _queryLoginedUserInfo();
               });
-            }, icon: '',
+            },
+            icon: '',
           ),
         ),
       ],
@@ -499,7 +520,8 @@ class _MePageState extends State<MePage> {
                   builder: (context) => const BackupAndRestore(),
                 ),
               );
-            }, icon: '',
+            },
+            icon: '',
           ),
         ),
         Expanded(
@@ -515,7 +537,8 @@ class _MePageState extends State<MePage> {
                   builder: (context) => const MoreSettings(),
                 ),
               );
-            }, icon: '',
+            },
+            icon: '',
           ),
         ),
         NewCusSettingCard(
@@ -532,7 +555,8 @@ class _MePageState extends State<MePage> {
               // 确认新增成功后重新加载当前日期的条目数据
               _queryLoginedUserInfo();
             });
-          }, icon: '',
+          },
+          icon: '',
         ),
         Expanded(
           child: NewCusSettingCard(
@@ -547,7 +571,8 @@ class _MePageState extends State<MePage> {
                   builder: (context) => const BackupAndRestore(),
                 ),
               );
-            }, icon: '',
+            },
+            icon: '',
           ),
         ),
         Expanded(
@@ -562,7 +587,8 @@ class _MePageState extends State<MePage> {
                   builder: (context) => const MoreSettings(),
                 ),
               );
-            }, icon: '',
+            },
+            icon: '',
           ),
         ),
         // Expanded(
@@ -594,7 +620,8 @@ class _MePageState extends State<MePage> {
             // 确认新增成功后重新加载当前日期的条目数据
             _queryLoginedUserInfo();
           });
-        }, icon: '',
+        },
+        icon: '',
       ),
       NewCusSettingCard(
         leadingIcon: Icons.trending_down_outlined,
@@ -612,7 +639,8 @@ class _MePageState extends State<MePage> {
               _queryLoginedUserInfo();
             }
           });
-        }, icon: '',
+        },
+        icon: '',
       ),
       NewCusSettingCard(
         leadingIcon: Icons.golf_course_outlined,
@@ -628,7 +656,8 @@ class _MePageState extends State<MePage> {
             // 确认新增成功后重新加载当前日期的条目数据
             _queryLoginedUserInfo();
           });
-        }, icon: '',
+        },
+        icon: '',
       ),
     ];
     var listDatas = [
@@ -647,11 +676,11 @@ class _MePageState extends State<MePage> {
         'title': CusAL.of(context).settingLabels('2'),
         'page': IntakeTargetPage(userInfo: userInfo)
       },
-      // {
-      //   'icon': 'assets/me/training_setting.png',
-      //   'title': CusAL.of(context).settingLabels('3'),
-      //   'page': TrainingSetting(userInfo: userInfo!)
-      // },
+      {
+        'icon': 'assets/me/training_setting.png',
+        'title': CusAL.of(context).settingLabels('3'),
+        'page': TrainingSetting(userInfo: userInfo!)
+      },
       {
         'icon': 'assets/me/backup.png',
         'title': CusAL.of(context).settingLabels('4'),
@@ -666,15 +695,13 @@ class _MePageState extends State<MePage> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-          boxShadow: const [
-            BoxShadow(color: Colors.black12, blurRadius: 2)
-          ],
+        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 2)],
       ),
       margin: EdgeInsets.all(10.w),
       child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3, childAspectRatio: 1.5),
-          itemCount: 6,
+          itemCount: listDatas.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, i) {
@@ -702,6 +729,7 @@ class _MePageState extends State<MePage> {
           }),
     );
   }
+
   _buildFunctionArea2() {
     var listDatas = [
       {
@@ -719,58 +747,54 @@ class _MePageState extends State<MePage> {
         'title': CusAL.of(context).settingLabels('2'),
         'page': IntakeTargetPage(userInfo: userInfo)
       },
-      // {
-      //   'icon': 'assets/me/training_setting.png',
-      //   'title': CusAL.of(context).settingLabels('3'),
-      //   'page': TrainingSetting(userInfo: userInfo!)
-      // },
+      {
+        'icon': 'assets/me/training_setting.png',
+        'title': CusAL.of(context).settingLabels('3'),
+        'page': TrainingSetting(userInfo: userInfo!)
+      },
       {
         'icon': 'assets/me/backup.png',
         'title': CusAL.of(context).settingLabels('4'),
         'page': const BackupAndRestore()
       },
-      {
-        'icon': 'assets/me/more_setting.png',
-        'title': CusAL.of(context).settingLabels('5'),
-        'page': const MoreSettings()
-      },
     ];
     return Container(
       margin: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
-        color:box.read('mode') == 'light' ?Colors.white  : AppTheme.mainDark,
+        color: box.read('mode') == 'light' ? Colors.white : AppTheme.mainDark,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 2)
-        ],
+        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 2)],
       ),
-
       child: ListView.separated(
-          itemCount: 5,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, i) {
-            return SettingRow(
-              icon: listDatas[i]['icon'] as String,
-              title: listDatas[i]['title'] as String,
-              onPressed: () {
-                // 处理相应的点击事件
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => listDatas[i]['page'] as Widget,
-                  ),
-                ).then((value) {
-                  // 确认新增成功后重新加载当前日期的条目数据
-                  if (value != null && value == true) {
-                    _queryLoginedUserInfo();
-                  }
-                });
-              },
-            );
-          }, separatorBuilder: (BuildContext context, int index) {
-            return const Divider(height: 5,);
-      },),
+        itemCount: listDatas.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, i) {
+          return SettingRow(
+            icon: listDatas[i]['icon'] as String,
+            title: listDatas[i]['title'] as String,
+            onPressed: () {
+              // 处理相应的点击事件
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => listDatas[i]['page'] as Widget,
+                ),
+              ).then((value) {
+                // 确认新增成功后重新加载当前日期的条目数据
+                if (value != null && value == true) {
+                  _queryLoginedUserInfo();
+                }
+              });
+            },
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return const Divider(
+            height: 5,
+          );
+        },
+      ),
     );
   }
 
@@ -802,32 +826,50 @@ class _MePageState extends State<MePage> {
       //         alignmentTemp: Alignment.bottomCenter);
       //   }
       // },
-      {'title': 'About Us',
+      {
+        'title': 'About Us',
         'subTitle': '',
-        'icon':Icons.person_add_sharp,
+        'icon': Icons.person_add_sharp,
         'page': () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const UsPage(),
-          ),
-        );
-      }
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const UsPage(),
+            ),
+          );
+        }
       },
-      {'title': 'Contact us',
+      {
+        'title': 'Contact us',
         'subTitle': 'ehansenj8u@gmx.com',
-        'icon':Icons.contact_page_sharp,
-        'page': () {}},
-      {'title': 'Version',
+        'icon': Icons.contact_page_sharp,
+        'page': () {}
+      },
+      {
+        'title': 'Version',
         'subTitle': 'V1.0.0',
-        'icon':Icons.verified_sharp,
-        'page': () {}}
+        'icon': Icons.verified_sharp,
+        'page': () {}
+      },
+      {
+        'title': CusAL.of(context).settingLabels('5'),
+        'icon': Icons.settings,
+        'subTitle': '',
+
+        'page': (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const MoreSettings(),
+            ),
+          );
+        }
+      },
     ];
     return Container(
       decoration: BoxDecoration(
-           color:box.read('mode') == 'light' ?Colors.white  : AppTheme.mainDark,
-          borderRadius: BorderRadius.circular(20)
-      ),
+          color: box.read('mode') == 'light' ? Colors.white : AppTheme.mainDark,
+          borderRadius: BorderRadius.circular(20)),
       margin: EdgeInsets.all(10.w),
       child: ListView.separated(
         shrinkWrap: true,
@@ -835,23 +877,32 @@ class _MePageState extends State<MePage> {
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, i) {
           return Material(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: InkWell(
-              borderRadius:BorderRadius.circular(20) ,
+              borderRadius: BorderRadius.circular(20),
               onTap: list[i]['page'] as void Function(),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.sp),
                 height: 50,
                 child: Row(
                   children: [
-                    Icon(list[i]['icon'] as IconData,color:box.read('mode')=='light'? Colors.grey:Colors.black38,),
+                    Icon(
+                      list[i]['icon'] as IconData,
+                      color: box.read('mode') == 'light'
+                          ? Colors.grey
+                          : Colors.black38,
+                    ),
                     const SizedBox(width: 5),
                     Text(list[i]['title'] as String),
                     const Spacer(),
                     Row(
                       children: [
-                        Text(list[i]['subTitle'] as String),
-                        const Icon(Icons.arrow_forward_ios_outlined,color: Colors.grey,),
+                        Text(list[i]['subTitle'] as String,style: TextStyle(color: Theme.of(context).primaryColor),),
+                        const Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.grey,
+                        ),
                       ],
                     )
                   ],
@@ -861,7 +912,9 @@ class _MePageState extends State<MePage> {
           );
         },
         separatorBuilder: (BuildContext context, int index) {
-          return const Divider(height: 1,);
+          return const Divider(
+            height: 1,
+          );
         },
       ),
     );
@@ -889,12 +942,16 @@ class NewCusSettingCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 60.sp,
-        color: box.read('mode') == 'light' ?Colors.white  : AppTheme.mainDark,
+        color: box.read('mode') == 'light' ? Colors.white : AppTheme.mainDark,
         padding: EdgeInsets.all(2.sp),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(icon,width: 25.w,height: 25.w,),
+            Image.asset(
+              icon,
+              width: 25.w,
+              height: 25.w,
+            ),
             const SizedBox(height: 8),
             Text(
               title,
@@ -908,12 +965,17 @@ class NewCusSettingCard extends StatelessWidget {
     );
   }
 }
+
 class SettingRow extends StatelessWidget {
   final String icon;
   final String title;
   final VoidCallback onPressed;
 
-  const SettingRow({super.key, required this.icon, required this.title, required this.onPressed});
+  const SettingRow(
+      {super.key,
+      required this.icon,
+      required this.title,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -921,15 +983,14 @@ class SettingRow extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: InkWell(
         onTap: onPressed,
-        borderRadius:BorderRadius.circular(20) ,
+        borderRadius: BorderRadius.circular(20),
         child: Container(
           height: 50,
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(icon,
-                  height: 22, width: 22, fit: BoxFit.contain),
+              Image.asset(icon, height: 22, width: 22, fit: BoxFit.contain),
               const SizedBox(
                 width: 15,
               ),
@@ -941,7 +1002,10 @@ class SettingRow extends StatelessWidget {
                   ),
                 ),
               ),
-              const Icon(Icons.arrow_forward_ios_outlined,color: Colors.grey,)
+              const Icon(
+                Icons.arrow_forward_ios_outlined,
+                color: Colors.grey,
+              )
             ],
           ),
         ),

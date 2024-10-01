@@ -699,7 +699,7 @@ class _DietaryReportsState extends State<DietaryReports> {
     FoodNutrientTotals fntVO = formatData(dfiwfsList);
 
     for (var el in dfiwfsList) {
-      var foodName = "${el.food.product} (${el.food.brand})";
+      var foodName = "${box.read('mode')=='zh'?el.food.product:el.food.productEn} (${el.food.brand})";
       splitArrays.putIfAbsent(foodName, () => []);
       splitArrays[foodName]!.add(el);
     }

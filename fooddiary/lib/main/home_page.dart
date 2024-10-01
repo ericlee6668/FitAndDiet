@@ -1,3 +1,4 @@
+import 'package:fit_track/common/components/KeepAliveWrapper.dart';
 import 'package:fit_track/views/dietary/foods/food_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,10 +12,8 @@ import '../common/utils/tools.dart';
 import '../models/cus_app_localizations.dart';
 import '../views/dietary/index.dart';
 import '../views/dietary/records/home_record.dart';
-import '../views/home/health_tip_page.dart';
-import '../views/home/home_page.dart';
+import '../views/home/training_page.dart';
 import '../views/me/me_page.dart';
-import '../views/training/index.dart';
 import 'float_view.dart';
 import 'init_guide_page.dart';
 
@@ -32,16 +31,16 @@ class _HomePageState extends State<HomePage>
   int _selectedIndex = 0;
   late TabController tabBarController = TabController(
     initialIndex: 0,
-    length: 5,
+    length: 4,
     vsync: this,
   );
   static const List<Widget> _widgetOptions = <Widget>[
     // TrainingPage(),
-    HomeExercisePage(),
+    KeepAliveWrapper(child: HomeExercisePage()),
     // FoodPage(),
-    DietaryPage(),
-    HomeRecordPage(),
-    MePage()
+    KeepAliveWrapper(child: DietaryPage()),
+    KeepAliveWrapper(child: HomeRecordPage()),
+    KeepAliveWrapper(child: MePage())
   ];
 
   @override
@@ -51,6 +50,12 @@ class _HomePageState extends State<HomePage>
     eventBus.on<InitEvent>().listen((event) {
       showInitDialog();
     });
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.dark, // 设置状态栏图标为黑色
+        statusBarBrightness: Brightness.light, // 设置iOS状态栏文本为黑色
+      ),
+    );
   }
 
   void showInitDialog() {
@@ -107,7 +112,7 @@ class _HomePageState extends State<HomePage>
   }
 
   void _onItemTapped(int index) {
-    if (index ==0 || index ==3) {
+    if (index == 0 || index == 2) {
       Future.delayed(const Duration(milliseconds: 200)).then((value) {
         SystemUiOverlayStyle style = const SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,

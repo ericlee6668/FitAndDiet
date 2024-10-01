@@ -1,6 +1,7 @@
 import 'package:fit_track/views/home/health_tip_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
 class HealthTipPage extends StatelessWidget {
   const HealthTipPage({super.key});
@@ -10,7 +11,17 @@ class HealthTipPage extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return HealthTipDetailPage(healthTip,index);
-        }));
+        })
+        ).then((value) =>
+        Future.delayed(const Duration(milliseconds: 200)).then((value) =>
+            SystemChrome.setSystemUIOverlayStyle(
+              const SystemUiOverlayStyle(
+                statusBarIconBrightness: Brightness.dark, // 设置状态栏图标为黑色
+                statusBarBrightness: Brightness.light,    // 设置iOS状态栏文本为黑色
+              ),
+            )
+        )
+        );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),

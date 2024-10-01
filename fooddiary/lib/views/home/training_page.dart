@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class HomeExercisePage extends StatefulWidget {
+class HomeExercisePage extends StatefulWidget  {
   const HomeExercisePage({super.key});
 
   @override
@@ -14,28 +14,28 @@ class HomeExercisePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomeExercisePage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin  {
   var pages = [const HealthTipPage(), const TrainingExercise()];
-  var titles = ['HealthTip', 'TrainingExercise'];
+  var titles = ['Health Tip', 'Training Exercise'];
   late TabController tabController;
-  var currentName = 'HealthTip';
+  var currentName = '';
 
   @override
   void initState() {
-
-    super.initState();
-    tabController = TabController(length: 2, vsync: this);
+    currentName=titles[0];
+        tabController = TabController(length: 2, vsync: this);
     tabController.addListener(() {
       setState(() {
         currentName = titles[tabController.index];
       });
     });
+    super.initState();
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
   }
 
   @override
   Widget build(BuildContext context) {
+
     return  Scaffold(
         extendBodyBehindAppBar: false,
         body: Column(
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomeExercisePage>
   }
   @override
   void dispose() {
-    tabController.dispose(); // 释放 TabController
+    tabController.dispose();
     super.dispose();
   }
   Widget _buildTileTab(String e) {
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomeExercisePage>
           e,
           style: TextStyle(
               color: currentName == e ? AppTheme.text0 : Colors.grey,
-              fontSize: currentName == e ? CusFontSizes.itemSubTitle : CusFontSizes.itemTitle,
+              fontSize: currentName == e ? CusFontSizes.itemTitle : CusFontSizes.itemSubTitle,
               fontWeight: FontWeight.bold),
         )));
   }

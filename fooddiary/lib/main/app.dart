@@ -65,7 +65,7 @@ class _FitTrackAppState extends State<FitTrackApp> {
 
           // 默认使用浅色主题，预设一个深色主题使用的预设值
           // 跟随系统的默认深色是一个material主题
-          darkTheme: FlexThemeData.light(scheme: FlexScheme.redM3,transparentStatusBar: false),
+          darkTheme: FlexThemeData.light(scheme: FlexScheme.redM3,transparentStatusBar: true),
 
           /// 根据系统设置使用深色或浅色主题(当有完善的深色模式之后再启用)
           // theme: box.read('mode') == 'system'
