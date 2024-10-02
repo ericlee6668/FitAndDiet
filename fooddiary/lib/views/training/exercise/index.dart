@@ -297,23 +297,24 @@ class _TrainingExerciseState extends State<TrainingExercise> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      // appBar: AppBar(
-      //   title: RichText(
-      //     text: TextSpan(
-      //       children: [
-      //         TextSpan(
-      //           text: '${CusAL.of(context).exercise}\n',
-      //           style: TextStyle(
-      //             fontSize: CusFontSizes.pageTitle,
-      //           ),
-      //         ),
-      //         TextSpan(
-      //           text: CusAL.of(context).itemCount(itemsCount),
-      //           style: TextStyle(fontSize: CusFontSizes.pageAppendix),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
+      appBar: AppBar(
+        title: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: '${CusAL.of(context).exercise}\n',
+                style: TextStyle(
+                  fontSize: CusFontSizes.pageTitle,
+                ),
+              ),
+              TextSpan(
+                text: CusAL.of(context).itemCount(itemsCount),
+                style: TextStyle(fontSize: CusFontSizes.pageAppendix),
+              ),
+            ],
+          ),
+        ),
+      ),
       //   actions: [
       //     /// 导入json文件
       //     IconButton(
@@ -527,9 +528,9 @@ class _TrainingExerciseState extends State<TrainingExercise> {
                     equipmentOptions,
                   ),
                   _propertyText(
-                    CusAL.of(context).exerciseQuerys('7'),
-                    exerciseItem.countingMode,
-                    countingOptions,
+                    CusAL.of(context).exerciseQuerys('0'),
+                    exerciseItem.primaryMuscles??"",
+                    musclesOptions,
                   ),
                 ],
               ),

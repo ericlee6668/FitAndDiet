@@ -280,11 +280,10 @@ class _FoodPageState extends State<FoodPage>
         children: [
           Container(
             color: box.read('mode') == 'light' ?Colors.white  : AppTheme.mainDark,
-            height: 42.w,
+            height: 32.w,
             child: TabBar(
               tabs: foodsTypeZh
                   .map((e) => SizedBox(
-                        height: 28,
                         child: Text(
                           e,
                       style: TextStyle(color: box.read('mode') == 'light' ?Colors.black  : Colors.white54),

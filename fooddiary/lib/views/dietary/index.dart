@@ -320,9 +320,6 @@ class _DietaryPageState extends State<DietaryPage>
     );
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }
 
 typedef SliverHeaderBuilder = Widget Function(

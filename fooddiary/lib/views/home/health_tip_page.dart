@@ -29,12 +29,9 @@ class HealthTipPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           verticalDirection: VerticalDirection.up,
           children: <Widget>[
-            FittedBox(
-              fit: BoxFit.fitWidth,
-              child: Hero(
-                tag: healthTip.image!,
-                child: Image.asset(healthTip.image!),
-              ),
+            Hero(
+              tag: healthTip.image!,
+              child: Image.asset(healthTip.image!,fit: BoxFit.contain,),
             ),
             FractionalTranslation(
               translation: const Offset(0, 0.25),

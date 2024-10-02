@@ -68,12 +68,12 @@ class _ExerciseDetailDialogState extends State<ExerciseDetailDialog> {
             // ？？？关闭按钮考虑和下面的修改和详情放一起，但3个按钮怎么排都显示很奇怪
             // _buildCloseButton(),
             SizedBox(
-                height: 40.sp,
+                height: 30.sp,
                 child: buildCloseButton(
                   context,
                   popValue: modifiedFlag,
                 )),
-            Expanded(flex: 2, child: _buildExerciseImageArea(_currentItem)),
+            _buildExerciseImageArea(_currentItem),
             Expanded(
               flex: 3,
               child: buildTitleAndDescription(
@@ -102,7 +102,7 @@ class _ExerciseDetailDialogState extends State<ExerciseDetailDialog> {
   // 更多和修改按钮
   _buildMoreAndEditButton() {
     return SizedBox(
-      height: 50.sp,
+      height: 60.sp,
       child: Row(
         children: [
           Expanded(
@@ -176,7 +176,7 @@ class _ExerciseDetailDialogState extends State<ExerciseDetailDialog> {
   // 分页按钮行
   _buildPageButton() {
     return Container(
-      color: AppTheme.error70,
+      color: Theme.of(context).primaryColor,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.sp),
         child: Row(

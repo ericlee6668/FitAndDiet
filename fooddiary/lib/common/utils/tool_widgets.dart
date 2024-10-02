@@ -180,7 +180,7 @@ InputDecoration _buildInputDecoration(
   TextStyle? hintStyle,
 ) {
   final contentPadding = isOutline != null && isOutline
-      ? EdgeInsets.symmetric(horizontal: 5.sp, vertical: 15.sp)
+      ? EdgeInsets.symmetric(horizontal: 5.sp, vertical: 12.sp)
       : EdgeInsets.symmetric(horizontal: 5.sp, vertical: 5.sp);
 
   return InputDecoration(

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:fit_track/common/db/db_user_helper.dart';
 import 'package:fit_track/views/me/us/title_subtitle_cell.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,6 +24,7 @@ import '../../models/cus_app_localizations.dart';
 import '../../models/user_state.dart';
 
 // import '_feature_mock_data/me_page.dart';
+import '_feature_mock_data/index.dart';
 import 'backup_and_restore/index.dart';
 import 'intake_goals/intake_target.dart';
 import 'more_settings/index.dart';
@@ -199,6 +201,20 @@ class _MePageState extends State<MePage> {
         ),
         actions: [
           // IconButton0
+          Visibility(
+            visible: true,
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FeatureMockDemo(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.bug_report),
+            ),
+          ),
           // 切换用户(切换后缓存的用户编号也得修改)
           IconButton(
             onPressed: _switchUser,
@@ -291,26 +307,29 @@ class _MePageState extends State<MePage> {
                   GestureDetector(
                     onTap: () {
                       // 这个直接弹窗显示图片可以缩放
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Dialog(
-                            backgroundColor: Colors.transparent, // 设置背景透明
-                            child: PhotoView(
-                              imageProvider: FileImage(File(_avatarPath)),
-                              // 设置图片背景为透明
-                              backgroundDecoration: const BoxDecoration(
-                                color: Colors.transparent,
+                      if (_avatarPath != '') {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              backgroundColor: Colors.transparent, // 设置背景透明
+                              child: PhotoView(
+                                imageProvider: FileImage(File(_avatarPath)),
+                                // 设置图片背景为透明
+                                backgroundDecoration: const BoxDecoration(
+                                  color: Colors.transparent,
+                                ),
+                                // 可以旋转
+                                // enableRotation: true,
+                                // 缩放的最大最小限制
+                                minScale:
+                                    PhotoViewComputedScale.contained * 0.8,
+                                maxScale: PhotoViewComputedScale.covered * 2,
                               ),
-                              // 可以旋转
-                              // enableRotation: true,
-                              // 缩放的最大最小限制
-                              minScale: PhotoViewComputedScale.contained * 0.8,
-                              maxScale: PhotoViewComputedScale.covered * 2,
-                            ),
-                          );
-                        },
-                      );
+                            );
+                          },
+                        );
+                      }
                     },
                     child: Container(
                       width: 90,
@@ -742,11 +761,11 @@ class _MePageState extends State<MePage> {
         'title': CusAL.of(context).settingLabels('1'),
         'page': WeightTrendRecord(userInfo: userInfo)
       },
-      {
-        'icon': 'assets/me/intake_goal.png',
-        'title': CusAL.of(context).settingLabels('2'),
-        'page': IntakeTargetPage(userInfo: userInfo)
-      },
+      // {
+      //   'icon': 'assets/me/intake_goal.png',
+      //   'title': CusAL.of(context).settingLabels('2'),
+      //   'page': IntakeTargetPage(userInfo: userInfo)
+      // },
       {
         'icon': 'assets/me/training_setting.png',
         'title': CusAL.of(context).settingLabels('3'),
@@ -855,8 +874,7 @@ class _MePageState extends State<MePage> {
         'title': CusAL.of(context).settingLabels('5'),
         'icon': Icons.settings,
         'subTitle': '',
-
-        'page': (){
+        'page': () {
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -898,7 +916,11 @@ class _MePageState extends State<MePage> {
                     const Spacer(),
                     Row(
                       children: [
-                        Text(list[i]['subTitle'] as String,style: TextStyle(color: Theme.of(context).primaryColor),),
+                        Text(
+                          list[i]['subTitle'] as String,
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                        ),
                         const Icon(
                           Icons.arrow_forward_ios_outlined,
                           color: Colors.grey,

@@ -297,6 +297,8 @@ class _GroupListState extends State<GroupList> {
     TrainingGroup groupItem = gwaItem.group;
 
     return ListTile(
+      minVerticalPadding: 8,
+      contentPadding:const EdgeInsets.all(8),
       leading: _isEditing
           ? SizedBox(
               width: 30.sp,
@@ -334,19 +336,21 @@ class _GroupListState extends State<GroupList> {
                   '${gwaItem.actionDetailList.length} ${CusAL.of(context).exercise} ',
               style: TextStyle(color: Theme.of(context).shadowColor),
             ),
+
             TextSpan(
               text: '${getCusLabelText(
                 groupItem.groupLevel,
                 levelOptions,
               )}  ',
-              style: TextStyle(color: Colors.green[500]),
+              style: TextStyle(color: Colors.green[500],),
             ),
+
             TextSpan(
               text: '\n${getCusLabelText(
                 groupItem.groupCategory,
                 categoryOptions,
               )}',
-              style: TextStyle(color: Theme.of(context).shadowColor),
+              style: TextStyle(color: Theme.of(context).shadowColor,height: 1.5),
             ),
           ],
         ),
@@ -391,12 +395,12 @@ class _GroupListState extends State<GroupList> {
               ),
             )
           : SizedBox(
-              width: 65.sp,
+              width: 115.sp,
               // 跟练状态和上次运动时间
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.max,
                 // 注意索引index是从0开始，logmap中的key是从1开始(第一个训练日)
                 children: [
                   Icon(

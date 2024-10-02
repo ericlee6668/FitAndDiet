@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
+import 'package:fit_track/common/global/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,9 +41,11 @@ class AppCatchError {
             .then((_) async {
           WidgetsFlutterBinding.ensureInitialized();
           await GetStorage.init();
-          await GetStorage().write('language', 'en');
+          // await GetStorage().write('language', 'en');
           // await GetStorage().write('language', 'cn');
-          // await GetStorage().write('language', 'system');
+          if(box.read('language')==null){
+            box.write('language', 'system');
+          }
           // await GetStorage().write('mode', 'dark');
           // await GetStorage().write('mode', 'light');
           await GetStorage().write('mode', 'light');

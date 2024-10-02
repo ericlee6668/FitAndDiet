@@ -42,14 +42,7 @@ class _TrainingState extends State<TrainingPage> {
         kBottomNavigationBarHeight -
         2 * 12.sp; // 减的越多，上下空隙越大
 
-    return Scaffold(
-      // 避免搜索时弹出键盘，让底部的minibar位置移动到tab顶部导致溢出的问题
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text(CusAL.of(context).training),
-      ),
-      body: buildFixedBody(screenHeight),
-    );
+    return  buildFixedBody(screenHeight);
   }
 
   // 可视页面固定等分居中、不可滚动的首页
@@ -81,21 +74,21 @@ class _TrainingState extends State<TrainingPage> {
             const TrainingExercise(),
             CusAL.of(context).exerciseLabel,
             CusAL.of(context).exerciseSubtitle,
-            workoutWomanImageUrl,
+            reportImageUrl,
           ),
           buildCoverCard(
             context,
             const TrainingWorkouts(),
             CusAL.of(context).workout,
             CusAL.of(context).workoutSubtitle,
-            workoutManImageUrl,
+            dietaryLogCoverImageUrl,
           ),
           buildCoverCard(
             context,
             const TrainingPlans(),
             CusAL.of(context).plan,
             CusAL.of(context).planSubtitle,
-            workoutCalendarImageUrl,
+            dietaryLogCoverImageUrl,
           ),
         ],
       ),

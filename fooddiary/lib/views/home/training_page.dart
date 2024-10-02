@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../training/index.dart';
+
 class HomeExercisePage extends StatefulWidget  {
   const HomeExercisePage({super.key});
 
@@ -15,7 +17,7 @@ class HomeExercisePage extends StatefulWidget  {
 
 class _HomePageState extends State<HomeExercisePage>
     with SingleTickerProviderStateMixin  {
-  var pages = [const HealthTipPage(), const TrainingExercise()];
+  var pages = [const HealthTipPage(), const TrainingPage()];
   var titles = ['Health Tip', 'Training Exercise'];
   late TabController tabController;
   var currentName = '';

@@ -70,46 +70,46 @@ class _ExerciseQueryFormState extends State<ExerciseQueryForm> {
                 isOutline: true,
               ),
             ),
-            // Expanded(
-            //   flex: 1,
-            //   child: IconButton(
-            //     onPressed: _showHintDialog,
-            //     icon: Icon(
-            //       Icons.warning,
-            //       size: CusIconSizes.iconSmall,
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //   ),
-            // ),
-            // Expanded(
-            //   flex: 1,
-            //   child: IconButton(
-            //     onPressed: () {
-            //       setState(() {
-            //         _showAdvancedOptions = !_showAdvancedOptions;
-            //       });
-            //     },
-            //     icon: Icon(
-            //       _showAdvancedOptions ? Icons.expand_less : Icons.expand_more,
-            //       size: CusIconSizes.iconSmall,
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //   ),
-            //
-            //   //     TextButton(
-            //   //   onPressed: () {
-            //   //     setState(() {
-            //   //       _showAdvancedOptions = !_showAdvancedOptions;
-            //   //     });
-            //   //   },
-            //   //   child: Text(
-            //   //     _showAdvancedOptions
-            //   //         ? CusAL.of(context).lessLabel
-            //   //         : CusAL.of(context).moreLabel,
-            //   //     style: TextStyle(fontSize: 12.sp),
-            //   //   ),
-            //   // ),
-            // ),
+            Expanded(
+              flex: 1,
+              child: IconButton(
+                onPressed: _showHintDialog,
+                icon: Icon(
+                  Icons.warning,
+                  size: CusIconSizes.iconSmall,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: IconButton(
+                onPressed: () {
+                  setState(() {
+                    _showAdvancedOptions = !_showAdvancedOptions;
+                  });
+                },
+                icon: Icon(
+                  _showAdvancedOptions ? Icons.expand_less : Icons.expand_more,
+                  size: CusIconSizes.iconSmall,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+
+              //     TextButton(
+              //   onPressed: () {
+              //     setState(() {
+              //       _showAdvancedOptions = !_showAdvancedOptions;
+              //     });
+              //   },
+              //   child: Text(
+              //     _showAdvancedOptions
+              //         ? CusAL.of(context).lessLabel
+              //         : CusAL.of(context).moreLabel,
+              //     style: TextStyle(fontSize: 12.sp),
+              //   ),
+              // ),
+            ),
             Expanded(
               flex: 2,
               child:

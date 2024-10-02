@@ -72,6 +72,10 @@ Image buildExerciseImage(Exercise exercise) {
   //   imageUrl = cusExImgPre + imageUrl;
   // }
 
+  return getImage(imageUrl);
+}
+
+getImage(String imageUrl) {
   return imageUrl.startsWith('http')
       ? Image.network(
           imageUrl,
@@ -105,7 +109,7 @@ buildImageCarouselSlider(
         // 居中图片放大
         aspectRatio: 16 / 9,
         // 图片宽高比
-        viewportFraction: 0.7,
+        viewportFraction: 0.8,
         // 图片占屏幕宽度的比例
         // 只有一张图片时不滚动
         enableInfiniteScroll: imageList.length > 1,
@@ -149,19 +153,7 @@ _buildImageCarouselSliderType(
   String imageUrl,
   List<String> imageList,
 ) {
-  buildChildImage() => imageUrl.startsWith('http')
-      ? Image.network(
-          imageUrl,
-          errorBuilder: (BuildContext context, Object exception,
-                  StackTrace? stackTrace) =>
-              Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown),
-        )
-      : Image.file(
-          File(imageUrl),
-          errorBuilder: (BuildContext context, Object exception,
-                  StackTrace? stackTrace) =>
-              Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown),
-        );
+  buildChildImage() => getImage(imageUrl);
 
   buildCommonImageWidget(Function() onTap) =>
       GestureDetector(onTap: onTap, child: buildChildImage());
@@ -176,7 +168,8 @@ _buildImageCarouselSliderType(
             return Dialog(
               backgroundColor: Colors.transparent, // 设置背景透明
               child: PhotoView(
-                imageProvider: FileImage(File(imageUrl)),
+                // imageProvider: FileImage(File(imageUrl)),
+                imageProvider: NetworkImage(imageUrl),
                 // 设置图片背景为透明
                 backgroundDecoration: const BoxDecoration(
                   color: Colors.transparent,
@@ -198,7 +191,7 @@ _buildImageCarouselSliderType(
           context,
           MaterialPageRoute(
             builder: (context) => PhotoView(
-              imageProvider: FileImage(File(imageUrl)),
+              imageProvider: loadImage(imageUrl),
               enableRotation: true,
             ),
           ),
@@ -212,11 +205,12 @@ _buildImageCarouselSliderType(
             // 这个弹窗默认是无法全屏的，上下左右会留点空，点击这些空隙可以关闭弹窗
             return Dialog(
               backgroundColor: Colors.transparent,
+              insetPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 220.0),
               child: PhotoViewGallery.builder(
                 itemCount: imageList.length,
                 builder: (BuildContext context, int index) {
                   return PhotoViewGalleryPageOptions(
-                    imageProvider: FileImage(File(imageList[index])),
+                    imageProvider: loadImage(imageList[index]),
                   );
                 },
                 // enableRotation: true,
@@ -240,6 +234,12 @@ _buildImageCarouselSliderType(
         child: buildChildImage(),
       );
   }
+}
+
+loadImage(String imageUrl) {
+  return imageUrl.startsWith('http')
+      ? NetworkImage(imageUrl)
+      : FileImage(File(imageUrl));
 }
 
 buildImageCarouselSliderTypeOld(

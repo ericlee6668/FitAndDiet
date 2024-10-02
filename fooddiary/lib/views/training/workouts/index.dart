@@ -1,6 +1,9 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -434,6 +437,19 @@ class _TrainingWorkoutsState extends State<TrainingWorkouts> {
             TextButton(
               child: Text(CusAL.of(context).confirmLabel),
               onPressed: () async {
+                // 测试新增数据
+                // if (groupItem == null) {
+                //   // 读取 assets 中的 JSON 文件
+                //   String jsonString =
+                //   await rootBundle.loadString('assets/json/workout.json');
+                //   // 解析 JSON 数据
+                //   List jsonResponse = json.decode(jsonString);
+                //   var tempList = jsonResponse.map((e) => TrainingGroup.fromMap(e)).toList();
+                //   for (var temp in tempList) {
+                //     var groupId = await _dbHelper.insertTrainingGroup(temp);
+                //     temp.groupId = groupId;
+                //   }
+                // }
                 if (_groupFormKey.currentState!.saveAndValidate()) {
                   // 获取表单数值
                   Map<String, dynamic> formData =

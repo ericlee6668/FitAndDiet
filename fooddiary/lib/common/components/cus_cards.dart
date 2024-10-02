@@ -117,12 +117,15 @@ buildCoverCard(
                   color: Theme.of(context).primaryColor,
                 ),
               ),
-              Text(
-                textAlign: TextAlign.center,
-                subtitle,
-                maxLines: 2,
-                style: TextStyle(
-                  fontSize: 12.sp,
+              SizedBox(
+                width: 100.w,
+                child: Text(
+                  textAlign: TextAlign.center,
+                  subtitle,
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                  ),
                 ),
               ),
             ]),
@@ -133,15 +136,15 @@ buildCoverCard(
   );
 }
 
-buildCardContainer({Widget? child,double? radius,BuildContext? context}) {
+buildCardContainer({Widget? child, double? radius, BuildContext? context}) {
   return Container(
     decoration: BoxDecoration(
-      color:box.read('mode')=='light'?Colors.white:Color(0xff232229),
-      borderRadius:  BorderRadius.only(
-          topLeft: Radius.circular(radius??8),
-          bottomLeft: Radius.circular(radius??8),
-          bottomRight: Radius.circular(radius??8),
-          topRight: Radius.circular(radius??8)),
+      color: box.read('mode') == 'light' ? Colors.white : Color(0xff232229),
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(radius ?? 8),
+          bottomLeft: Radius.circular(radius ?? 8),
+          bottomRight: Radius.circular(radius ?? 8),
+          topRight: Radius.circular(radius ?? 8)),
       boxShadow: <BoxShadow>[
         BoxShadow(
             color: AppTheme.grey.withOpacity(0.2),

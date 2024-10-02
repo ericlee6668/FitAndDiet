@@ -378,7 +378,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
               Column(
                 children: [
                   Text(
-                    (user?.currentWeight ?? 50).toString(),
+                    '${cusDoubleTryToIntString (user?.height ?? 50)}cm',
                     style: TextStyle(
                         fontSize: CusFontSizes.pageSubTitle,
                         fontWeight: FontWeight.bold),
@@ -398,7 +398,7 @@ class _HomeRecordPageState extends State<HomeRecordPage>
               ),
               Column(
                 children: [
-                  Text('${bmi.toStringAsFixed(2)}bmi',
+                  Text(cusDoubleTryToIntString(bmi),
                       style: TextStyle(
                           fontSize: CusFontSizes.pageSubTitle,
                           fontWeight: FontWeight.bold)),
