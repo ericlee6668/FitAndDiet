@@ -37,6 +37,7 @@ class AppCatchError {
       () {
         //受保护的代码块
         WidgetsFlutterBinding.ensureInitialized();
+
         SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
             .then((_) async {
           WidgetsFlutterBinding.ensureInitialized();
@@ -48,7 +49,9 @@ class AppCatchError {
           }
           // await GetStorage().write('mode', 'dark');
           // await GetStorage().write('mode', 'light');
-          await GetStorage().write('mode', 'light');
+          if(box.read('mode')==null){
+            await GetStorage().write('mode', 'light');
+          }
           runApp(const FitTrackApp());
           pustLogic();
         });
@@ -94,21 +97,21 @@ class AppCatchError {
 
 class DILogic extends GetxController {
   var afid = '';
-  late AppsflyerSdk appsflyerSdk = () {
-    AppsFlyerOptions appsFlyerOptions = AppsFlyerOptions(
-        afDevKey: "eyFyB4RVUU4iGJLu9qupr5",
-        appId: "6476438817",
-        showDebug: true,
-        timeToWaitForATTUserAuthorization: 50,
-        // for iOS 14.5
-        appInviteOneLink: "",
-        // Optional field
-        disableAdvertisingIdentifier: false,
-        // Optional field
-        disableCollectASA: false); // Optional field
-
-    return AppsflyerSdk(appsFlyerOptions);
-  }();
+  // late AppsflyerSdk appsflyerSdk = () {
+  //   AppsFlyerOptions appsFlyerOptions = AppsFlyerOptions(
+  //       afDevKey: "eyFyB4RVUU4iGJLu9qupr5",
+  //       appId: "6476438817",
+  //       showDebug: true,
+  //       timeToWaitForATTUserAuthorization: 50,
+  //       // for iOS 14.5
+  //       appInviteOneLink: "",
+  //       // Optional field
+  //       disableAdvertisingIdentifier: false,
+  //       // Optional field
+  //       disableCollectASA: false); // Optional field
+  //
+  //   return AppsflyerSdk(appsFlyerOptions);
+  // }();
 
   late StreamSubscription<List<ConnectivityResult>> subscription;
 
@@ -144,13 +147,13 @@ class DILogic extends GetxController {
   }
 
   loadSDK() async {
-    appsflyerSdk.initSdk(
-        registerConversionDataCallback: true,
-        registerOnAppOpenAttributionCallback: true,
-        registerOnDeepLinkingCallback: true);
-    var afid = await appsflyerSdk.getAppsFlyerUID();
-
-    this.afid = afid!;
+    // appsflyerSdk.initSdk(
+    //     registerConversionDataCallback: true,
+    //     registerOnAppOpenAttributionCallback: true,
+    //     registerOnDeepLinkingCallback: true);
+    // var afid = await appsflyerSdk.getAppsFlyerUID();
+    //
+    // this.afid = afid!;
 
     WebviewGetxLogic slogic = Get.find<WebviewGetxLogic>();
     slogic.loadCookies();

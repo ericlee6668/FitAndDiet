@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
@@ -165,21 +166,10 @@ class _ActionListState extends State<ActionList> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: RichText(
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            text: TextSpan(
-              children: [
-                TextSpan(
-                    text: widget.groupItem.groupName,
-                    style: TextStyle(fontSize: CusFontSizes.pageTitle)),
-                TextSpan(
-                  text:
-                      "\n${CusAL.of(context).actionLabel('1')}: ${CusAL.of(context).itemCount(actionList.length)}",
-                  style: TextStyle(fontSize: CusFontSizes.pageAppendix),
-                ),
-              ],
-            ),
+          title: CupertinoListTile(
+            title: Text(widget.groupItem.groupName,
+              style: TextStyle(fontSize: CusFontSizes.pageTitle)),
+            subtitle:Text("${CusAL.of(context).actionLabel('1')}: ${CusAL.of(context).itemCount(actionList.length)}") ,
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -223,7 +213,7 @@ class _ActionListState extends State<ActionList> {
             : Column(
                 children: [
                   Expanded(
-                    child: _buildReorderableList(),
+                    child: actionList.isEmpty?buildEmpty():_buildReorderableList(),
                   ),
                   // 避免修改时新增按钮遮住最后一条列表
                   if (_isEditing) SizedBox(height: 80.sp),
@@ -264,7 +254,7 @@ class _ActionListState extends State<ActionList> {
                         ),
                         child: Text(
                           CusAL.of(context).startLabel,
-                          style: TextStyle(fontSize: CusFontSizes.pageTitle),
+                          style: TextStyle(fontSize: CusFontSizes.pageTitle,color: Colors.white),
                         ),
                       )
                     : Container(),
@@ -400,32 +390,58 @@ class _ActionListState extends State<ActionList> {
   _buildAddActionButton() {
     return FloatingActionButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const SimpleExerciseList(),
-          ),
-        ).then((value) {
-          // 如果返回的不是null，也不是false，那就应该是被选中的exercise类
-          if (value != null && value != false) {
-            var selectedExercise = value as Exercise;
-
-            var tempAction = TrainingAction(
-              exerciseId: selectedExercise.exerciseId!,
-              groupId: widget.groupItem.groupId!,
-            );
-
-            var temp = ActionDetail(
-              exercise: selectedExercise,
-              action: tempAction,
-            );
-
-            // 索引从0开始，所以新增的时候就从 actionList.length 开始
-            showConfigDialog(context, temp, actionList.length, onConfiguClosed);
-          }
-        });
+        addExercises();
       },
       child: const Icon(Icons.add),
     );
+  }
+
+  void addExercises() {
+     Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SimpleExerciseList(),
+      ),
+    ).then((value) {
+      // 如果返回的不是null，也不是false，那就应该是被选中的exercise类
+      if (value != null && value != false) {
+        var selectedExercise = value as Exercise;
+
+        var tempAction = TrainingAction(
+          exerciseId: selectedExercise.exerciseId!,
+          groupId: widget.groupItem.groupId!,
+        );
+
+        var temp = ActionDetail(
+          exercise: selectedExercise,
+          action: tempAction,
+        );
+
+        // 索引从0开始，所以新增的时候就从 actionList.length 开始
+        showConfigDialog(context, temp, actionList.length, onConfiguClosed);
+      }
+    });
+  }
+  Widget buildEmpty() {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(CusAL.of(context).noRecordNote,style: TextStyle(fontSize: CusFontSizes.pageContent),),
+          CupertinoButton(
+            onPressed: () {
+              _isEditing=true;
+              addExercises();
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+                Text(CusAL.of(context).addOne),
+                Image.asset('assets/images/add.png',width: 30,height: 30,),
+              ],
+            ),
+          ),
+        ],
+      );
   }
 }

@@ -275,7 +275,7 @@ class _MePageState extends State<MePage> {
                   : AppTheme.mainDark,
               borderRadius: BorderRadius.circular(20)),
           margin: EdgeInsets.all(10.w),
-          height: 140.sp,
+          height: 150.sp,
           child: Column(
             children: [
               Row(
@@ -761,11 +761,11 @@ class _MePageState extends State<MePage> {
         'title': CusAL.of(context).settingLabels('1'),
         'page': WeightTrendRecord(userInfo: userInfo)
       },
-      // {
-      //   'icon': 'assets/me/intake_goal.png',
-      //   'title': CusAL.of(context).settingLabels('2'),
-      //   'page': IntakeTargetPage(userInfo: userInfo)
-      // },
+      {
+        'icon': 'assets/me/intake_goal.png',
+        'title': CusAL.of(context).settingLabels('2'),
+        'page': IntakeTargetPage(userInfo: userInfo)
+      },
       {
         'icon': 'assets/me/training_setting.png',
         'title': CusAL.of(context).settingLabels('3'),

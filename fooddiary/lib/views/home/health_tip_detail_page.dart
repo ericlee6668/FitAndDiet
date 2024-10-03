@@ -24,7 +24,7 @@ class HealthTipDetailPage extends StatelessWidget {
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              color: Colors.black,
+              color: Colors.red
             ),
           ),
           const SizedBox(height: 8),
@@ -42,7 +42,7 @@ class HealthTipDetailPage extends StatelessWidget {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: const Text("Health tips"),
+      title: const Text("Health Tips",style: TextStyle(color: Colors.white),),
       backgroundColor: const Color(0xff102B46),
       iconTheme: const IconThemeData(color: Colors.white),
     );

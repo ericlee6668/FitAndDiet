@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,6 +31,7 @@ class _SimpleExerciseListState extends State<SimpleExerciseList> {
 
 // 存锻炼已经加载了的列表
   List<Exercise> exerciseItems = [];
+
   // 数据库中符合条件的锻炼一共有多少
   int exerciseCount = 0;
 
@@ -40,6 +42,7 @@ class _SimpleExerciseListState extends State<SimpleExerciseList> {
 
   // 查询表单的key
   final _queryFormKey = GlobalKey<FormBuilderState>();
+
   // 可以筛选训练，条件用个map来存，初始化一个空map
   Map<String, dynamic> conditionMap = {};
 
@@ -126,21 +129,11 @@ class _SimpleExerciseListState extends State<SimpleExerciseList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: RichText(
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: CusAL.of(context).actionConfigLabel('2'),
-                style: TextStyle(fontSize: CusFontSizes.pageTitle),
-              ),
-              TextSpan(
-                text: "\n${CusAL.of(context).itemCount(exerciseCount)}",
-                style: TextStyle(fontSize: CusFontSizes.pageAppendix),
-              ),
-            ],
-          ),
+        title: CupertinoListTile(
+          title: Text(CusAL.of(context).actionConfigLabel('2'),
+              style: TextStyle(fontSize: CusFontSizes.pageTitle)),
+          subtitle: Text(CusAL.of(context).itemCount(exerciseCount),
+              style: TextStyle(fontSize: CusFontSizes.pageAppendix)),
         ),
       ),
       body: Column(

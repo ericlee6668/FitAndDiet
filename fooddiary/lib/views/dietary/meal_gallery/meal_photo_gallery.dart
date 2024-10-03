@@ -87,7 +87,7 @@ class _MealPhotoGalleryState extends State<MealPhotoGallery> {
             Text(CusAL.of(context).mealGallery),
             Row(
               children: [
-                const Text('add one?',style: TextStyle(fontSize: 14),),
+                 Text(CusAL.of(context).addOne,style: const TextStyle(fontSize: 14),),
                 IconButton(icon: const Icon(Icons.add,size: 30,), onPressed: () {
                        Navigator.push(
                          context,

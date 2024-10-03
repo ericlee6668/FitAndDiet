@@ -31,6 +31,9 @@ const String reportImageUrl = 'assets/covers/app_icon_boohee_life.png';
 const String weightImageUrl = 'assets/covers/icon_circle_weight_select.png';
 const String defaultAvatarImageUrl = 'assets/covers/Avatar.webp';
 const String goalImage = 'assets/covers/diet_record_icon_protein.png';
+const String workoutMan = 'assets/covers/workout_man.webp';
+const String workoutWoman = 'assets/covers/workout_woman.webp';
+const String exercisePlan = 'assets/covers/exercise_plan.webp';
 
 /// 导入的图片默认的地址前缀
 /// (安卓的话指定位置.../DCIM/free-fitness/exercise-images/)下才能读到图片文件

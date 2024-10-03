@@ -93,7 +93,7 @@
 
 
   "exercise": "Exercises",
-  "exerciseLabel": "Exercise",
+  "exerciseLabel": "Basic Movements",
   "exerciseSubtitle": "Exercise management",
   "exerciseDeleteAlert":"Are you sure you need to delete this exercise: {exerciseName}? Deletion is not recoverable!",
   "exerciseInUse":"Exercise {exerciseName} in use, deletion is not supported",
@@ -428,5 +428,6 @@
   "todayEat": "You can still eat today",
   "heathRecord": "Health Record",
   "calendar": "calendar",
-  "water": "Drinking water"
+  "water": "Drinking water",
+  "addOne": "add one?"
 }

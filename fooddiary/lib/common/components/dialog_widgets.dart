@@ -120,12 +120,20 @@ buildImageCarouselSlider(
           : imageList.isEmpty
               ? [Image.asset(placeholderImageUrl, fit: BoxFit.scaleDown)]
               : imageList.map((imageUrl) {
-                  var imageListNew = imageList
-                      .map((e) => e =
-                          'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/$e')
-                      .toList();
-                  var newImageUrl =
-                      'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/$imageUrl';
+                  List<String> imageListNew = [];
+                  var newImageUrl = '';
+                  if (imageUrl.startsWith('http')) {
+                    imageListNew = imageList;
+                    newImageUrl = imageUrl;
+
+                  }else{
+                    imageListNew = imageList
+                        .map((e) => e =
+                    'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/$e')
+                        .toList();
+                    newImageUrl =
+                    'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/$imageUrl';
+                  }
                   return Builder(
                     builder: (BuildContext context) {
                       return _buildImageCarouselSliderType(
@@ -205,7 +213,8 @@ _buildImageCarouselSliderType(
             // 这个弹窗默认是无法全屏的，上下左右会留点空，点击这些空隙可以关闭弹窗
             return Dialog(
               backgroundColor: Colors.transparent,
-              insetPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 220.0),
+              insetPadding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 220.0),
               child: PhotoViewGallery.builder(
                 itemCount: imageList.length,
                 builder: (BuildContext context, int index) {

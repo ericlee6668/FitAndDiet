@@ -335,7 +335,7 @@ class _AddIntakeItemState extends State<AddIntakeItem>
                 child: Text(
                   showCusLable(value),
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black87,
                     fontSize: CusFontSizes.pageSubTitle,
                   ),
                 ),
@@ -347,14 +347,14 @@ class _AddIntakeItemState extends State<AddIntakeItem>
           icon: Icon(
             Icons.arrow_drop_down,
             size: CusIconSizes.iconNormal,
-            color: Colors.white,
+            color: Colors.black87,
           ),
         ),
       ),
       subtitle: Text(
         currentDate,
         style: TextStyle(
-          color: Colors.white,
+          color: Colors.black54,
           fontSize: CusFontSizes.itemContent,
         ),
       ),

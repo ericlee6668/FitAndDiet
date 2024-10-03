@@ -101,7 +101,6 @@ class _DietaryPageState extends State<DietaryPage>
   /// 可视页面固定等分居中、不可滚动的首页
   Widget buildFixedBody() {
     return GridView(
-      shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, childAspectRatio: 1.5),
       children: [
@@ -126,13 +125,13 @@ class _DietaryPageState extends State<DietaryPage>
           CusAL.of(context).foodCompoSubtitle,
           dietaryNutritionImageUrl,
         ),
-        buildCoverCard(
-          context,
-          const DietaryReports(),
-          CusAL.of(context).dietaryReports,
-          CusAL.of(context).dietaryReportsSubtitle,
-          reportImageUrl,
-        ),
+        // buildCoverCard(
+        //   context,
+        //   const DietaryReports(),
+        //   CusAL.of(context).dietaryReports,
+        //   CusAL.of(context).dietaryReportsSubtitle,
+        //   reportImageUrl,
+        // ),
         buildCoverCard(
           context,
           const MealPhotoGallery(),
@@ -140,13 +139,13 @@ class _DietaryPageState extends State<DietaryPage>
           CusAL.of(context).mealGallerySubtitle,
           dietaryMealImageUrl,
         ),
-        buildCoverCard(
-          context,
-          const IntakeTargetPage(),
-          CusAL.of(context).settingLabels('2'),
-          CusAL.of(context).dietaryRecordsSubtitle,
-          goalImage,
-        ),
+        // buildCoverCard(
+        //   context,
+        //   const IntakeTargetPage(),
+        //   CusAL.of(context).settingLabels('2'),
+        //   CusAL.of(context).dietaryRecordsSubtitle,
+        //   goalImage,
+        // ),
       ],
     );
   }

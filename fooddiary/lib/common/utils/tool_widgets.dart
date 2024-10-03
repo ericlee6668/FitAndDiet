@@ -163,6 +163,7 @@ Widget cusFormBuilerDropdown(
       ),
 
       validator: validator,
+      style: const TextStyle(color: Colors.black87),
       items: genDropdownMenuItems(options, textSize: optionFontSize),
       menuMaxHeight: 0.5.sh,
       // alignment: AlignmentDirectional.bottomEnd,

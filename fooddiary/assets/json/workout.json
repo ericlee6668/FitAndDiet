@@ -1,23 +1,45 @@
 [
   {
-    "group_name": "腹肌撕裂者",
+    "group_name": "Strength Training Set",
+    "group_name_cn": "力量训练组",
     "group_category": "strength",
-    "group_level": "intermediate",
+    "group_level": "intermediate"
   },
   {
-    "group_name": "腹肌撕裂者",
-    "group_category": "strength",
-    "group_level": "intermediate",
+    "group_name": "Stretching Training Set",
+    "group_name_cn": "拉伸训练组",
+    "group_category": "stretching",
+    "group_level": "intermediate"
   },
   {
-    "group_name": "腹肌撕裂者",
-    "group_category": "strength",
-    "group_level": "intermediate",
+    "group_name": "Hypertrophy Training Set",
+    "group_name_cn": "肌肉增强训练组",
+    "group_category": "plyometrics",
+    "group_level": "intermediate"
   },
   {
-    "group_name": "腹肌撕裂者",
-    "group_category": "strength",
-    "group_level": "intermediate",
+    "group_name": "Powerlifting Training Set",
+    "group_name_cn": "力量举重训练组",
+    "group_category": "powerlifting",
+    "group_level": "intermediate"
+  },
+  {
+    "group_name": "Strongman Training Set",
+    "group_name_cn": "大力士训练组",
+    "group_category": "strongman",
+    "group_level": "intermediate"
+  },
+  {
+    "group_name": "Aerobic Training Set",
+    "group_name_cn": "有氧训练组",
+    "group_category": "cardio",
+    "group_level": "intermediate"
+  },
+  {
+    "group_name": "Anaerobic Training Set",
+    "group_name_cn": "无氧训练组",
+    "group_category": "anaerobic",
+    "group_level": "intermediate"
   }
 
 ]

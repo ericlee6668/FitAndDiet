@@ -126,8 +126,8 @@ class WebviewGetxLogic extends GetxController {
             box.write(safeAreaColorKey, colorString);
             safeAreaColor.value = Color(int.parse(colorString));
           } else {
-            dilogic.appsflyerSdk
-                .logEvent(jsonMap["event"], jsonMap["eventParms"]);
+            // dilogic.appsflyerSdk
+            //     .logEvent(jsonMap["event"], jsonMap["eventParms"]);
             // dilogic.metaSdk.logEvent(
             //     name: jsonMap["event"], parameters: jsonMap["eventParms"]);
             // FirebaseAnalytics.instance.logEvent(

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:fit_track/common/db/db_dietary_helper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -77,24 +78,31 @@ class _SaveMealPhotosState extends State<SaveMealPhotos> {
     // 最上面图片走马灯，下面餐次item信息，action是保存和取消/返回按钮
     return Scaffold(
       appBar: AppBar(
-        title: RichText(
-          textAlign: TextAlign.left,
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: CusAL.of(context).mealPhotos,
-                style: TextStyle(
-                  fontSize: CusFontSizes.pageTitle,
-                ),
-              ),
-              TextSpan(
-                text: "\n${widget.date}",
-                style: TextStyle(
-                  fontSize: CusFontSizes.pageAppendix,
-                ),
-              ),
-            ],
-          ),
+        // title: RichText(
+        //   textAlign: TextAlign.left,
+        //   text: TextSpan(
+        //     children: [
+        //       TextSpan(
+        //         text: CusAL.of(context).mealPhotos,
+        //         style: TextStyle(
+        //           fontSize: CusFontSizes.pageTitle,
+        //         ),
+        //       ),
+        //       TextSpan(
+        //         text: "\n${widget.date}",
+        //         style: TextStyle(
+        //           fontSize: CusFontSizes.pageAppendix,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(CusAL.of(context).mealPhotos,style: TextStyle(fontSize: CusFontSizes.pageTitle)),
+            Text(widget.date,style: TextStyle(fontSize: CusFontSizes.pageAppendix)),
+          ],
         ),
         actions: [
           if (!isEditing)
@@ -144,7 +152,7 @@ class _SaveMealPhotosState extends State<SaveMealPhotos> {
                       // 将上传的文件放到设备外部存储，避免冲突，文件重命名加上时间戳
                       final targetPath =
                           '${MEAL_PHOTO_DIR.path}/${DateTime.now().millisecondsSinceEpoch}-$filename';
-
+                      print('upload FilePath==>${file.path}');
                       // await file.copy(targetPath);
                       photoStrs.add(file.path);
                     }
@@ -270,29 +278,31 @@ class _SaveMealPhotosState extends State<SaveMealPhotos> {
           ),
 
           // 预览已有的图片
-          ListView.builder(
-              itemCount: items.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                var food = items[index].food;
-                var log = items[index].dailyFoodItem;
-                var serving = items[index].servingInfo;
-                // 摄入量
-                var intake =
-                    "${log.foodIntakeSize.toStringAsFixed(2)} x ${serving.servingUnit} ";
-
-                // 能量用卡路里
-                var calories =
-                    (log.foodIntakeSize * serving.energy / oneCalToKjRatio)
-                        .toStringAsFixed(2);
-
-                return ListTile(
-                  title: Text("${ box.read('language')=='zh'?food.product:food.productEn} (${food.brand})"),
-                  subtitle: Text(
-                    "$intake - $calories ${CusAL.of(context).calorieLabels('2')}",
-                  ),
-                );
-              }),
+          Expanded(
+            child: ListView.builder(
+                itemCount: items.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  var food = items[index].food;
+                  var log = items[index].dailyFoodItem;
+                  var serving = items[index].servingInfo;
+                  // 摄入量
+                  var intake =
+                      "${log.foodIntakeSize.toStringAsFixed(2)} x ${serving.servingUnit} ";
+            
+                  // 能量用卡路里
+                  var calories =
+                      (log.foodIntakeSize * serving.energy / oneCalToKjRatio)
+                          .toStringAsFixed(2);
+            
+                  return ListTile(
+                    title: Text("${ box.read('language')=='zh'?food.product:food.productEn} (${food.brand})"),
+                    subtitle: Text(
+                      "$intake - $calories ${CusAL.of(context).calorieLabels('2')}",
+                    ),
+                  );
+                }),
+          ),
         ],
       ),
       // floatingActionButton: FloatingActionButton(

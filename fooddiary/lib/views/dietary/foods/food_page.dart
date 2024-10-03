@@ -260,20 +260,21 @@ class _FoodPageState extends State<FoodPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: "${CusAL.of(context).food}\n",
-                style: TextStyle(fontSize: CusFontSizes.pageTitle),
-              ),
-              TextSpan(
-                text: CusAL.of(context).itemCount(itemsCount),
-                style: TextStyle(fontSize: CusFontSizes.pageAppendix),
-              ),
-            ],
-          ),
-        ),
+        // title: RichText(
+        //   text: TextSpan(
+        //     children: [
+        //       TextSpan(
+        //         text: "${CusAL.of(context).food}\n",
+        //         style: TextStyle(fontSize: CusFontSizes.pageTitle),
+        //       ),
+        //       TextSpan(
+        //         text: CusAL.of(context).itemCount(itemsCount),
+        //         style: TextStyle(fontSize: CusFontSizes.pageAppendix),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        title: Text(CusAL.of(context).food,style: TextStyle(fontSize: CusFontSizes.pageTitle),),
       ),
       body: Column(
         mainAxisSize: MainAxisSize.min,
@@ -282,6 +283,7 @@ class _FoodPageState extends State<FoodPage>
             color: box.read('mode') == 'light' ?Colors.white  : AppTheme.mainDark,
             height: 32.w,
             child: TabBar(
+              tabAlignment: TabAlignment.start,
               tabs: foodsTypeZh
                   .map((e) => SizedBox(
                         child: Text(
@@ -292,7 +294,7 @@ class _FoodPageState extends State<FoodPage>
                   .toList(),
               controller: controller,
               indicatorColor: Colors.red,
-              indicatorPadding: const EdgeInsets.symmetric(horizontal: 8),
+              // indicatorPadding: const EdgeInsets.symmetric(horizontal: 8),
               isScrollable: true,
             ),
           ),

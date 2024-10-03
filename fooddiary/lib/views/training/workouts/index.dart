@@ -23,6 +23,7 @@ class TrainingWorkouts extends StatefulWidget {
   // 当检测到这个标志时，点击指定行数据后就把这行数据返回到计划的新增页面去。
   // 不是指定计划的新增，则使用正常逻辑。
   final bool? isPlanAdd;
+
   const TrainingWorkouts({super.key, this.isPlanAdd});
 
   @override
@@ -31,8 +32,10 @@ class TrainingWorkouts extends StatefulWidget {
 
 class _TrainingWorkoutsState extends State<TrainingWorkouts> {
   final DBTrainingHelper _dbHelper = DBTrainingHelper();
+
   // 查询表单的key
   final _queryFormKey = GlobalKey<FormBuilderState>();
+
   // 新增表单的key
   final _groupFormKey = GlobalKey<FormBuilderState>();
 
@@ -49,7 +52,6 @@ class _TrainingWorkoutsState extends State<TrainingWorkouts> {
   @override
   void initState() {
     super.initState();
-
     setState(() {
       getGroupList();
       // 如果没有传这个标志，则不是计划新增训练调过来的；如果有传，取其bool值
@@ -95,6 +97,24 @@ class _TrainingWorkoutsState extends State<TrainingWorkouts> {
       print(DateTime.now());
       print('训练查询耗时，微秒: ${b - a}');
     });
+    //插入本地数据
+    insertLocalExercise();
+  }
+
+  //新增本地数据
+  void insertLocalExercise() async {
+    if (groupList.isEmpty) {
+      // 读取 assets 中的 JSON 文件
+      String jsonString =
+          await rootBundle.loadString('assets/json/workout.json');
+      // 解析 JSON 数据
+      List jsonResponse = json.decode(jsonString);
+      var tempList = jsonResponse.map((e) => TrainingGroup.fromMap(e)).toList();
+      for (var temp in tempList) {
+        var groupId = await _dbHelper.insertTrainingGroup(temp);
+        temp.groupId = groupId;
+      }
+    }
   }
 
   @override
@@ -102,19 +122,23 @@ class _TrainingWorkoutsState extends State<TrainingWorkouts> {
     return Scaffold(
       resizeToAvoidBottomInset: true, // 打开键盘不重置按钮布局
       appBar: AppBar(
-        title: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: CusAL.of(context).workouts,
-                style: TextStyle(fontSize: CusFontSizes.pageTitle),
-              ),
-              TextSpan(
-                text: "\n${CusAL.of(context).itemCount(groupList.length)}",
-                style: TextStyle(fontSize: CusFontSizes.pageAppendix),
-              ),
-            ],
-          ),
+        // title: RichText(
+        //   text: TextSpan(
+        //     children: [
+        //       TextSpan(
+        //         text: CusAL.of(context).workouts,
+        //         style: TextStyle(fontSize: CusFontSizes.pageTitle),
+        //       ),
+        //       TextSpan(
+        //         text: "\n${CusAL.of(context).itemCount(groupList.length)}",
+        //         style: TextStyle(fontSize: CusFontSizes.pageAppendix),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        title: Text(
+          CusAL.of(context).workouts,
+          style: TextStyle(fontSize: CusFontSizes.pageTitle),
         ),
 
         // 2023-11-23 如果是计划新增训练跳转来的,则不允许修改已有的训练或者新增训练，还是严格各自模块去完成各自的内容。
@@ -166,7 +190,7 @@ class _TrainingWorkoutsState extends State<TrainingWorkouts> {
                   ),
                   SizedBox(
                     width: 50.sp,
-                    height: 36.sp,
+                    height: 56.sp,
                     child: TextButton(
                       onPressed: () {
                         setState(() {
@@ -198,17 +222,14 @@ class _TrainingWorkoutsState extends State<TrainingWorkouts> {
                 children: [
                   Expanded(
                     child: cusFormBuilerDropdown(
-                      "group_category",
-                      categoryOptions,
-                      labelText: CusAL.of(context).workoutQuerys('1'),
-                    ),
+                        "group_category", categoryOptions,
+                        labelText: CusAL.of(context).workoutQuerys('1'),
+                        isOutline: true),
                   ),
                   Expanded(
-                    child: cusFormBuilerDropdown(
-                      "group_level",
-                      levelOptions,
-                      labelText: CusAL.of(context).workoutQuerys('2'),
-                    ),
+                    child: cusFormBuilerDropdown("group_level", levelOptions,
+                        labelText: CusAL.of(context).workoutQuerys('2'),
+                        isOutline: true),
                   ),
                 ],
               ),
@@ -437,19 +458,6 @@ class _TrainingWorkoutsState extends State<TrainingWorkouts> {
             TextButton(
               child: Text(CusAL.of(context).confirmLabel),
               onPressed: () async {
-                // 测试新增数据
-                // if (groupItem == null) {
-                //   // 读取 assets 中的 JSON 文件
-                //   String jsonString =
-                //   await rootBundle.loadString('assets/json/workout.json');
-                //   // 解析 JSON 数据
-                //   List jsonResponse = json.decode(jsonString);
-                //   var tempList = jsonResponse.map((e) => TrainingGroup.fromMap(e)).toList();
-                //   for (var temp in tempList) {
-                //     var groupId = await _dbHelper.insertTrainingGroup(temp);
-                //     temp.groupId = groupId;
-                //   }
-                // }
                 if (_groupFormKey.currentState!.saveAndValidate()) {
                   // 获取表单数值
                   Map<String, dynamic> formData =

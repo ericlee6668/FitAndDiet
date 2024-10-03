@@ -226,21 +226,28 @@ class _SimpleFoodDetailState extends State<SimpleFoodDetail> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: RichText(
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: '${CusAL.of(context).foodBasicInfo}\n',
-                style: TextStyle(fontSize: CusFontSizes.pageTitle),
-              ),
-              TextSpan(
-                text: "${fsInfo.food.productEn} (${fsInfo.food.brand})",
-                style: TextStyle(fontSize: CusFontSizes.pageAppendix),
-              ),
-            ],
-          ),
+        // title: RichText(
+        //   maxLines: 2,
+        //   overflow: TextOverflow.ellipsis,
+        //   text: TextSpan(
+        //     children: [
+        //       TextSpan(
+        //         text: '${CusAL.of(context).foodBasicInfo}\n',
+        //         style: TextStyle(fontSize: CusFontSizes.pageTitle),
+        //       ),
+        //       TextSpan(
+        //         text: "${fsInfo.food.productEn} (${fsInfo.food.brand})",
+        //         style: TextStyle(fontSize: CusFontSizes.pageAppendix),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(CusAL.of(context).foodBasicInfo,style: TextStyle(fontSize: CusFontSizes.pageTitle)),
+            Text("${fsInfo.food.productEn} (${fsInfo.food.brand})",style: TextStyle(fontSize: CusFontSizes.pageAppendix)),
+          ],
         ),
       ),
       body: Padding(

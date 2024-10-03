@@ -89,20 +89,21 @@ class _TrainingPlansState extends State<TrainingPlans> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: '${CusAL.of(context).plans}\n',
-                style: TextStyle(fontSize: CusFontSizes.pageTitle),
-              ),
-              TextSpan(
-                text: CusAL.of(context).itemCount(planList.length),
-                style: TextStyle(fontSize: CusFontSizes.pageAppendix),
-              ),
-            ],
-          ),
-        ),
+        // title: RichText(
+        //   text: TextSpan(
+        //     children: [
+        //       TextSpan(
+        //         text: '${CusAL.of(context).plans}\n',
+        //         style: TextStyle(fontSize: CusFontSizes.pageTitle),
+        //       ),
+        //       TextSpan(
+        //         text: CusAL.of(context).itemCount(planList.length),
+        //         style: TextStyle(fontSize: CusFontSizes.pageAppendix),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        title: Text(CusAL.of(context).plans,style: TextStyle(fontSize: CusFontSizes.pageTitle)),
         actions: [
           /// 新增训练组基本信息
           IconButton(

@@ -298,20 +298,26 @@ class _TrainingExerciseState extends State<TrainingExercise> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: '${CusAL.of(context).exercise}\n',
-                style: TextStyle(
-                  fontSize: CusFontSizes.pageTitle,
-                ),
-              ),
-              TextSpan(
-                text: CusAL.of(context).itemCount(itemsCount),
-                style: TextStyle(fontSize: CusFontSizes.pageAppendix),
-              ),
-            ],
+        // title: RichText(
+        //   text: TextSpan(
+        //     children: [
+        //       TextSpan(
+        //         text: '${CusAL.of(context).exercise}\n',
+        //         style: TextStyle(
+        //           fontSize: CusFontSizes.pageTitle,
+        //         ),
+        //       ),
+        //       TextSpan(
+        //         text: CusAL.of(context).itemCount(itemsCount),
+        //         style: TextStyle(fontSize: CusFontSizes.pageAppendix),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        title:  Text(
+          CusAL.of(context).exerciseLabel,
+          style: TextStyle(
+            fontSize: CusFontSizes.pageTitle,
           ),
         ),
       ),
@@ -529,7 +535,7 @@ class _TrainingExerciseState extends State<TrainingExercise> {
                   ),
                   _propertyText(
                     CusAL.of(context).exerciseQuerys('0'),
-                    exerciseItem.primaryMuscles??"",
+                    exerciseItem.primaryMuscles ?? "",
                     musclesOptions,
                   ),
                 ],

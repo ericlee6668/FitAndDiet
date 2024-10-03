@@ -2,13 +2,11 @@ import 'package:fit_track/main/themes/app_theme.dart';
 import 'package:fit_track/main/themes/cus_font_size.dart';
 import 'package:fit_track/views/home/health_tip_page.dart';
 import 'package:fit_track/views/training/exercise/index.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../training/index.dart';
 
-class HomeExercisePage extends StatefulWidget  {
+class HomeExercisePage extends StatefulWidget {
   const HomeExercisePage({super.key});
 
   @override
@@ -16,7 +14,7 @@ class HomeExercisePage extends StatefulWidget  {
 }
 
 class _HomePageState extends State<HomeExercisePage>
-    with SingleTickerProviderStateMixin  {
+    with SingleTickerProviderStateMixin {
   var pages = [const HealthTipPage(), const TrainingPage()];
   var titles = ['Health Tip', 'Training Exercise'];
   late TabController tabController;
@@ -24,43 +22,46 @@ class _HomePageState extends State<HomeExercisePage>
 
   @override
   void initState() {
-    currentName=titles[0];
-        tabController = TabController(length: 2, vsync: this);
+    currentName = titles[0];
+    tabController = TabController(length: 2, vsync: this);
     tabController.addListener(() {
       setState(() {
         currentName = titles[tabController.index];
       });
     });
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
-
-    return  Scaffold(
-        extendBodyBehindAppBar: false,
-        body: Column(
-          children: [
-            const SizedBox(height: kToolbarHeight,),
-            TabBar(
-                controller: tabController,
-                tabs: titles.map((e) => _buildTileTab(e)).toList()),
-            Expanded(
-              child: TabBarView(
-                controller: tabController,
-                children: pages,
-              ),
+    return Scaffold(
+      extendBodyBehindAppBar: false,
+      body: Column(
+        children: [
+          const SizedBox(
+            height: kToolbarHeight,
+          ),
+          TabBar(
+              controller: tabController,
+              indicatorColor: Colors.transparent,
+              tabs: titles.map((e) => _buildTileTab(e)).toList()),
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: pages,
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
   }
+
   @override
   void dispose() {
     tabController.dispose();
     super.dispose();
   }
+
   Widget _buildTileTab(String e) {
     return SizedBox(
         height: 40,
@@ -69,7 +70,9 @@ class _HomePageState extends State<HomeExercisePage>
           e,
           style: TextStyle(
               color: currentName == e ? AppTheme.text0 : Colors.grey,
-              fontSize: currentName == e ? CusFontSizes.itemTitle : CusFontSizes.itemSubTitle,
+              fontSize: currentName == e
+                  ? CusFontSizes.itemTitle
+                  : CusFontSizes.itemSubTitle,
               fontWeight: FontWeight.bold),
         )));
   }

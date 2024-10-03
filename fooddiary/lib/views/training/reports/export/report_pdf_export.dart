@@ -52,7 +52,7 @@ Future<Uint8List> makeTrainedReportPdf(
   // 创建PDF文档
   final pdf = pw.Document(
     title: _showLabel(lang, _pdfLabelMap['title']!),
-    author: "free-fitness",
+    author: "EE88 FitTrack",
     pageMode: PdfPageMode.fullscreen,
     theme: pw.ThemeData.withFont(
       // 谷歌字体不一定能够访问,但肯定是联网下载，且存在内存中，下一次导出会需要重新下载

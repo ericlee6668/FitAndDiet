@@ -162,99 +162,187 @@ class _TrainingReportsState extends State<TrainingReports> {
       length: 3,
       initialIndex: initialIndex,
       child: Scaffold(
-        appBar: AppBar(
-          bottom: const TabBar(
-            tabs: [
-              Tab(
-                icon: Icon(Icons.bar_chart),
-              ),
-              Tab(
-                icon: Icon(Icons.calendar_month),
-              ),
-              Tab(
-                icon: Icon(Icons.history),
-              ),
-            ],
-          ),
-          title: Text(CusAL.of(context).trainingReports),
-          actions: [
-            IconButton(
-              onPressed: () async {
-                var dateSelected = await showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Text(CusAL.of(context).exportRangeNote),
-                      content: DropdownMenu<CusLabel>(
-                        width: 0.6.sw,
-                        initialSelection: exportDateList.first,
-                        onSelected: (CusLabel? value) {
-                          setState(() {
-                            exportDateValue = value!;
-                          });
-                        },
-                        dropdownMenuEntries: exportDateList
-                            .map<DropdownMenuEntry<CusLabel>>((CusLabel value) {
-                          return DropdownMenuEntry<CusLabel>(
-                            value: value,
-                            label: showCusLable(value),
-                          );
-                        }).toList(),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context, false);
-                          },
-                          child: Text(CusAL.of(context).cancelLabel),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context, true);
-                          },
-                          child: Text(CusAL.of(context).confirmLabel),
-                        ),
-                      ],
-                    );
-                  },
-                );
-                // 弹窗选择导出范围不为空，且不为false，则默认是选择的日期范围
-                if (dateSelected != null && dateSelected) {
-                  String tempStart, tempEnd;
-                  if (exportDateValue.value == "seven") {
-                    [tempStart, tempEnd] = getStartEndDateString(7);
-                  } else if (exportDateValue.value == "thirty") {
-                    [tempStart, tempEnd] = getStartEndDateString(30);
-                  } else {
-                    // 导出全部就近20年吧
-                    [tempStart, tempEnd] = getStartEndDateString(365 * 20);
-                  }
-
-                  if (!mounted) return;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TrainedReportPdfViewer(
-                        startDate: tempStart,
-                        endDate: tempEnd,
-                      ),
+        //布局更换，改为首页tab形式
+        // appBar: AppBar(
+        //     automaticallyImplyLeading:true,
+        //   bottom: const TabBar(
+        //     tabs: [
+        //       Tab(
+        //         icon: Icon(Icons.bar_chart),
+        //       ),
+        //       Tab(
+        //         icon: Icon(Icons.calendar_month),
+        //       ),
+        //       Tab(
+        //         icon: Icon(Icons.history),
+        //       ),
+        //     ],
+        //   ),
+        //   title: Text(CusAL.of(context).trainingReports),
+        //   actions: [
+        //     IconButton(
+        //       onPressed: () async {
+        //         var dateSelected = await showDialog(
+        //           context: context,
+        //           builder: (context) {
+        //             return AlertDialog(
+        //               title: Text(CusAL.of(context).exportRangeNote),
+        //               content: DropdownMenu<CusLabel>(
+        //                 width: 0.6.sw,
+        //                 initialSelection: exportDateList.first,
+        //                 onSelected: (CusLabel? value) {
+        //                   setState(() {
+        //                     exportDateValue = value!;
+        //                   });
+        //                 },
+        //                 dropdownMenuEntries: exportDateList
+        //                     .map<DropdownMenuEntry<CusLabel>>((CusLabel value) {
+        //                   return DropdownMenuEntry<CusLabel>(
+        //                     value: value,
+        //                     label: showCusLable(value),
+        //                   );
+        //                 }).toList(),
+        //               ),
+        //               actions: [
+        //                 TextButton(
+        //                   onPressed: () {
+        //                     Navigator.pop(context, false);
+        //                   },
+        //                   child: Text(CusAL.of(context).cancelLabel),
+        //                 ),
+        //                 TextButton(
+        //                   onPressed: () {
+        //                     Navigator.pop(context, true);
+        //                   },
+        //                   child: Text(CusAL.of(context).confirmLabel),
+        //                 ),
+        //               ],
+        //             );
+        //           },
+        //         );
+        //         // 弹窗选择导出范围不为空，且不为false，则默认是选择的日期范围
+        //         if (dateSelected != null && dateSelected) {
+        //           String tempStart, tempEnd;
+        //           if (exportDateValue.value == "seven") {
+        //             [tempStart, tempEnd] = getStartEndDateString(7);
+        //           } else if (exportDateValue.value == "thirty") {
+        //             [tempStart, tempEnd] = getStartEndDateString(30);
+        //           } else {
+        //             // 导出全部就近20年吧
+        //             [tempStart, tempEnd] = getStartEndDateString(365 * 20);
+        //           }
+        //
+        //           if (!mounted) return;
+        //           Navigator.push(
+        //             context,
+        //             MaterialPageRoute(
+        //               builder: (context) => TrainedReportPdfViewer(
+        //                 startDate: tempStart,
+        //                 endDate: tempEnd,
+        //               ),
+        //             ),
+        //           );
+        //         }
+        //       },
+        //       icon: const Icon(Icons.print),
+        //     ),
+        //   ],
+        // ),
+        floatingActionButton:FloatingActionButton(
+          onPressed: () async {
+            var dateSelected = await showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text(CusAL.of(context).exportRangeNote),
+                  content: DropdownMenu<CusLabel>(
+                    width: 0.6.sw,
+                    initialSelection: exportDateList.first,
+                    onSelected: (CusLabel? value) {
+                      setState(() {
+                        exportDateValue = value!;
+                      });
+                    },
+                    dropdownMenuEntries: exportDateList
+                        .map<DropdownMenuEntry<CusLabel>>((CusLabel value) {
+                      return DropdownMenuEntry<CusLabel>(
+                        value: value,
+                        label: showCusLable(value),
+                      );
+                    }).toList(),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context, false);
+                      },
+                      child: Text(CusAL.of(context).cancelLabel),
                     ),
-                  );
-                }
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context, true);
+                      },
+                      child: Text(CusAL.of(context).confirmLabel),
+                    ),
+                  ],
+                );
               },
-              icon: const Icon(Icons.print),
+            );
+            // 弹窗选择导出范围不为空，且不为false，则默认是选择的日期范围
+            if (dateSelected != null && dateSelected) {
+              String tempStart, tempEnd;
+              if (exportDateValue.value == "seven") {
+                [tempStart, tempEnd] = getStartEndDateString(7);
+              } else if (exportDateValue.value == "thirty") {
+                [tempStart, tempEnd] = getStartEndDateString(30);
+              } else {
+                // 导出全部就近20年吧
+                [tempStart, tempEnd] = getStartEndDateString(365 * 20);
+              }
+
+              if (!mounted) return;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TrainedReportPdfViewer(
+                    startDate: tempStart,
+                    endDate: tempEnd,
+                  ),
+                ),
+              );
+            }
+          },
+          child:  const Icon(Icons.print),
+
+        ) ,
+        body: Column(
+          children: [
+              const TabBar(
+                tabs: [
+                  Tab(
+                    icon: Icon(Icons.bar_chart),
+                  ),
+                  Tab(
+                    icon: Icon(Icons.calendar_month),
+                  ),
+                  Tab(
+                    icon: Icon(Icons.history),
+                  ),
+                ],
+              ),
+            Expanded(
+              child: isLoading
+                  ? buildLoader(isLoading)
+                  : TabBarView(
+                      children: [
+                        SingleChildScrollView(child: buildReportsView()),
+                        SingleChildScrollView(child: buildHistoryView()),
+                        SingleChildScrollView(child: buildRecentView()),
+                      ],
+                    ),
             ),
           ],
         ),
-        body: isLoading
-            ? buildLoader(isLoading)
-            : TabBarView(
-                children: [
-                  SingleChildScrollView(child: buildReportsView()),
-                  SingleChildScrollView(child: buildHistoryView()),
-                  SingleChildScrollView(child: buildRecentView()),
-                ],
-              ),
       ),
     );
   }
@@ -506,7 +594,7 @@ class _TrainingReportsState extends State<TrainingReports> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TableCalendar(
-          locale: box.read('language') == "en" ? "en_US" : 'zh_CN',
+          locale: box.read('language') == "zh" ? "zh_CN" : 'en_US',
           firstDay: kFirstDay,
           lastDay: kLastDay,
           focusedDay: _focusedDay,

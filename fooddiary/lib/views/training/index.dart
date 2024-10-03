@@ -49,7 +49,8 @@ class _TrainingState extends State<TrainingPage> {
   buildFixedBody(double screenHeight) {
     return Center(
       child: GridView(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1,
+          childAspectRatio: 2
 
         ),
 
@@ -62,36 +63,37 @@ class _TrainingState extends State<TrainingPage> {
           //     CusAL.of(context).report,
           //   ),
           // ),
-          buildCoverCard(
-            context,
-            const TrainingReports(),
-            CusAL.of(context).trainingReports,
-            CusAL.of(context).trainingReportsSubtitle,
-            reportImageUrl,
-          ),
-          buildCoverCard(
+          // buildCoverCard(
+          //   context,
+          //   const TrainingReports(),
+          //   CusAL.of(context).trainingReports,
+          //   CusAL.of(context).trainingReportsSubtitle,
+          //   reportImageUrl,
+          // ),
+          buildCardContainer2(
             context,
             const TrainingExercise(),
             CusAL.of(context).exerciseLabel,
             CusAL.of(context).exerciseSubtitle,
-            reportImageUrl,
+            workoutWoman,
           ),
-          buildCoverCard(
+          buildCardContainer2(
             context,
             const TrainingWorkouts(),
             CusAL.of(context).workout,
             CusAL.of(context).workoutSubtitle,
-            dietaryLogCoverImageUrl,
+            workoutMan,
           ),
-          buildCoverCard(
+          buildCardContainer2(
             context,
             const TrainingPlans(),
             CusAL.of(context).plan,
             CusAL.of(context).planSubtitle,
-            dietaryLogCoverImageUrl,
+            exercisePlan,
           ),
         ],
       ),
     );
   }
 }
+

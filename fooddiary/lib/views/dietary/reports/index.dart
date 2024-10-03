@@ -3,6 +3,7 @@
 import 'package:fit_track/common/db/db_dietary_helper.dart';
 import 'package:fit_track/common/db/db_user_helper.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fit_track/models/cus_app_localizations.dart';
@@ -217,44 +218,57 @@ class _DietaryReportsState extends State<DietaryReports> {
     return DefaultTabController(
       length: 3, // 选项卡的数量
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            CusAL.of(context).dietaryReports,
-            style: TextStyle(fontSize: CusFontSizes.pageTitle),
-          ),
-          bottom: TabBar(
-            tabs: [
-              Tab(text: CusAL.of(context).dietaryReportTabs('0')),
-              Tab(text: CusAL.of(context).dietaryReportTabs('1')),
-              Tab(text: CusAL.of(context).dietaryReportTabs('2')),
-            ],
-          ),
-          actions: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                // 下拉按钮，切换报告的时间范围
-                buildDropdownButton(),
-                // 导出按钮，将指定选择日期范围报告数据导出成pdf
-                buildExportButton(),
-              ],
+        // appBar: AppBar(
+        //   title: Text(
+        //     CusAL.of(context).dietaryReports,
+        //     style: TextStyle(fontSize: CusFontSizes.pageTitle),
+        //   ),
+        //   bottom: TabBar(
+        //     tabs: [
+        //       Tab(text: CusAL.of(context).dietaryReportTabs('0')),
+        //       Tab(text: CusAL.of(context).dietaryReportTabs('1')),
+        //       Tab(text: CusAL.of(context).dietaryReportTabs('2')),
+        //     ],
+        //   ),
+        //   actions: [
+        //     Row(
+        //       crossAxisAlignment: CrossAxisAlignment.center,
+        //       mainAxisAlignment: MainAxisAlignment.end,
+        //       children: [
+        //         // 下拉按钮，切换报告的时间范围
+        //         buildDropdownButton(),
+        //         // 导出按钮，将指定选择日期范围报告数据导出成pdf
+        //         buildExportButton(),
+        //       ],
+        //     ),
+        //   ],
+        // ),
+        body: Column(
+          children: [
+             TabBar(
+                tabs: [
+                  Tab(text: CusAL.of(context).dietaryReportTabs('0')),
+                  Tab(text: CusAL.of(context).dietaryReportTabs('1')),
+                  Tab(text: CusAL.of(context).dietaryReportTabs('2')),
+                ],
+              ),
+            Expanded(
+              child: isLoading
+                  ? buildLoader(isLoading)
+                  : dfiwfsList.isEmpty
+                      ? Center(
+                          child: Text(CusAL.of(context).noRecordNote),
+                        )
+                      : TabBarView(
+                          children: [
+                            SingleChildScrollView(child: buildCalorieTabView()),
+                            SingleChildScrollView(child: buildMacrosTabView()),
+                            SingleChildScrollView(child: buildNutrientsTabView()),
+                          ],
+                        ),
             ),
           ],
         ),
-        body: isLoading
-            ? buildLoader(isLoading)
-            : dfiwfsList.isEmpty
-                ? Center(
-                    child: Text(CusAL.of(context).noRecordNote),
-                  )
-                : TabBarView(
-                    children: [
-                      SingleChildScrollView(child: buildCalorieTabView()),
-                      SingleChildScrollView(child: buildMacrosTabView()),
-                      SingleChildScrollView(child: buildNutrientsTabView()),
-                    ],
-                  ),
       ),
     );
   }

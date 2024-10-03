@@ -1,5 +1,7 @@
 import 'package:fit_track/common/global/constants.dart';
 import 'package:fit_track/main/themes/app_theme.dart';
+import 'package:fit_track/main/themes/cus_font_size.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -139,7 +141,8 @@ buildCoverCard(
 buildCardContainer({Widget? child, double? radius, BuildContext? context}) {
   return Container(
     decoration: BoxDecoration(
-      color: box.read('mode') == 'light' ? Colors.white : Color(0xff232229),
+      color:
+          box.read('mode') == 'light' ? Colors.white : const Color(0xff232229),
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(radius ?? 8),
           bottomLeft: Radius.circular(radius ?? 8),
@@ -155,6 +158,90 @@ buildCardContainer({Widget? child, double? radius, BuildContext? context}) {
     child: Padding(
       padding: const EdgeInsets.all(16),
       child: child,
+    ),
+  );
+}
+
+buildCardContainer2(
+  BuildContext context,
+  Widget widget,
+  String title,
+  String subtitle,
+  String imageUrl, {
+  String? routeName,
+}) {
+  return Container(
+    decoration: BoxDecoration(
+      color:
+          box.read('mode') == 'light' ? Colors.white : const Color(0xff232229),
+      borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular( 8),
+          bottomLeft: Radius.circular( 8),
+          bottomRight: Radius.circular( 8),
+          topRight: Radius.circular( 8)),
+      boxShadow: <BoxShadow>[
+        BoxShadow(
+            color: AppTheme.grey.withOpacity(0.2),
+            offset: const Offset(1.1, 1.1),
+            blurRadius: 10.0),
+      ],
+    ),
+    child: CupertinoButton(
+      pressedOpacity: 0.8,
+      onPressed: () {
+        if (routeName != null) {
+          // 这里需要使用pushName 带上指定的路由名称，后续跨层级popUntil的时候才能指定路由名称进行传参
+          Navigator.pushNamed(context, routeName);
+        } else {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext ctx) => widget,
+            ),
+          );
+        }
+      },
+      child: Row(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 5.sp),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.asset(
+                imageUrl,
+                fit: BoxFit.contain,
+                height: 145,
+                width: 145,
+              ),
+            ),
+          ),
+          const SizedBox(width: 5),
+          Expanded(
+            child:
+            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                title,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: CusFontSizes.itemTitle,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                textAlign: TextAlign.center,
+                subtitle,
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  color: Colors.black87
+                ),
+              ),
+            ]),
+          ),
+        ],
+      ),
     ),
   );
 }

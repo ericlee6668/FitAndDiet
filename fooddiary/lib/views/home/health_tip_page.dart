@@ -12,16 +12,17 @@ class HealthTipPage extends StatelessWidget {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return HealthTipDetailPage(healthTip,index);
         })
-        ).then((value) =>
-        Future.delayed(const Duration(milliseconds: 200)).then((value) =>
-            SystemChrome.setSystemUIOverlayStyle(
-              const SystemUiOverlayStyle(
-                statusBarIconBrightness: Brightness.dark, // 设置状态栏图标为黑色
-                statusBarBrightness: Brightness.light,    // 设置iOS状态栏文本为黑色
-              ),
-            )
-        )
         );
+        //     .then((value) =>
+        // Future.delayed(const Duration(milliseconds: 200)).then((value) =>
+        //     SystemChrome.setSystemUIOverlayStyle(
+        //       const SystemUiOverlayStyle(
+        //         statusBarIconBrightness: Brightness.dark, // 设置状态栏图标为黑色
+        //         statusBarBrightness: Brightness.light,    // 设置iOS状态栏文本为黑色
+        //       ),
+        //     )
+        // )
+        // );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
