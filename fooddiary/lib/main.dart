@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:fit_track/common/global/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
