@@ -379,6 +379,7 @@ List<CusLabel> categoryOptions = [
   CusLabel(enLabel: 'strongman', cnLabel: "大力士", value: 'strongman'),
   CusLabel(enLabel: 'cardio', cnLabel: "有氧", value: 'cardio'),
   CusLabel(enLabel: 'anaerobic', cnLabel: "无氧", value: 'anaerobic'),
+  CusLabel(enLabel: 'fatloss', cnLabel: "减脂", value: 'fatloss'),
   CusLabel(enLabel: 'other', cnLabel: "其他", value: 'other'),
 ];
 

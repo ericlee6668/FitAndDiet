@@ -103,7 +103,7 @@ Widget cusFormBuilerTextField(String name,
     void Function(String?)? onChanged,
     List<TextInputFormatter>? inputFormatters}) {
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 10.sp),
+    padding: EdgeInsets.symmetric(horizontal: 10.sp,vertical: 5.sp),
     child: FormBuilderTextField(
       name: name,
       initialValue: initialValue,
@@ -144,11 +144,11 @@ Widget cusFormBuilerDropdown(
   TextStyle? hintStyle,
   double? optionFontSize,
   String? Function(Object?)? validator,
-  bool? isOutline = false, // 输入框是否有线条
+  bool? isOutline = true, // 输入框是否有线条
   bool isReadOnly = false, // 输入框是否有线条
 }) {
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 10.sp),
+    padding: EdgeInsets.symmetric(horizontal: 10.sp,vertical: 5.sp),
     child: FormBuilderDropdown(
       borderRadius: BorderRadius.all(Radius.circular(10.sp)),
       name: name,

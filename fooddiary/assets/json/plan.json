@@ -1,0 +1,16 @@
+[
+  {
+    "plan_code": "a1",
+    "plan_name": "Full-Body Sculpting Plan Overview",
+    "plan_category": "fatloss",
+    "plan_level": "beginner",
+    "description": "Improve muscle definition, reduce body fat, and enhance strength and endurance"
+  },
+  {
+    "plan_code": "a2",
+    "plan_name": "Abs Shredder Program",
+    "plan_category": "plyometrics",
+    "plan_level": "intermediate",
+    "description": "Through targeted high-intensity training for the abdominal area, rapidly reduce abdominal fat, strengthen core muscle groups, and sculpt clear abdominal lines."
+  }
+]

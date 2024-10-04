@@ -21,7 +21,7 @@ Map<String, CusLabel> _pdfLabelMap = {
       CusLabel(enLabel: 'trained records', cnLabel: "运动条目记录", value: null),
   "headerRight": CusLabel(
       enLabel: 'exported by free-fitness',
-      cnLabel: "由free-fitness导出",
+      cnLabel: "由EE88-FitTrack导出",
       value: null),
   "number": CusLabel(enLabel: 'Page', cnLabel: "第", value: null),
   "page": CusLabel(enLabel: '', cnLabel: "页", value: null),

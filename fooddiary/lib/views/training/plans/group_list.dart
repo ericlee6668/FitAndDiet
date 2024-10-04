@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fit_track/views/training/workouts/action_list.dart';
@@ -181,19 +182,11 @@ class _GroupListState extends State<GroupList> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: planItem.planName,
-                  style: TextStyle(fontSize: CusFontSizes.pageTitle),
-                ),
-                TextSpan(
-                  text: "\n${groupList.length} ${CusAL.of(context).workouts}",
-                  style: TextStyle(fontSize: CusFontSizes.pageAppendix),
-                ),
-              ],
-            ),
+          title: CupertinoListTile(
+            title: Text(planItem.planName,
+                style: TextStyle(fontSize: CusFontSizes.pageTitle)),
+            subtitle: Text("${groupList.length} ${CusAL.of(context).workouts}",
+                style: TextStyle(fontSize: CusFontSizes.pageAppendix)),
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -238,24 +231,26 @@ class _GroupListState extends State<GroupList> {
             : Column(
                 children: [
                   Expanded(
-                    child: ReorderableListView.builder(
-                      // 如果是修改，才允许长按进行拖拽
-                      buildDefaultDragHandles: _isEditing,
-                      itemCount: groupList.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          key: Key('$index'),
-                          elevation: 3,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              _buildGroupItemListTile(groupList, index),
-                            ],
+                    child: groupList.isEmpty
+                        ? buildEmpty()
+                        : ReorderableListView.builder(
+                            // 如果是修改，才允许长按进行拖拽
+                            buildDefaultDragHandles: _isEditing,
+                            itemCount: groupList.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                key: Key('$index'),
+                                elevation: 3,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    _buildGroupItemListTile(groupList, index),
+                                  ],
+                                ),
+                              );
+                            },
+                            onReorder: _onReorder,
                           ),
-                        );
-                      },
-                      onReorder: _onReorder,
-                    ),
                   ),
                   // 避免修改时新增按钮遮住最后一条列表
                   if (_isEditing) SizedBox(height: 80.sp),
@@ -276,9 +271,11 @@ class _GroupListState extends State<GroupList> {
                   ).then((value) {
                     // 这里正常返回值的话，一定是一个GroupWithActions类型的 groupItem，
                     // 存入group列表尾部就好了
-                    setState(() {
-                      groupList.add(value);
-                    });
+                    if (value != null) {
+                      setState(() {
+                        groupList.add(value);
+                      });
+                    }
                   });
                 },
                 child: const Icon(Icons.add),
@@ -298,7 +295,7 @@ class _GroupListState extends State<GroupList> {
 
     return ListTile(
       minVerticalPadding: 8,
-      contentPadding:const EdgeInsets.all(8),
+      contentPadding: const EdgeInsets.all(8),
       leading: _isEditing
           ? SizedBox(
               width: 30.sp,
@@ -336,21 +333,22 @@ class _GroupListState extends State<GroupList> {
                   '${gwaItem.actionDetailList.length} ${CusAL.of(context).exercise} ',
               style: TextStyle(color: Theme.of(context).shadowColor),
             ),
-
             TextSpan(
               text: '${getCusLabelText(
                 groupItem.groupLevel,
                 levelOptions,
               )}  ',
-              style: TextStyle(color: Colors.green[500],),
+              style: TextStyle(
+                color: Colors.green[500],
+              ),
             ),
-
             TextSpan(
               text: '\n${getCusLabelText(
                 groupItem.groupCategory,
                 categoryOptions,
               )}',
-              style: TextStyle(color: Theme.of(context).shadowColor,height: 1.5),
+              style:
+                  TextStyle(color: Theme.of(context).shadowColor, height: 1.5),
             ),
           ],
         ),
@@ -417,6 +415,52 @@ class _GroupListState extends State<GroupList> {
                 ],
               ),
             ),
+    );
+  }
+
+  Widget buildEmpty() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          CusAL.of(context).noRecordNote,
+          style: TextStyle(fontSize: CusFontSizes.pageContent),
+        ),
+        CupertinoButton(
+          onPressed: () {
+            _isEditing = true;
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                // 复用训练列表主页面，并告知是计划新增训练
+                builder: (context) => const TrainingWorkouts(
+                  isPlanAdd: true,
+                ),
+              ),
+            ).then((value) {
+              // 这里正常返回值的话，一定是一个GroupWithActions类型的 groupItem，
+              // 存入group列表尾部就好了
+
+              setState(() {
+                if (value != null&& value != false) {
+                  groupList.add(value);
+                }
+              });
+            });
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(CusAL.of(context).addOne),
+              Image.asset(
+                'assets/images/add.png',
+                width: 30,
+                height: 30,
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

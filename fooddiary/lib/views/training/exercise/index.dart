@@ -189,7 +189,6 @@ class _TrainingExerciseState extends State<TrainingExercise> {
 
     print("[[基础动作的洗洗脑]]---$newData");
 
-    print((await getExternalStorageDirectory()));
 
     // 如果没有更多数据，则在底部显示
     if (newData.isEmpty) {

@@ -106,9 +106,9 @@ class _ExerciseDetailDialogState extends State<ExerciseDetailDialog> {
       child: Row(
         children: [
           Expanded(
-            flex: 10,
+            flex: 7,
             child: Text(
-              '${_currentIndex + 1} ${_currentItem.exerciseName}',
+              _currentItem.exerciseName,
               // 限制只显示一行，多的用省略号
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
@@ -116,7 +116,7 @@ class _ExerciseDetailDialogState extends State<ExerciseDetailDialog> {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 2,
             child: TextButton(
               child: Text(
                 CusAL.of(context).detailLabel,

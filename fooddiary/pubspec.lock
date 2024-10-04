@@ -33,14 +33,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
-  auto_animated:
-    dependency: "direct main"
-    description:
-      name: auto_animated
-      sha256: f62311033d043d2709c25444551debdfd08649138c2923b0298d776792291149
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
   barcode:
     dependency: transitive
     description:
@@ -237,10 +229,10 @@ packages:
     dependency: "direct main"
     description:
       name: event_bus
-      sha256: "44baa799834f4c803921873e7446a2add0f3efa45e101a054b1f0ab9b95f8edc"
+      sha256: "1a55e97923769c286d295240048fc180e7b0768902c3c2e869fe059aafa15304"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -277,18 +269,18 @@ packages:
     dependency: transitive
     description:
       name: file_selector_linux
-      sha256: "045d372bf19b02aeb69cacf8b4009555fb5f6f0b7ad8016e5f46dd1387ddd492"
+      sha256: "712ce7fab537ba532c8febdb1a8f167b32441e74acd68c3ccb2e36dcb52c4ab2"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.2+1"
+    version: "0.9.3"
   file_selector_macos:
     dependency: transitive
     description:
       name: file_selector_macos
-      sha256: f42eacb83b318e183b1ae24eead1373ab1334084404c8c16e0354f9a3e55d385
+      sha256: cb284e267f8e2a45a904b5c094d2ba51d0aabfc20b1538ab786d9ef7dc2bf75c
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.4"
+    version: "0.9.4+1"
   file_selector_platform_interface:
     dependency: transitive
     description:
@@ -301,10 +293,10 @@ packages:
     dependency: transitive
     description:
       name: file_selector_windows
-      sha256: "2ad726953f6e8affbc4df8dc78b77c3b4a060967a291e528ef72ae846c60fb69"
+      sha256: "8f5d2f6590d51ecd9179ba39c64f722edc15226cc93dcc8698466ad36a4a85a4"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.3+2"
+    version: "0.9.3+3"
   fixnum:
     dependency: transitive
     description:
@@ -479,10 +471,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_markdown
-      sha256: a23c41ee57573e62fc2190a1f36a0480c4d90bde3a8a8d7126e5d5992fb53fb7
+      sha256: e17575ca576a34b46c58c91f9948891117a1bd97815d2e661813c7f90c647a78
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.3+1"
+    version: "0.7.3+2"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -569,10 +561,10 @@ packages:
     dependency: transitive
     description:
       name: gal_linux
-      sha256: cbff918888aaa7b86d5a992764ad94d217347d63912e008e8449605b1cc0b38a
+      sha256: "0040d61843134cc5a93e4597080a86f2ba073217957e28b2a684b4d8b050873c"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.2"
   get:
     dependency: "direct main"
     description:
@@ -1246,10 +1238,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_macos
-      sha256: "9a1a42d5d2d95400c795b2914c36fdcb525870c752569438e4ebb09a2b5d90de"
+      sha256: "769549c999acdb42b8bcfa7c43d72bf79a382ca7441ab18a808e101149daf672"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.0"
+    version: "3.2.1"
   url_launcher_platform_interface:
     dependency: transitive
     description:
@@ -1278,10 +1270,10 @@ packages:
     dependency: "direct main"
     description:
       name: uuid
-      sha256: f33d6bb662f0e4f79dcd7ada2e6170f3b3a2530c28fc41f49a411ddedd576a77
+      sha256: a5be9ef6618a7ac1e964353ef476418026db906c4facdedaa299b7a2e71690ff
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.0"
+    version: "4.5.1"
   vector_math:
     dependency: transitive
     description:
@@ -1294,10 +1286,10 @@ packages:
     dependency: transitive
     description:
       name: video_player
-      sha256: e30df0d226c4ef82e2c150ebf6834b3522cf3f654d8e2f9419d376cdc071425d
+      sha256: "4a8c3492d734f7c39c2588a3206707a05ee80cef52e8c7f3b2078d430c84bc17"
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.1"
+    version: "2.9.2"
   video_player_android:
     dependency: transitive
     description:
@@ -1318,10 +1310,10 @@ packages:
     dependency: transitive
     description:
       name: video_player_platform_interface
-      sha256: "236454725fafcacf98f0f39af0d7c7ab2ce84762e3b63f2cbb3ef9a7e0550bc6"
+      sha256: "229d7642ccd9f3dc4aba169609dd6b5f3f443bb4cc15b82f7785fcada5af9bbb"
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.2"
+    version: "6.2.3"
   video_player_web:
     dependency: transitive
     description:
@@ -1330,14 +1322,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
-  visibility_detector:
-    dependency: transitive
-    description:
-      name: visibility_detector
-      sha256: dd5cc11e13494f432d15939c3aa8ae76844c42b723398643ce9addb88a5ed420
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.0+2"
   vm_service:
     dependency: transitive
     description:
@@ -1430,10 +1414,10 @@ packages:
     dependency: transitive
     description:
       name: xdg_directories
-      sha256: faea9dee56b520b55a566385b84f2e8de55e7496104adada9962e0bd11bcff1d
+      sha256: "7a3f37b05d989967cdddcbb571f1ea834867ae2faa29725fd085180e0883aa15"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "1.1.0"
   xml:
     dependency: transitive
     description:
@@ -1446,10 +1430,10 @@ packages:
     dependency: transitive
     description:
       name: youtube_player_flutter
-      sha256: b670314008a9abd051f01f82df754d76fd1366340f03f4f8ff86fc3d6b03080c
+      sha256: "30f84e2f7063c56e536f507e37c1e803546842707cf58e5b5a71253b9ff9b455"
       url: "https://pub.dev"
     source: hosted
-    version: "9.0.3"
+    version: "9.0.4"
 sdks:
   dart: ">=3.3.0 <4.0.0"
   flutter: ">=3.19.0"

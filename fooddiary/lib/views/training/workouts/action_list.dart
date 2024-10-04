@@ -404,6 +404,7 @@ class _ActionListState extends State<ActionList> {
       ),
     ).then((value) {
       // 如果返回的不是null，也不是false，那就应该是被选中的exercise类
+
       if (value != null && value != false) {
         var selectedExercise = value as Exercise;
 
@@ -430,6 +431,7 @@ class _ActionListState extends State<ActionList> {
           CupertinoButton(
             onPressed: () {
               _isEditing=true;
+
               addExercises();
             },
             child: Row(

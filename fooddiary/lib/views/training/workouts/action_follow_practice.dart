@@ -1301,7 +1301,7 @@ class _ActionFollowPracticeWithTTSState
 
                 Navigator.of(context).popUntil((route) => route.isFirst);
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const TrainingReports()),
+                  MaterialPageRoute(builder: (_) => const TrainingReports(isShowAppBar: true,)),
                 );
               },
               child: Text(CusAL.of(context).previewReport),

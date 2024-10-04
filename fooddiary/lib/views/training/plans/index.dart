@@ -1,6 +1,9 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -83,6 +86,24 @@ class _TrainingPlansState extends State<TrainingPlans> {
       print(DateTime.now());
       print('【plan】查询耗时，微秒: ${b - a}');
     });
+    insertLocalExercise();
+  }
+  //新增本地数据
+  void insertLocalExercise() async {
+    if (planList.isEmpty) {
+      // 读取 assets 中的 JSON 文件
+      String jsonString =
+      await rootBundle.loadString('assets/json/plan.json');
+      // 解析 JSON 数据
+      List jsonResponse = json.decode(jsonString);
+      var tempList = jsonResponse.map((e) => TrainingPlan.fromMap(e)).toList();
+      // for (var temp in tempList) {
+      //   var groupId = await _dbHelper.insertTrainingPlanList(temp);
+      //   temp.groupId = groupId;
+      // }
+      await _dbHelper.insertTrainingPlanList(tempList);
+      getPlanList();
+    }
   }
 
   @override
@@ -230,118 +251,122 @@ class _TrainingPlansState extends State<TrainingPlans> {
 
         return Card(
           elevation: 5.sp,
+          margin: const EdgeInsets.all(8),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              ListTile(
-                leading: Icon(Icons.alarm_on, size: CusIconSizes.iconLarge),
-                title: Text(
-                  planItem.plan.planName,
-                  style: TextStyle(
-                    fontSize: CusFontSizes.itemTitle,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                subtitle: RichText(
-                  textAlign: TextAlign.left,
-                  maxLines: 2,
-                  softWrap: true,
-                  overflow: TextOverflow.ellipsis,
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text:
-                            '${planItem.groupDetailList.length} ${CusAL.of(context).workouts}  ',
-                        // 这里只是取text的默认颜色，避免浅主题时文字不显示(好像默认是白色，反正看不到)
-                        style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyMedium?.color,
-                        ),
-                      ),
-                      TextSpan(
-                        text:
-                            '${getCusLabelText(planItem.plan.planLevel, levelOptions)}',
-                        style: TextStyle(color: Colors.green[500]),
-                      ),
-                      TextSpan(
-                        // 可以不和exercise用同一个分类，但要单独列一个
-                        text:
-                            '  ${getCusLabelText(planItem.plan.planCategory, categoryOptions)}',
-                        style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyMedium?.color,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                trailing: SizedBox(
-                  width: 30.sp,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.edit,
-                      size: CusIconSizes.iconNormal,
-                      color: Theme.of(context).primaryColor,
+              SizedBox(
+                height: 80.w,
+                child: ListTile(
+                  leading: Icon(Icons.alarm_on, size: CusIconSizes.iconLarge),
+                  title: Text(
+                    planItem.plan.planName,
+                    style: TextStyle(
+                      fontSize: CusFontSizes.itemTitle,
+                      fontWeight: FontWeight.w500,
                     ),
-                    onPressed: () {
-                      _modifyPlanInfo(planItem: planItem.plan);
-                    },
                   ),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GroupList(planItem: planItem.plan),
+                  subtitle: RichText(
+                    textAlign: TextAlign.left,
+                    maxLines: 2,
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text:
+                              '${planItem.groupDetailList.length} ${CusAL.of(context).workouts}  ',
+                          // 这里只是取text的默认颜色，避免浅主题时文字不显示(好像默认是白色，反正看不到)
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyMedium?.color,
+                          ),
+                        ),
+                        TextSpan(
+                          text:
+                              '${getCusLabelText(planItem.plan.planLevel, levelOptions)}',
+                          style: TextStyle(color: Colors.green[500]),
+                        ),
+                        TextSpan(
+                          // 可以不和exercise用同一个分类，但要单独列一个
+                          text:
+                              '  ${getCusLabelText(planItem.plan.planCategory, categoryOptions)}',
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyMedium?.color,
+                          ),
+                        ),
+                      ],
                     ),
-                  ).then((value) {
-                    setState(() {
-                      getPlanList();
-                    });
-                  });
-                },
-                // 长按点击弹窗提示是否删除
-                onLongPress: () async {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text(CusAL.of(context).deleteConfirm),
-                        content: Text(CusAL.of(context)
-                            .planDeleteAlert(planItem.plan.planName)),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context, false);
-                            },
-                            child: Text(CusAL.of(context).cancelLabel),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context, true);
-                            },
-                            child: Text(CusAL.of(context).confirmLabel),
-                          ),
-                        ],
-                      );
-                    },
-                  ).then((value) async {
-                    if (value != null && value) {
-                      try {
-                        await _dbHelper.deletePlanById(planItem.plan.planId!);
+                  ),
 
-                        // 删除后重新查询
+                  trailing: SizedBox(
+                    width: 30.sp,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.edit,
+                        size: CusIconSizes.iconNormal,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      onPressed: () {
+                        _modifyPlanInfo(planItem: planItem.plan);
+                      },
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GroupList(planItem: planItem.plan),
+                      ),
+                    ).then((value) {
+                      setState(() {
                         getPlanList();
-                      } catch (e) {
-                        if (!context.mounted) return;
-                        commonExceptionDialog(
-                          context,
-                          CusAL.of(context).exceptionWarningTitle,
-                          e.toString(),
+                      });
+                    });
+                  },
+                  // 长按点击弹窗提示是否删除
+                  onLongPress: () async {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text(CusAL.of(context).deleteConfirm),
+                          content: Text(CusAL.of(context)
+                              .planDeleteAlert(planItem.plan.planName)),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, false);
+                              },
+                              child: Text(CusAL.of(context).cancelLabel),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, true);
+                              },
+                              child: Text(CusAL.of(context).confirmLabel),
+                            ),
+                          ],
                         );
+                      },
+                    ).then((value) async {
+                      if (value != null && value) {
+                        try {
+                          await _dbHelper.deletePlanById(planItem.plan.planId!);
+
+                          // 删除后重新查询
+                          getPlanList();
+                        } catch (e) {
+                          if (!context.mounted) return;
+                          commonExceptionDialog(
+                            context,
+                            CusAL.of(context).exceptionWarningTitle,
+                            e.toString(),
+                          );
+                        }
                       }
-                    }
-                  });
-                },
+                    });
+                  },
+                ),
               ),
             ],
           ),

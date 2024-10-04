@@ -40,6 +40,12 @@
     "group_name_cn": "无氧训练组",
     "group_category": "anaerobic",
     "group_level": "intermediate"
+  },
+  {
+    "group_name": "Fat Loss Training Set",
+    "group_name_cn": "减脂训练组",
+    "group_category": "fatloss",
+    "group_level": "intermediate"
   }
 
 ]

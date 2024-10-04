@@ -209,8 +209,8 @@ buildCardContainer2(
               child: Image.asset(
                 imageUrl,
                 fit: BoxFit.contain,
-                height: 145,
-                width: 145,
+                height: 165,
+                width: 165,
               ),
             ),
           ),
