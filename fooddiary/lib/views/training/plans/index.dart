@@ -262,7 +262,7 @@ class _TrainingPlansState extends State<TrainingPlans> {
                   title: Text(
                     planItem.plan.planName,
                     style: TextStyle(
-                      fontSize: CusFontSizes.itemTitle,
+                      fontSize: CusFontSizes.pageSubTitle,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

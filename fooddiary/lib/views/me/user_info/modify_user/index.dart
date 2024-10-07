@@ -1,4 +1,6 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:fit_track/common/db/db_user_helper.dart';
+import 'package:fit_track/main/float_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -11,10 +13,12 @@ import '../../../../common/utils/tool_widgets.dart';
 import '../../../../common/utils/tools.dart';
 import '../../../../models/cus_app_localizations.dart';
 import '../../../../models/user_state.dart';
+import '../../intake_goals/intake_target.dart';
 
 class ModifyUserPage extends StatefulWidget {
   // 修改的时候可能会传用户信息
   final User? user;
+
   const ModifyUserPage({super.key, this.user});
 
   @override
@@ -78,7 +82,8 @@ class _ModifyUserPageState extends State<ModifyUserPage> {
         setState(() {
           isLoading = false;
         });
-
+        //更新首页记录图标目标值
+        eventBus.fire(RecordEvent());
         Navigator.pop(context, true);
       } catch (e) {
         // 将错误信息展示给用户

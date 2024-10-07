@@ -46,39 +46,39 @@ class _MoreSettingsState extends State<MoreSettings> {
               _buildLanguageListItem('English', 'en'),
             ],
           ),
-          SizedBox(height: 10.sp),
-          ExpansionTile(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(CusAL.of(context).themeSetting),
-                Text(
-                  box.read("mode") == "dark"
-                      ? CusAL.of(context).darkMode
-                      : box.read("mode") == "light"
-                          ? CusAL.of(context).lightMode
-                          : CusAL.of(context).followSystem,
-                ),
-              ],
-            ),
-            children: [
-              _buildModeListItem(
-                const Icon(Icons.sync),
-                CusAL.of(context).followSystem,
-                'system',
-              ),
-              _buildModeListItem(
-                const Icon(Icons.wb_sunny_outlined),
-                CusAL.of(context).darkMode,
-                'dark',
-              ),
-              _buildModeListItem(
-                const Icon(Icons.brightness_2),
-                CusAL.of(context).lightMode,
-                'light',
-              ),
-            ],
-          ),
+          // SizedBox(height: 10.sp),
+          // ExpansionTile(
+          //   title: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       Text(CusAL.of(context).themeSetting),
+          //       Text(
+          //         box.read("mode") == "dark"
+          //             ? CusAL.of(context).darkMode
+          //             : box.read("mode") == "light"
+          //                 ? CusAL.of(context).lightMode
+          //                 : CusAL.of(context).followSystem,
+          //       ),
+          //     ],
+          //   ),
+          //   children: [
+          //     _buildModeListItem(
+          //       const Icon(Icons.sync),
+          //       CusAL.of(context).followSystem,
+          //       'system',
+          //     ),
+          //     _buildModeListItem(
+          //       const Icon(Icons.wb_sunny_outlined),
+          //       CusAL.of(context).darkMode,
+          //       'dark',
+          //     ),
+          //     _buildModeListItem(
+          //       const Icon(Icons.brightness_2),
+          //       CusAL.of(context).lightMode,
+          //       'light',
+          //     ),
+          //   ],
+          // ),
 
           ListTile(
             title: Text(CusAL.of(context).appNote),

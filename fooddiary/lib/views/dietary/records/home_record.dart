@@ -19,10 +19,12 @@ import '../../../common/db/db_user_helper.dart';
 import '../../../common/global/constants.dart';
 import '../../../common/utils/tool_widgets.dart';
 import '../../../common/utils/tools.dart';
+import '../../../main/float_view.dart';
 import '../../../main/themes/cus_font_size.dart';
 import '../../../models/cus_app_localizations.dart';
 import '../../../models/dietary_state.dart';
 import '../../../models/user_state.dart';
+import '../../me/intake_goals/intake_target.dart';
 import '../../me/weight_change_record/index.dart';
 
 class HomeRecordPage extends StatefulWidget {
@@ -62,6 +64,9 @@ class _HomeRecordPageState extends State<HomeRecordPage>
   void initState() {
     getUser();
     super.initState();
+    eventBus.on<RecordEvent>().listen((event) {
+      getUser();
+    });
   }
 
   var tempEnergy = 0.0;

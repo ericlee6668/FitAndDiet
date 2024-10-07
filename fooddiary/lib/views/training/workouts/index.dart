@@ -272,14 +272,15 @@ class _TrainingWorkoutsState extends State<TrainingWorkouts> {
           elevation: 5.sp,
           margin: const EdgeInsets.all(8),
           child: SizedBox(
-            height: 58.w,
+            height: 68.w,
             child: ListTile(
               leading: Icon(Icons.fitness_center, size: CusIconSizes.iconLarge),
               title: Text(
                 groupItem.group.groupName,
                 style: TextStyle(
-                  fontSize: CusFontSizes.itemTitle,
+                  fontSize: CusFontSizes.pageSubTitle,
                   color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.w500
                 ),
               ),
               subtitle: RichText(

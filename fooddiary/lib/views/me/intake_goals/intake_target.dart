@@ -1,4 +1,6 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:fit_track/common/db/db_user_helper.dart';
+import 'package:fit_track/main/float_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -282,6 +284,8 @@ class _IntakeTargetPageState extends State<IntakeTargetPage> {
                           setState(() {
                             formatDailyIntakeMap();
                           });
+                          //更新首页记录图标目标值
+                          eventBus.fire(RecordEvent());
                         }
                       }
                       setState(() {
@@ -582,5 +586,6 @@ class _IntakeTargetPageState extends State<IntakeTargetPage> {
     });
   }
 }
+class RecordEvent{}
 
 

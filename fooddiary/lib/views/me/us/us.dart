@@ -1,3 +1,4 @@
+import 'package:fit_track/views/base_bview.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_track/views/base_view.dart';
 import 'package:get/get.dart';
@@ -11,7 +12,7 @@ class UsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('About Us'),
       ),
-      body: const WebViewContainer(url: 'https://appfittrack.com'),
+      body: const InfoViewContainer(url: 'https://appfittrack.com'),
     );
   }
 }
