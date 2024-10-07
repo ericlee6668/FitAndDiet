@@ -171,7 +171,7 @@ class _TrainingPlansState extends State<TrainingPlans> {
                     ),
                   ),
                   SizedBox(
-                    width: 50.sp,
+                    width: 54.sp,
                     height: 36.sp,
                     child: TextButton(
                       onPressed: () {

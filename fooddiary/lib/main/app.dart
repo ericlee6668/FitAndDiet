@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:fit_track/main/themes/cus_font_size.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +26,66 @@ class FitTrackApp extends StatefulWidget {
 }
 
 class _FitTrackAppState extends State<FitTrackApp> {
+  @override
+  void initState() {
+    super.initState();
+    // WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) => initPlugin());
+  }
+  Future<void> initPlugin() async {
+    final TrackingStatus status =
+    await AppTrackingTransparency.trackingAuthorizationStatus;
+    // If the system can show an authorization request dialog
+    if (status == TrackingStatus.notDetermined) {
+      // Show a custom explainer dialog before the system dialog
+      await showCustomTrackingDialog(context);
+      // Wait for dialog popping animation
+      await Future.delayed(const Duration(milliseconds: 200));
+      // Request system's tracking authorization dialog
+      final TrackingStatus status =
+      await AppTrackingTransparency.requestTrackingAuthorization();
+    }
+
+  }
+  Future<void> showCustomTrackingDialog(BuildContext context) async =>
+      await SmartDialog.show(
+          keepSingle: true,
+          clickMaskDismiss: false,
+          maskColor: Colors.black.withOpacity(0.8),
+          builder: (BuildContext context) {
+            return Container(
+
+                width: 300.w,
+                height: 300,
+                decoration: BoxDecoration(   color: Colors.white,borderRadius: BorderRadius.circular(20)),
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Dear User',
+                      style: TextStyle(color: Colors.black,fontSize: CusFontSizes.pageTitle,fontWeight: FontWeight.bold),
+                    ),
+                    const Text(
+                      'We care about your privacy and data security. We keep this app free by showing ads. '
+                          'Can we continue to use your data to tailor ads for you?\n\nYou can change your choice anytime in the app settings. '
+                          'Our partners will collect data and use a unique identifier on your device to show you ads.',
+                    ),
+                    SizedBox(height: 20,),
+                    TextButton(
+                      onPressed: () => SmartDialog.dismiss(),
+                      child: Text(
+                        CusAL.of(context).confirmLabel,
+                        style: TextStyle(fontSize: 18.sp),
+                      ),
+                    ),
+                  ],
+                ));
+          });
   // 应用程序的根部件
   @override
   Widget build(BuildContext context) {
     print("getUserId---${box.read(LocalStorageKey.userId)}");
     print("language mode---${box.read('language')} ${box.read('mode')}");
-
     return ScreenUtilInit(
       designSize: const Size(360, 640), // 1080p / 3 ,单位dp
       minTextAdapt: true,

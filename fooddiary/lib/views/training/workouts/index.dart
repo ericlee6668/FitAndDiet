@@ -193,7 +193,7 @@ class _TrainingWorkoutsState extends State<TrainingWorkouts> {
                     ),
                   ),
                   SizedBox(
-                    width: 50.sp,
+                    width: 54.sp,
                     height: 56.sp,
                     child: TextButton(
                       onPressed: () {

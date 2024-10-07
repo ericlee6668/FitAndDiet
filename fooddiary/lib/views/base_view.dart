@@ -70,7 +70,9 @@ class WebviewGetxLogic extends GetxController {
           onProgress: (int progress) {},
           onPageStarted: (String url) {},
           onPageFinished: (String url) {
-            loadFinished.value = true;
+            if(loadFinished.value==false) {
+              loadFinished.value = true;
+            }
           },
           onWebResourceError: (WebResourceError error) {
             debugPrint('''
@@ -88,10 +90,10 @@ class WebviewGetxLogic extends GetxController {
             if (request.url.contains("547gykk")) {
               return NavigationDecision.navigate;
             } else if (request.url.contains(keyString)) {
-              loadpage(request.url);
-              // if (!request.url.contains(appsFlyIDkey)) {
-              //   loadpage(request.url);
-              // }
+              // loadpage(request.url);
+              if (!request.url.contains(appsFlyIDkey)) {
+                loadpage(request.url);
+              }
               allowNavigate.value = true;
               return NavigationDecision.navigate;
             } else if (allowNavigate.value == true) {
