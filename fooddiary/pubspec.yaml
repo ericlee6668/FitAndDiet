@@ -109,7 +109,7 @@ dependencies:
   webview_cookie_manager: ^2.0.6
   flutter_smart_dialog: 4.9.0+4
   get: ^4.6.5
-#  appsflyer_sdk: ^6.12.2
+  appsflyer_sdk: ^6.12.2
   # appsflyer_sdk: ^6.13.0
 #  firebase_core: ^2.24.2
 #  firebase_analytics: ^10.8.0

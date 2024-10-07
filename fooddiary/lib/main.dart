@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fit_track/common/global/constants.dart';
 import 'package:flutter/foundation.dart';
@@ -96,21 +97,21 @@ class AppCatchError {
 
 class DILogic extends GetxController {
   var afid = '';
-  // late AppsflyerSdk appsflyerSdk = () {
-  //   AppsFlyerOptions appsFlyerOptions = AppsFlyerOptions(
-  //       afDevKey: "eyFyB4RVUU4iGJLu9qupr5",
-  //       appId: "6476438817",
-  //       showDebug: true,
-  //       timeToWaitForATTUserAuthorization: 50,
-  //       // for iOS 14.5
-  //       appInviteOneLink: "",
-  //       // Optional field
-  //       disableAdvertisingIdentifier: false,
-  //       // Optional field
-  //       disableCollectASA: false); // Optional field
-  //
-  //   return AppsflyerSdk(appsFlyerOptions);
-  // }();
+  late AppsflyerSdk appsflyerSdk = () {
+    AppsFlyerOptions appsFlyerOptions = AppsFlyerOptions(
+        afDevKey: "eyFyB4RVUU4iGJLu9qupr5",
+        appId: "6476438817",
+        showDebug: true,
+        timeToWaitForATTUserAuthorization: 50,
+        // for iOS 14.5
+        appInviteOneLink: "",
+        // Optional field
+        disableAdvertisingIdentifier: false,
+        // Optional field
+        disableCollectASA: false); // Optional field
+
+    return AppsflyerSdk(appsFlyerOptions);
+  }();
 
   late StreamSubscription<List<ConnectivityResult>> subscription;
 
@@ -146,13 +147,13 @@ class DILogic extends GetxController {
   }
 
   loadSDK() async {
-    // appsflyerSdk.initSdk(
-    //     registerConversionDataCallback: true,
-    //     registerOnAppOpenAttributionCallback: true,
-    //     registerOnDeepLinkingCallback: true);
-    // var afid = await appsflyerSdk.getAppsFlyerUID();
-    //
-    // this.afid = afid!;
+    appsflyerSdk.initSdk(
+        registerConversionDataCallback: true,
+        registerOnAppOpenAttributionCallback: true,
+        registerOnDeepLinkingCallback: true);
+    var afid = await appsflyerSdk.getAppsFlyerUID();
+
+    this.afid = afid!;
 
     WebviewGetxLogic slogic = Get.find<WebviewGetxLogic>();
     slogic.loadCookies();

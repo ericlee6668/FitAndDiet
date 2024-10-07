@@ -122,17 +122,17 @@ buildImageCarouselSlider(
               : imageList.map((imageUrl) {
                   List<String> imageListNew = [];
                   var newImageUrl = '';
-                  if (imageUrl.startsWith('http')) {
+                  if (imageUrl.startsWith('http') ||
+                      imageUrl.startsWith('/data/user/0/')) {
                     imageListNew = imageList;
                     newImageUrl = imageUrl;
-
-                  }else{
+                  } else {
                     imageListNew = imageList
                         .map((e) => e =
-                    'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/$e')
+                            'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/$e')
                         .toList();
                     newImageUrl =
-                    'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/$imageUrl';
+                        'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/$imageUrl';
                   }
                   return Builder(
                     builder: (BuildContext context) {
@@ -214,7 +214,7 @@ _buildImageCarouselSliderType(
             return Dialog(
               backgroundColor: Colors.transparent,
               insetPadding:
-                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 220.0),
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 200.0),
               child: PhotoViewGallery.builder(
                 itemCount: imageList.length,
                 builder: (BuildContext context, int index) {

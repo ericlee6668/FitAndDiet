@@ -91,7 +91,7 @@ class _FoodNutrientDetailNewState extends State<FoodNutrientDetailNew> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,
+      canPop: true,
       onPopInvoked: (didPop) async {
         if (didPop) return;
 
