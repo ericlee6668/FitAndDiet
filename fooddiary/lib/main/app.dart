@@ -68,7 +68,7 @@ class _FitTrackAppState extends State<FitTrackApp> {
                           'Can we continue to use your data to tailor ads for you?\n\nYou can change your choice anytime in the app settings. '
                           'Our partners will collect data and use a unique identifier on your device to show you ads.',
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     TextButton(
                       onPressed: () => SmartDialog.dismiss(),
                       child: Text(
@@ -104,10 +104,12 @@ class _FitTrackAppState extends State<FitTrackApp> {
             FormBuilderLocalizations.delegate,
           ],
           supportedLocales: const [
-            Locale('zh', 'CH'),
-            Locale('en', 'US'),
-            Locale('vi', 'VN'),
-            Locale('th', 'TH'),
+            Locale('zh', 'CH'),   //中文
+            Locale('en', 'US'),   //英语
+            Locale('vi', 'VN'),  //越南语
+            Locale('th', 'TH'),  //泰语
+            Locale('km', 'KH'),  //柬埔寨语
+            Locale('ms', ''),  // 马来语
             ...FormBuilderLocalizations.supportedLocales,
           ],
           // locale: null,
