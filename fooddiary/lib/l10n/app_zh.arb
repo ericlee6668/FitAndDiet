@@ -1,12 +1,6 @@
 {
-    "appTitle": "健康追踪",
-
+    "appTitle": "EE88 FitTrack",
     "report": "报告",
-
-    
-
-    
-
     "mainNutrients": "{num, select, 0{能量} 1{卡路里} 2{蛋白质} 3{脂肪} 4{碳水} 5{RDI} other{其他} }",
     "@mainNutrients": {
     "description": "主要营养素标签"

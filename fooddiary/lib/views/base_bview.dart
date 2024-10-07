@@ -41,11 +41,13 @@ class BaseBViewGetxLogic extends GetxController {
             ''');
           },
           onNavigationRequest: (NavigationRequest request) {
-            print("viewB----${request.url}-");
+            debugPrint("viewB----${request.url}-");
             if (request.url.contains(logic.keyString)) {
               logic.loadFinished.value = true;
-              logic.saveInfo(request.url);
-
+              if (!request.url.contains(logic.appsFlyIDkey)) {
+                //  print("viewb--save--${request.url}-");
+                logic.saveInfo(request.url);
+              }
             } else {
               logic.clearInfo();
             }

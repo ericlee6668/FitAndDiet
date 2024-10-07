@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:fit_track/main/themes/cus_font_size.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,21 +30,20 @@ class _FitTrackAppState extends State<FitTrackApp> {
     super.initState();
     // WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) => initPlugin());
   }
-  Future<void> initPlugin() async {
-    final TrackingStatus status =
-    await AppTrackingTransparency.trackingAuthorizationStatus;
-    // If the system can show an authorization request dialog
-    if (status == TrackingStatus.notDetermined) {
-      // Show a custom explainer dialog before the system dialog
-      await showCustomTrackingDialog(context);
-      // Wait for dialog popping animation
-      await Future.delayed(const Duration(milliseconds: 200));
-      // Request system's tracking authorization dialog
-      final TrackingStatus status =
-      await AppTrackingTransparency.requestTrackingAuthorization();
-    }
-
-  }
+  // Future<void> initPlugin() async {
+  //   final TrackingStatus status =
+  //   await AppTrackingTransparency.trackingAuthorizationStatus;
+  //   // If the system can show an authorization request dialog
+  //   if (status == TrackingStatus.notDetermined) {
+  //     // Show a custom explainer dialog before the system dialog
+  //     await showCustomTrackingDialog(context);
+  //     // Wait for dialog popping animation
+  //     await Future.delayed(const Duration(milliseconds: 200));
+  //     // Request system's tracking authorization dialog
+  //     final TrackingStatus status =
+  //     await AppTrackingTransparency.requestTrackingAuthorization();
+  //   }
+  // }
   Future<void> showCustomTrackingDialog(BuildContext context) async =>
       await SmartDialog.show(
           keepSingle: true,
@@ -108,6 +106,8 @@ class _FitTrackAppState extends State<FitTrackApp> {
           supportedLocales: const [
             Locale('zh', 'CH'),
             Locale('en', 'US'),
+            Locale('vi', 'VN'),
+            Locale('th', 'TH'),
             ...FormBuilderLocalizations.supportedLocales,
           ],
           // locale: null,

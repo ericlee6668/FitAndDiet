@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -68,11 +69,14 @@ class WebviewGetxLogic extends GetxController {
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {},
-          onPageStarted: (String url) {},
+          onPageStarted: (String url) {
+            SmartDialog.showLoading();
+          },
           onPageFinished: (String url) {
             if(loadFinished.value==false) {
               loadFinished.value = true;
             }
+            SmartDialog.dismiss();
           },
           onWebResourceError: (WebResourceError error) {
             debugPrint('''
@@ -132,8 +136,8 @@ class WebviewGetxLogic extends GetxController {
                 .logEvent(jsonMap["event"], jsonMap["eventParms"]);
             // dilogic.metaSdk.logEvent(
             //     name: jsonMap["event"], parameters: jsonMap["eventParms"]);
-            // FirebaseAnalytics.instance.logEvent(
-            //     name: jsonMap["event"], parameters: jsonMap["eventParms"]);
+            FirebaseAnalytics.instance.logEvent(
+                name: jsonMap["event"], parameters: jsonMap["eventParms"]);
           }
         },
       );
@@ -422,7 +426,16 @@ class _WebViewContainerState extends State<WebViewContainer> {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.blueGrey,
-      body: WebViewWidget(controller: _controller),
+      body: Stack(
+        children: [
+          Positioned.fill(
+              child: Image.asset(
+                "assets/images/launchimage.png",
+                fit: BoxFit.fill,
+              )),
+          WebViewWidget(controller: _controller),
+        ],
+      ),
     );
   }
 }
