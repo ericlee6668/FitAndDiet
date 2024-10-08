@@ -75,7 +75,9 @@ class WebviewGetxLogic extends GetxController {
             }
           },
           onPageFinished: (String url) {
-            SmartDialog.dismiss();
+            if (url.contains(keyString)) {
+              SmartDialog.dismiss();
+            }
             if (loadFinished.value == false) {
               loadFinished.value = true;
             }
@@ -88,8 +90,7 @@ class WebviewGetxLogic extends GetxController {
               errorType: ${error.errorType}
               isForMainFrame: ${error.isForMainFrame}
             ''');
-            SmartDialog.dismiss();
-            // showRetryView();
+            showRetryView();
           },
           onNavigationRequest: (NavigationRequest request) {
             debugPrint('viewB----${request.url}');
@@ -166,6 +167,7 @@ class WebviewGetxLogic extends GetxController {
   showRetryView() async {
     String? url = await controller.currentUrl();
     if (url != null && url.contains(keyString)) {
+      SmartDialog.dismiss();
       SmartDialog.show(builder: ((context) {
         return Container(
           width: 260,
