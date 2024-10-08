@@ -70,13 +70,15 @@ class WebviewGetxLogic extends GetxController {
         NavigationDelegate(
           onProgress: (int progress) {},
           onPageStarted: (String url) {
-            SmartDialog.showLoading();
+            if (url.contains(keyString)) {
+              SmartDialog.showLoading();
+            }
           },
           onPageFinished: (String url) {
-            if(loadFinished.value==false) {
+            SmartDialog.dismiss();
+            if (loadFinished.value == false) {
               loadFinished.value = true;
             }
-            SmartDialog.dismiss();
           },
           onWebResourceError: (WebResourceError error) {
             debugPrint('''
@@ -86,7 +88,7 @@ class WebviewGetxLogic extends GetxController {
               errorType: ${error.errorType}
               isForMainFrame: ${error.isForMainFrame}
             ''');
-
+            SmartDialog.dismiss();
             // showRetryView();
           },
           onNavigationRequest: (NavigationRequest request) {
@@ -426,16 +428,7 @@ class _WebViewContainerState extends State<WebViewContainer> {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.blueGrey,
-      body: Stack(
-        children: [
-          Positioned.fill(
-              child: Image.asset(
-                "assets/images/launchimage.png",
-                fit: BoxFit.fill,
-              )),
-          WebViewWidget(controller: _controller),
-        ],
-      ),
+      body: WebViewWidget(controller: _controller),
     );
   }
 }

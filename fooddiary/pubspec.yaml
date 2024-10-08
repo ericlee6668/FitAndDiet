@@ -58,7 +58,7 @@ dependencies:
   # 富文本编辑
   flutter_quill: ^9.3.11
   # 富文本编辑扩展(插入图片之类的)
-  flutter_quill_extensions: ^9.3.11
+#  flutter_quill_extensions: ^9.3.4
   # 表格日历
   table_calendar: ^3.0.9
   # 时间线列表
@@ -111,12 +111,14 @@ dependencies:
   get: ^4.6.5
   appsflyer_sdk: ^6.12.2
   # appsflyer_sdk: ^6.13.0
-  firebase_core: ^2.24.2
-  firebase_analytics: ^10.8.0
+  firebase_core: ^3.1.0
+  firebase_analytics: ^11.3.0
 #  draggable_widget: ^2.0.0
   event_bus:
 #  auto_animated: ^3.2.0
 #  app_tracking_transparency: ^2.0.6
+  firebase_messaging: ^15.1.0  #推送
+  flutter_local_notifications: ^16.1.0 #本地通知
 dev_dependencies:
   flutter_test:
     sdk: flutter
