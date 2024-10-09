@@ -15,7 +15,7 @@ class ReportPage extends StatefulWidget {
 
 class _ReportPageState extends State<ReportPage>
     with SingleTickerProviderStateMixin {
-  var pages = [const TrainingReports(isShowAppBar: false,), const DietaryReports()];
+  var pages = [const TrainingReports(isShowAppBar: false,), const DietaryReports(isShowAppBar: false)];
   var titles = ['Training Report', 'Dietary Report'];
   late TabController tabController;
   var currentName = '';

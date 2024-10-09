@@ -288,7 +288,7 @@ class _DietaryRecordsState extends State<DietaryRecords> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const DietaryReports(),
+                  builder: (context) => const DietaryReports(isShowAppBar: true,),
                 ),
               );
             },

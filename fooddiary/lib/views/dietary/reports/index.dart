@@ -22,8 +22,8 @@ class DietaryReports extends StatefulWidget {
 // 报告页面默认查看当日的，但有可能从别的页面跳转过来，并带上需要查询的日期
 // ？？？注意：是否区分 日、月、周、年？
   final String? date;
-
-  const DietaryReports({super.key, this.date});
+  final bool isShowAppBar;
+  const DietaryReports( {super.key, this.date,required this.isShowAppBar});
 
   @override
   State<DietaryReports> createState() => _DietaryReportsState();
@@ -218,6 +218,8 @@ class _DietaryReportsState extends State<DietaryReports> {
     return DefaultTabController(
       length: 3, // 选项卡的数量
       child: Scaffold(
+        appBar: !widget.isShowAppBar?const PreferredSize(preferredSize: Size(0, 0), child: SizedBox(height: 0,)):AppBar(
+    title: Text(CusAL.of(context).dietaryReports),),
         // appBar: AppBar(
         //   title: Text(
         //     CusAL.of(context).dietaryReports,
