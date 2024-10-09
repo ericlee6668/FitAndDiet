@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:fit_track/common/global/constants.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:fit_track/firebase_options.dart';
+import 'package:fit_track/main/firebase_init.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +15,14 @@ import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'main/app.dart';
 
-GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print("Handling a background message: ${message.messageId}");
+}
 
 void main() {
   AppCatchError().run();
@@ -41,17 +51,12 @@ class AppCatchError {
         SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
             .then((_) async {
           WidgetsFlutterBinding.ensureInitialized();
+           FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+          await Firebase.initializeApp(
+            options: DefaultFirebaseOptions.currentPlatform,
+          );
+          await FirebaseService().initNotifications();
           await GetStorage.init();
-          // await GetStorage().write('language', 'en');
-          // await GetStorage().write('language', 'cn');
-          if(box.read('language')==null){
-            box.write('language', 'system');
-          }
-          // await GetStorage().write('mode', 'dark');
-          // await GetStorage().write('mode', 'light');
-          if(box.read('mode')==null){
-            await GetStorage().write('mode', 'light');
-          }
           runApp(const FitTrackApp());
           pustLogic();
         });

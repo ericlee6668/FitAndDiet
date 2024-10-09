@@ -71,7 +71,7 @@ class _HomePageState extends State<HomeExercisePage>
           style: TextStyle(
               color: currentName == e ? AppTheme.text0 : Colors.grey,
               fontSize: currentName == e
-                  ? CusFontSizes.itemTitle
+                  ? CusFontSizes.pageSubTitle
                   : CusFontSizes.itemSubTitle,
               fontWeight: FontWeight.bold),
         )));

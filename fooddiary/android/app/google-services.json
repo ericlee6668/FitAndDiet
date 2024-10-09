@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "83582288402",
+    "project_id": "ee88-fittrack",
+    "storage_bucket": "ee88-fittrack.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83582288402:android:4826759cf93d9cea8ececb",
+        "android_client_info": {
+          "package_name": "com.swm.fit_track"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpLJQE7X-_FBxc22JTzyzlPma-sRlMHtM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

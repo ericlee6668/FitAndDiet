@@ -15,6 +15,7 @@ import 'package:fit_track/models/cus_app_localizations.dart';
 
 import '../common/global/constants.dart';
 
+import 'firebase_init.dart';
 import 'home_page.dart';
 
 class FitTrackApp extends StatefulWidget {
@@ -28,7 +29,21 @@ class _FitTrackAppState extends State<FitTrackApp> {
   @override
   void initState() {
     super.initState();
+    getStorage();
+
     // WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) => initPlugin());
+  }
+  getStorage() async{
+    // await GetStorage().write('language', 'en');
+    // await GetStorage().write('language', 'cn');
+    if (box.read('language') == null) {
+      box.write('language', 'system');
+    }
+    // await GetStorage().write('mode', 'dark');
+    // await GetStorage().write('mode', 'light');
+    if (box.read('mode') == null) {
+      await box.write('mode', 'light');
+    }
   }
   // Future<void> initPlugin() async {
   //   final TrackingStatus status =

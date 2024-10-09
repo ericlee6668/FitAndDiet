@@ -96,7 +96,7 @@ class PureInkWell extends StatelessWidget {
   final Function()? onTap;
   final Widget? child;
 
-  PureInkWell({this.onTap, this.child});
+  const PureInkWell({this.onTap, this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -141,5 +141,11 @@ final healTips = <HealthTip>[
     shortContent:
         """Incorporate at least 30 minutes of moderate exercise, like walking or cycling, into your routine...""",
     image: "assets/healtip/healtip3.png",
+  ),
+  HealthTip(
+    title: "The Abs Shredder",
+    shortContent:
+    """The Abs Shredder is a high-intensity workout plan designed to sculpt your abdominal muscles...""",
+    image: "assets/healtip/healthtip4.webp",
   ),
 ];
