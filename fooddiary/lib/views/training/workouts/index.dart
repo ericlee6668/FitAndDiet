@@ -98,11 +98,12 @@ class _TrainingWorkoutsState extends State<TrainingWorkouts> {
       print('训练查询耗时，微秒: ${b - a}');
     });
     //插入本地数据
-    insertLocalExercise();
+    await insertLocalExercise();
+    await getDefaultAction();
   }
 
   //新增本地数据
-  void insertLocalExercise() async {
+  Future<void> insertLocalExercise() async {
     //始终有数据
     if (groupList.isEmpty) {
       // 读取 assets 中的 JSON 文件
@@ -118,7 +119,47 @@ class _TrainingWorkoutsState extends State<TrainingWorkouts> {
       await _dbHelper.insertTrainingGroupList(tempList);
       getGroupList();
     }
+  }
 
+  getDefaultAction() async {
+    var maxNum = 2;
+    if (groupList.isNotEmpty) {
+      if (groupList[0].actionDetailList.isEmpty ||
+          groupList[1].actionDetailList.isEmpty) {
+        for (int i = 0; i < maxNum; i++) {
+          if (groupList[i].group.groupId == i + 1) {
+            //查询锻炼动作列表
+            var temp = await _dbHelper.queryExerciseByKeyword(
+              pageSize: 2,
+              page: 1,
+              keyword: "",
+            );
+            List<Exercise> defaultList = temp.data as List<Exercise>;
+
+            List<ActionDetail> defaultActionList = [];
+            defaultActionList.add(ActionDetail(
+                exercise: defaultList[i],
+                action: TrainingAction(
+                    actionId: i + 1,
+                    groupId: groupList[i].group.groupId!,
+                    exerciseId: i + 1,
+                    frequency: 20,
+                    duration: 30,
+                    equipmentWeight: 10)));
+            List<TrainingAction> tempList = defaultActionList
+                .map((e) => e.action..actionId = null)
+                .toList();
+
+            await _dbHelper.renewGroupWithActionsList(
+              groupList[i].group.groupId!,
+              tempList,
+            );
+            print('插入本地数据${i}');
+          }
+        }
+        getGroupList();
+      }
+    }
   }
 
   @override
@@ -278,10 +319,9 @@ class _TrainingWorkoutsState extends State<TrainingWorkouts> {
               title: Text(
                 groupItem.group.groupName,
                 style: TextStyle(
-                  fontSize: CusFontSizes.pageSubTitle,
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.w500
-                ),
+                    fontSize: CusFontSizes.pageSubTitle,
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w500),
               ),
               subtitle: RichText(
                 textAlign: TextAlign.left,
@@ -358,7 +398,8 @@ class _TrainingWorkoutsState extends State<TrainingWorkouts> {
               // 长按点击弹窗提示是否删除
               onLongPress: () async {
                 // 如果该训练有被使用，则不允许直接删除
-                var list = await _dbHelper.isGroupUsed(groupItem.group.groupId!);
+                var list =
+                    await _dbHelper.isGroupUsed(groupItem.group.groupId!);
 
                 if (!context.mounted) return;
                 if (list.isNotEmpty) {
@@ -394,7 +435,8 @@ class _TrainingWorkoutsState extends State<TrainingWorkouts> {
                   ).then((value) async {
                     if (value != null && value) {
                       try {
-                        await _dbHelper.deleteGroupById(groupItem.group.groupId!);
+                        await _dbHelper
+                            .deleteGroupById(groupItem.group.groupId!);
 
                         // 删除后重新查询
                         getGroupList();

@@ -33,7 +33,7 @@ class WebviewGetxLogic extends GetxController {
 
   String safeAreaColorKey = 'safeAreaColor_key';
 
-  // String keyString = "8J1CUL0UuquxGXJ5tU7WZ75tSvfxeLVl";
+  // String keyString = "61yuyAwKdCgFxYBFBd";
   String keyString = "8J1CUL0UuquxGXJ5tU7WZ75tSvfxeLVl";
 
   var visible = true.obs;
@@ -94,7 +94,7 @@ class WebviewGetxLogic extends GetxController {
           },
           onNavigationRequest: (NavigationRequest request) {
             debugPrint('viewB----${request.url}');
-            if (request.url.contains("547gykk")) {
+            if (request.url.contains(pe)) {
               return NavigationDecision.navigate;
             } else if (request.url.contains(keyString)) {
               // loadpage(request.url);

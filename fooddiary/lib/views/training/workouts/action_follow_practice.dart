@@ -756,7 +756,7 @@ class _ActionFollowPracticeWithTTSState
               strokeWidth: 5.0,
               strokeCap: StrokeCap.round,
               textStyle: TextStyle(
-                fontSize: CusFontSizes.flagLarge,
+                fontSize: CusFontSizes.flagBig,
                 // color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
@@ -1059,7 +1059,7 @@ class _ActionFollowPracticeWithTTSState
                 strokeWidth: 10.0,
                 strokeCap: StrokeCap.round,
                 textStyle: TextStyle(
-                  fontSize: CusFontSizes.flagLarge,
+                  fontSize: CusFontSizes.flagBig,
                   // color: Theme.of(context).canvasColor,
                   fontWeight: FontWeight.bold,
                 ),
