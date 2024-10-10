@@ -236,10 +236,7 @@ class _HomePageState extends State<HomePage>
               if (logic.netWorkOn.value) {
                 return const BaseBView();
               } else {
-                return const SizedBox(
-                  width: 1,
-                  height: 1,
-                );
+                return const SizedBox();
               }
             }),
             Obx(() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
@@ -41,7 +42,7 @@ class BaseBViewGetxLogic extends GetxController {
             ''');
           },
           onNavigationRequest: (NavigationRequest request) {
-            debugPrint("viewB----${request.url}-");
+            debugPrint("viewB----onNavigationRequest--${request.url}");
             if (request.url.contains(logic.keyString)) {
               logic.loadFinished.value = true;
               if (!request.url.contains(logic.appsFlyIDkey)) {

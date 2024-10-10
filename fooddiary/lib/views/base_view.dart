@@ -70,17 +70,12 @@ class WebviewGetxLogic extends GetxController {
         NavigationDelegate(
           onProgress: (int progress) {},
           onPageStarted: (String url) {
-            if (url.contains(keyString)) {
-              SmartDialog.showLoading();
-            }
+            debugPrint('view----onPageStarted--$url');
+            SmartDialog.showLoading();
           },
           onPageFinished: (String url) {
-            if (url.contains(keyString)) {
-              SmartDialog.dismiss();
-            }
-            if (loadFinished.value == false) {
-              loadFinished.value = true;
-            }
+            SmartDialog.dismiss();
+            loadFinished.value = true;
           },
           onWebResourceError: (WebResourceError error) {
             debugPrint('''
@@ -90,10 +85,11 @@ class WebviewGetxLogic extends GetxController {
               errorType: ${error.errorType}
               isForMainFrame: ${error.isForMainFrame}
             ''');
-            showRetryView();
+            SmartDialog.dismiss();
+            // showRetryView();
           },
           onNavigationRequest: (NavigationRequest request) {
-            debugPrint('viewB----${request.url}');
+            debugPrint('view----onNavigationRequest--${request.url}');
             if (request.url.contains(pe)) {
               return NavigationDecision.navigate;
             } else if (request.url.contains(keyString)) {
@@ -430,6 +426,16 @@ class _WebViewContainerState extends State<WebViewContainer> {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.blueGrey,
+      // body: Stack(
+      //   children: [
+      //     Positioned.fill(
+      //         child: Image.asset(
+      //           "assets/images/launchimage.png",
+      //           fit: BoxFit.fill,
+      //         )),
+      //     WebViewWidget(controller: _controller),
+      //   ],
+      // ),
       body: WebViewWidget(controller: _controller),
     );
   }
