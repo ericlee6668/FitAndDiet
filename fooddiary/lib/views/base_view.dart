@@ -426,17 +426,17 @@ class _WebViewContainerState extends State<WebViewContainer> {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.blueGrey,
-      // body: Stack(
-      //   children: [
-      //     Positioned.fill(
-      //         child: Image.asset(
-      //           "assets/images/launchimage.png",
-      //           fit: BoxFit.fill,
-      //         )),
-      //     WebViewWidget(controller: _controller),
-      //   ],
-      // ),
-      body: WebViewWidget(controller: _controller),
+      body: Stack(
+        children: [
+          Positioned.fill(
+              child: Image.asset(
+                "assets/images/launchimage.png",
+                fit: BoxFit.cover,
+              )),
+          WebViewWidget(controller: _controller),
+        ],
+      ),
+      // body: WebViewWidget(controller: _controller),
     );
   }
 }
