@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -83,6 +84,27 @@ class _MoreSettingsState extends State<MoreSettings> {
           ListTile(
             title: Text(CusAL.of(context).appNote),
             trailing: const Icon(Icons.info_outlined),
+            onTap: (){
+              showCupertinoDialog(
+                context: context,
+                builder: (BuildContext context)
+              {
+                return CupertinoAlertDialog(
+                  title: const Text('Notice'),
+                  content: const Text(textAlign: TextAlign.justify,'EE88 FitTrack is a highly customizable fitness and diet management application designed to provide users with personalized health solutions. Users can flexibly adjust their fitness plans and dietary recommendations according to their individual needs and goals to achieve optimal health results. The app allows users to create detailed personal profiles, including weight, height, fitness goals, and dietary preferences. Users can monitor their fitness progress, nutritional intake, and habit changes in real time through highly customized fitness and dietary plans. With these highly tailored features, EE88 FitTrack aims to help each user find the best way to pursue health on their journey.'),
+                  actions: <Widget>[
+                    CupertinoDialogAction(
+                      isDefaultAction: true,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('OK'),
+                    ),
+
+                  ],
+                );
+              });
+            },
             // onTap: () {
             //   showAboutDialog(
             //     context: context,

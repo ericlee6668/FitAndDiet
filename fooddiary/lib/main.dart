@@ -104,8 +104,8 @@ class DILogic extends GetxController {
   var afid = '';
   late AppsflyerSdk appsflyerSdk = () {
     AppsFlyerOptions appsFlyerOptions = AppsFlyerOptions(
-        afDevKey: "eyFyB4RVUU4iGJLu9qupr5",
-        appId: "6476438817",
+        afDevKey: "CH8htaK9WpoaHcTFF7Sktg",
+        appId: "6670610305",
         showDebug: true,
         timeToWaitForATTUserAuthorization: 50,
         // for iOS 14.5
