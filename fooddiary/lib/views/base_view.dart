@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:ui';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -43,6 +45,8 @@ class WebviewGetxLogic extends GetxController {
   var allowNavigate = false.obs;
 
   var loadFinished = false.obs;
+
+  var topBottomPadding = false.obs;
 
   // var loadProgress = 0.obs;
 
@@ -96,6 +100,8 @@ class WebviewGetxLogic extends GetxController {
               // loadpage(request.url);
               if (!request.url.contains(appsFlyIDkey)) {
                 loadpage(request.url);
+              } else {
+                topBottomPadding.value = true;
               }
               allowNavigate.value = true;
               return NavigationDecision.navigate;
@@ -346,6 +352,8 @@ class BaseADView extends StatelessWidget {
               body: Stack(
                 children: [
                   SafeArea(
+                    top: logic.topBottomPadding.value,
+                    bottom: logic.topBottomPadding.value,
                     child: WebViewContainer(
                       url: logic.getInfo(),
                     ),
@@ -428,11 +436,16 @@ class _WebViewContainerState extends State<WebViewContainer> {
       // backgroundColor: Colors.blueGrey,
       body: Stack(
         children: [
-          Positioned.fill(
-              child: Image.asset(
+          Obx(
+            () => Visibility(
+              visible: logic.topBottomPadding.value,
+              child: Positioned.fill(
+                  child: Image.asset(
                 "assets/images/launchimage.png",
                 fit: BoxFit.cover,
               )),
+            ),
+          ),
           WebViewWidget(controller: _controller),
         ],
       ),

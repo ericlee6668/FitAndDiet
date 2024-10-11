@@ -243,10 +243,7 @@ class _HomePageState extends State<HomePage>
               if (logic.netWorkOn.value) {
                 return BaseADView();
               } else {
-                return const SizedBox(
-                  width: 1,
-                  height: 1,
-                );
+                return const SizedBox();
               }
             }),
           ],
