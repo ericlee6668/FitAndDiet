@@ -866,7 +866,7 @@ class _MePageState extends State<MePage> {
       },
       {
         'title': 'Version',
-        'subTitle': 'V1.1.0',
+        'subTitle': 'V1.1.1',
         'icon': Icons.verified_sharp,
         'page': () {}
       },
