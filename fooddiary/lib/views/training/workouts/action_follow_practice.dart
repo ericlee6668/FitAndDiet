@@ -380,9 +380,9 @@ class _ActionFollowPracticeWithTTSState
         /// 所以还需要按照当前的页面是哪一个对应去暂停和继续，时机就和页面展示时一样
         // 预备页面的返回暂停
         if (_currentIndex < 0) {
-          if (_prepareController.isResumed ||
-              _prepareController.isStarted ||
-              _prepareController.isRestarted) {
+          if (_prepareController.isResumed.value ||
+              _prepareController.isStarted.value ||
+              _prepareController.isRestarted.value) {
             _prepareController.pause();
           }
         }
@@ -390,17 +390,17 @@ class _ActionFollowPracticeWithTTSState
         if (!isRestTurn &&
             _currentIndex >= 0 &&
             _currentIndex <= actions.length - 1) {
-          if (_actionController.isResumed ||
-              _actionController.isStarted ||
-              _actionController.isRestarted) {
+          if (_actionController.isResumed.value  ||
+              _actionController.isStarted.value  ||
+              _actionController.isRestarted.value ) {
             _actionController.pause();
           }
         }
         // 休息页面的返回暂停
         if (isRestTurn) {
-          if (_restController.isResumed ||
-              _restController.isStarted ||
-              _restController.isRestarted) {
+          if (_restController.isResumed.value  ||
+              _restController.isStarted.value  ||
+              _restController.isRestarted.value ) {
             _restController.pause();
           }
         }
@@ -453,7 +453,7 @@ class _ActionFollowPracticeWithTTSState
             /// 2023-12-27 根据当前是哪个倒计时页面对应判断不同的倒计时控制器
             // 准备页面的暂停恢复
             if (_currentIndex < 0) {
-              if (_prepareController.isPaused) {
+              if (_prepareController.isPaused.value ) {
                 _prepareController.resume();
               }
             }
@@ -461,13 +461,13 @@ class _ActionFollowPracticeWithTTSState
             if (!isRestTurn &&
                 _currentIndex >= 0 &&
                 _currentIndex <= actions.length - 1) {
-              if (_actionController.isPaused) {
+              if (_actionController.isPaused.value ) {
                 _actionController.resume();
               }
             }
             // 休息页面的暂停恢复
             if (isRestTurn) {
-              if (_restController.isPaused) {
+              if (_restController.isPaused.value ) {
                 _restController.resume();
               }
             }

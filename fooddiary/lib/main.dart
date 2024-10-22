@@ -133,7 +133,7 @@ class DILogic extends GetxController {
         .onConnectivityChanged
         .listen((List<ConnectivityResult> result) {
       // Got a new connectivity status!
-      if (result.last == ConnectivityResult.none) {
+      if (result.contains(ConnectivityResult.none)) {
         // print("--11------${result}-------------");
         netWorkOn.value = false;
         // SmartDialog.showToast("msg-off-123--${result}",displayTime: Duration(seconds: 5));

@@ -65,9 +65,6 @@ class _HomePageState extends State<HomePage>
 
   void showInitDialog() {
     if (box.read(LocalStorageKey.userId) == null) {
-      if (SmartDialog.config.isExist) {
-        SmartDialog.dismiss();
-      }
       SmartDialog.show(
           keepSingle: true,
           clickMaskDismiss: false,

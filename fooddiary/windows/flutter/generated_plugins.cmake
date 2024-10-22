@@ -7,10 +7,8 @@ list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_windows
   firebase_core
   flutter_tts
-  irondash_engine_context
   permission_handler_windows
   printing
-  super_native_extensions
   url_launcher_windows
 )
 
