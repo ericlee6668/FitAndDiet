@@ -163,23 +163,31 @@ class _FloatButtonViewState extends State<FloatButtonView> {
                       GestureDetector(
                           onTap: () {
                             homeAction();
+                            logic.width.value = 26;
                           },
-                          child: const Icon(Icons.home_filled,color:Colors.white,size: 30,)),
-                
+                          child:  Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Image.asset('assets/covers/icon_home.png'),
+                          ),
+                      ),
                     if (logic.isOpen.value)
                       GestureDetector(
                         onTap: () {
                           refreshAction();
+                          logic.width.value = 26;
                         },
-                        child: const Icon(Icons.refresh,color:Colors.white,size: 30,),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top:8.0),
+                          child: Image.asset('assets/covers/icon_refresh.png'),
+                        ),
                       ),
-                    if (logic.isOpen.value)
-                      GestureDetector(
-                        onTap: () {
-                          changeAction();
-                        },
-                        child: const Icon(Icons.cleaning_services_rounded,color:Colors.white,size: 30,),
-                      ),
+                    // if (logic.isOpen.value)
+                    //   GestureDetector(
+                    //     onTap: () {
+                    //       changeAction();
+                    //     },
+                    //     child: const Icon(Icons.cleaning_services_rounded,color:Colors.white,size: 30,),
+                    //   ),
                   ],
                 ),
               )

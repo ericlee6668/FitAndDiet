@@ -263,10 +263,10 @@ class _MePageState extends State<MePage> {
       children: [
         SizedBox(height: 10.sp),
         Image.asset(
-          'assets/covers/bg.png',
+          'assets/covers/bg.jpg',
           height: 140,
           width: MediaQuery.of(context).size.width,
-          fit: BoxFit.cover,
+          fit: BoxFit.fill,
         ),
         Container(
           decoration: BoxDecoration(
